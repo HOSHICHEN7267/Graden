@@ -36,28 +36,28 @@ public class BossController : MonoBehaviour
         {
             isWalking = false;
 
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.D))
             {
                 isWalking = true;
                 Quaternion newRotation = Quaternion.Euler(0, 90f, 0);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.A))
             {
                 isWalking = true;
                 Quaternion newRotation = Quaternion.Euler(0, -90f, 0);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W))
             {
                 isWalking = true;
                 Quaternion newRotation = Quaternion.Euler(0, 0, 0);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.S))
             {
                 isWalking = true;
                 Quaternion newRotation = Quaternion.Euler(0, 180f, 0);
