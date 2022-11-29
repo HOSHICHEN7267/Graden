@@ -75,4 +75,11 @@ public class BossController : MonoBehaviour
             }
         }
     }
+    void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Destroy(other.gameObject);
+        }
+    }
 }
