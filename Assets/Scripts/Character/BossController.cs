@@ -13,6 +13,9 @@ public class BossController : MonoBehaviour
     bool isWalking = false;
     bool isDying = false;
 
+    [SerializeField] float Xrotate = 180f;
+    [SerializeField] float Zrotate;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,12 @@ public class BossController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (Input.GetKeyDown("space"))
+        {
+            transform.Rotate(Xrotate, 0, Zrotate);
+        }
+
         if (isDying)
         {
             time += Time.deltaTime;
