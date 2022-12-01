@@ -112,6 +112,7 @@ public class BossController : MonoBehaviour
         if (Xrotate == 0f)
         {
             rigidbody.useGravity = false; // Turn off gravity, use force to simulate it (in Update)
+            useGravity = false;
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(180, 0, 0);
@@ -119,6 +120,7 @@ public class BossController : MonoBehaviour
         else
         {
             rigidbody.useGravity = true; // Turn on gravity
+            useGravity = true;
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(-180, 0, 0);
