@@ -7,14 +7,17 @@ public class BossController : MonoBehaviour
     public Animator Anime;
 
     public float speed = 0.8f;
+    public float gcTime = 2f;
+    float GCtime = 0f;
     public float dieTime = 4f;
-    float time = 0f;
+    float Dtime = 0f;
 
     bool isWalking = false;
     bool isDying = false;
+    bool isGravityChange = false;
 
-    [SerializeField] float Xrotate = 180f;
-    [SerializeField] float Zrotate;
+    float Xrotate = 0f;
+    float Zrotate = 0f;
 
 
     // Start is called before the first frame update
@@ -27,18 +30,26 @@ public class BossController : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && isGravityChange == false)
         {
-            transform.Rotate(Xrotate, 0, Zrotate);
+            GravityChange();
         }
-
+        if (isGravityChange)
+        {
+            GCtime += Time.deltaTime;
+            if (GCtime >= gcTime)
+            {
+                isGravityChange = false;
+                GCtime = 0;
+            }
+        }
         if (isDying)
         {
-            time += Time.deltaTime;
-            if (time > dieTime)
+            Dtime += Time.deltaTime;
+            if (Dtime > dieTime)
             {
                 isDying = false;
-                time = 0;
+                Dtime = 0;
             }
         }
         else
@@ -48,28 +59,28 @@ public class BossController : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 isWalking = true;
-                Quaternion newRotation = Quaternion.Euler(0, 90f, 0);
+                Quaternion newRotation = Quaternion.Euler(Xrotate, 90f, Zrotate);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.A))
             {
                 isWalking = true;
-                Quaternion newRotation = Quaternion.Euler(0, -90f, 0);
+                Quaternion newRotation = Quaternion.Euler(Xrotate, -90f, Zrotate);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.W))
             {
                 isWalking = true;
-                Quaternion newRotation = Quaternion.Euler(0, 0, 0);
+                Quaternion newRotation = Quaternion.Euler(Xrotate, 0, Zrotate);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.S))
             {
                 isWalking = true;
-                Quaternion newRotation = Quaternion.Euler(0, 180f, 0);
+                Quaternion newRotation = Quaternion.Euler(Xrotate, 180f, Zrotate);
                 this.gameObject.transform.rotation = newRotation;
                 this.gameObject.transform.position += this.gameObject.transform.forward * speed * Time.fixedDeltaTime;
             }
@@ -89,6 +100,24 @@ public class BossController : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Destroy(other.gameObject);
+        }
+    }
+    void GravityChange()
+    {
+        isGravityChange = true;
+        if (Xrotate == 0f)
+        {
+            Xrotate = 180f;
+            transform.Translate(new Vector3(0f, 3.7f, 0f));
+            Physics.gravity = new Vector3(0, 1f, 0);
+            transform.Rotate(180, 0, 0);
+        }
+        else
+        {
+            Xrotate = 0f;
+            transform.Translate(new Vector3(0f, 3.7f, 0f));
+            Physics.gravity = new Vector3(0, -1f, 0);
+            transform.Rotate(-180, 0, 0);
         }
     }
 }

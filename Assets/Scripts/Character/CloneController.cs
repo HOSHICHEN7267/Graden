@@ -75,4 +75,16 @@ public class CloneController : MonoBehaviour
             }
         }
     }
+    void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.tag == "Key")
+        {
+            // if...
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "Gravity")
+        {
+            ;///
+        }
+    }
 }

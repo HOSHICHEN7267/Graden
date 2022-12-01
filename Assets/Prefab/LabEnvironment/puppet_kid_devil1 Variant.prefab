@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5239974661620587319, guid: b4235d9df06b17d498218a340b679137, type: 3}
       propertyPath: m_Name
-      value: puppet_kid_devil1
+      value: puppet_kid_devil1 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8421108188827293285, guid: b4235d9df06b17d498218a340b679137, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -67,5 +67,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 479f6d30f324b8f49949fcc6dfdb289b, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 431818288134140561, guid: b4235d9df06b17d498218a340b679137, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b4235d9df06b17d498218a340b679137, type: 3}
