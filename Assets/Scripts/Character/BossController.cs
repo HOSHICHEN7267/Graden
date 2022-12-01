@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossController : MonoBehaviour
 {
     public Animator Anime;
+    private Rigidbody rigidbody;
 
     public float speed = 0.8f;
     public float gcTime = 2f;
@@ -15,6 +16,7 @@ public class BossController : MonoBehaviour
     bool isWalking = false;
     bool isDying = false;
     bool isGravityChange = false;
+    bool useGravity = true;
 
     float Xrotate = 0f;
     float Zrotate = 0f;
@@ -23,13 +25,15 @@ public class BossController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(!useGravity){
+            rigidbody.AddForce(-1.0f * Physics.gravity * rigidbody.mass); // Add a force per frame to simulate the upside-down gravity
+        }
         if (Input.GetKeyDown("space") && isGravityChange == false)
         {
             GravityChange();
@@ -107,16 +111,16 @@ public class BossController : MonoBehaviour
         isGravityChange = true;
         if (Xrotate == 0f)
         {
+            rigidbody.useGravity = false; // Turn off gravity, use force to simulate it (in Update)
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
-            Physics.gravity = new Vector3(0, 1f, 0);
             transform.Rotate(180, 0, 0);
         }
         else
         {
+            rigidbody.useGravity = true; // Turn on gravity
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
-            Physics.gravity = new Vector3(0, -1f, 0);
             transform.Rotate(-180, 0, 0);
         }
     }

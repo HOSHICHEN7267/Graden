@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Anime: {fileID: 7168265773259125085}
   speed: 0.8
-  gcTime: 4
+  gcTime: 2
   dieTime: 4
 --- !u!54 &5384681581267705291
 Rigidbody:
