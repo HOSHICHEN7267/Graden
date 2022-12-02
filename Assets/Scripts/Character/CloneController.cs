@@ -99,7 +99,7 @@ public class CloneController : MonoBehaviour
     }
     void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.tag == "Key" && Input.GetKeyDown(KeyCode.E) && !hasKey)
+        if (other.gameObject.tag == "Key" && Input.GetKeyDown("space") && !hasKey)
         {
             Destroy(other.gameObject);
             hasKey = true;
