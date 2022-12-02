@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Key
   - Gravity
+  - KeyCenter
   layers:
   - Default
   - TransparentFX

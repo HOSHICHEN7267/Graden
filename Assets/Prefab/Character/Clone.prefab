@@ -673,7 +673,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 491463507872937144}
-  speed: 0.8
+  hasKeyText: {fileID: 0}
+  totalKeyText: {fileID: 0}
+  speed: 1.2
+  gcTime: 2
   dieTime: 4
 --- !u!54 &1248479661842555721
 Rigidbody:
@@ -701,10 +704,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 1.9
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: -0.016929507, y: 0.9622116, z: 0}
 --- !u!1 &6676114360097350956
 GameObject:
   m_ObjectHideFlags: 0

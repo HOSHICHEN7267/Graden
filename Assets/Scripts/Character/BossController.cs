@@ -29,7 +29,7 @@ public class BossController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(!useGravity){
             rigidbody.AddForce(-1.0f * Physics.gravity * rigidbody.mass); // Add a force per frame to simulate the upside-down gravity
@@ -115,7 +115,7 @@ public class BossController : MonoBehaviour
             useGravity = false;
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
-            transform.Rotate(180, 0, 0);
+            transform.Rotate(0, 0, 180);
         }
         else
         {
@@ -123,7 +123,7 @@ public class BossController : MonoBehaviour
             useGravity = true;
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
-            transform.Rotate(-180, 0, 0);
+            transform.Rotate(0, 0, -180);
         }
     }
 }

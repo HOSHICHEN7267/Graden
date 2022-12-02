@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CloneController : MonoBehaviour
 {
     public Animator Anime;
     private Rigidbody rigidbody;
+    public Text hasKeyText;
+    public Text totalKeyText;
 
     public float speed = 0.8f;
     public float gcTime = 2f;
@@ -22,6 +25,7 @@ public class CloneController : MonoBehaviour
     float Xrotate = 0f;
     float Zrotate = 0f;
 
+    int keyCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +34,17 @@ public class CloneController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if(hasKey){
+            hasKeyText.text = "HasKey";
+        }
+        else{
+            hasKeyText.text = "NoKey";
+        }
+
+        totalKeyText.text = keyCount + "/5";
+
         if (!useGravity)
         {
             rigidbody.AddForce(-1.0f * Physics.gravity * rigidbody.mass); // Add a force per frame to simulate the upside-down gravity
@@ -99,7 +112,7 @@ public class CloneController : MonoBehaviour
     }
     void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.tag == "Key" && Input.GetKeyDown("space") && !hasKey)
+        if (other.gameObject.tag == "Key" && Input.GetKeyDown(KeyCode.E) && !hasKey)
         {
             Destroy(other.gameObject);
             hasKey = true;
@@ -108,6 +121,14 @@ public class CloneController : MonoBehaviour
         {
             GravityChange();
             Debug.Log("GravityChanged");
+        }
+        // if(other.gameObject.tag == "KeyCenter"){
+        //     Debug.Log("Touched");
+        // }
+        if(other.gameObject.tag == "KeyCenter" && Input.GetKeyDown(KeyCode.E) && hasKey){
+            Debug.Log("give key");
+            keyCount++;
+            hasKey = false;
         }
     }
     void GravityChange()
