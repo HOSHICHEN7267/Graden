@@ -932,11 +932,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 433578, guid: 4e32615977c0a9f4688fa0d66b0a93e5, type: 3}
   m_PrefabInstance: {fileID: 35477499}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &37748966 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3862654070121474855, guid: 355505dbe21421e4c85580fa463e5901, type: 3}
-  m_PrefabInstance: {fileID: 3008669411763530903}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &38837376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10954,6 +10949,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.5, z: 0.8}
   m_Center: {x: 0, y: 0.28, z: 0}
+--- !u!4 &638727812 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5778729239602310850, guid: 2d33be12d02dfc7498e88c64d07d92f6, type: 3}
+  m_PrefabInstance: {fileID: 5505716698413022607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &639270660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11404,8 +11404,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669798697}
-  m_LocalRotation: {x: 0.28409386, y: -0.000000032994837, z: 0.000000009776454, w: 0.9587965}
-  m_LocalPosition: {x: 2.47, y: 2.54, z: -1.499}
+  m_LocalRotation: {x: 0.28409386, y: 0.00000003299483, z: -0.000000009776453, w: 0.9587965}
+  m_LocalPosition: {x: -8.22, y: 2.6, z: 3.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16015,8 +16015,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 1
-  m_LookAt: {fileID: 37748966}
-  m_Follow: {fileID: 37748966}
+  m_LookAt: {fileID: 638727812}
+  m_Follow: {fileID: 638727812}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 100
@@ -16109,7 +16109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867947669}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.47, y: 2.54, z: -1.499}
+  m_LocalPosition: {x: -8.22, y: 2.6, z: 3.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16886,7 +16886,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911121287}
-  m_LocalRotation: {x: 0.34042525, y: -0.000000022880096, z: 0.000000008283737, w: 0.9402717}
+  m_LocalRotation: {x: 0.34042525, y: -0.000000022881276, z: 0.000000008284164, w: 0.9402717}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -20316,7 +20316,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105883713}
-  m_LocalRotation: {x: 0.28409383, y: -0.000000016497424, z: 0.0000000048882285, w: 0.9587965}
+  m_LocalRotation: {x: 0.28409383, y: 0.00000001649741, z: -0.000000004888225, w: 0.9587965}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39320,7 +39320,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147226520}
-  m_LocalRotation: {x: 0.22834422, y: 0.0000000083759, z: -0.000000001964489, w: 0.9735805}
+  m_LocalRotation: {x: 0.22834422, y: 0.000000008375898, z: -0.0000000019644886, w: 0.9735805}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39342,7 +39342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3008669412810506816, guid: 355505dbe21421e4c85580fa463e5901, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3862654070121474855, guid: 355505dbe21421e4c85580fa463e5901, type: 3}
       propertyPath: m_RootOrder
@@ -39411,7 +39411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5505716698169818185, guid: 2d33be12d02dfc7498e88c64d07d92f6, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5505716698169818185, guid: 2d33be12d02dfc7498e88c64d07d92f6, type: 3}
       propertyPath: hasKeyText
