@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         // Debug.Log("trans: " + transform.rotation);
-        Debug.Log("ori: " + orientation.forward);
+        // Debug.Log("ori: " + orientation.forward);
 
         if (!useGravity)
         {
@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal") * (useGravity ? 1 : -1);
         verticalInput = Input.GetAxisRaw("Vertical");
     }
 
