@@ -122,9 +122,6 @@ public class CloneController : MonoBehaviour
             GravityChange();
             Debug.Log("GravityChanged");
         }
-        // if(other.gameObject.tag == "KeyCenter"){
-        //     Debug.Log("Touched");
-        // }
         if(other.gameObject.tag == "KeyCenter" && Input.GetKeyDown(KeyCode.E) && hasKey){
             Debug.Log("give key");
             keyCount++;
