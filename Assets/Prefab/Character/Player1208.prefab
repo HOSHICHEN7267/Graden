@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3791604401282191218}
   - component: {fileID: 3791604401282191219}
-  - component: {fileID: 3791604401282191220}
   - component: {fileID: 3791604401282191221}
   m_Layer: 0
   m_Name: Player1208
@@ -83,25 +82,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &3791604401282191220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3791604401282191217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948624a713400e14a8ca60a3f3476056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Anime: {fileID: 9089468302660323670}
-  moveSpeed: 2.5
-  groundDrag: 5
-  orientation: {fileID: 3791604401157248291}
-  gcTime: 1
-  dieTime: 4
-  useGravity: 1
 --- !u!136 &3791604401282191221
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -180,10 +160,5 @@ PrefabInstance:
 --- !u!4 &2937591157066044204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2042971264945158888, guid: 8b751e37ffd37664389c841e318f5d39, type: 3}
-  m_PrefabInstance: {fileID: 3791604402186545604}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &9089468302660323670 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5384681579658289298, guid: 8b751e37ffd37664389c841e318f5d39, type: 3}
   m_PrefabInstance: {fileID: 3791604402186545604}
   m_PrefabAsset: {fileID: 0}

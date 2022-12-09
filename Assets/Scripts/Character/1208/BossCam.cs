@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonCam : MonoBehaviour
+public class BossCam : MonoBehaviour
 {
     [Header("References")]
     public Transform orientation;
@@ -32,7 +32,7 @@ public class ThirdPersonCam : MonoBehaviour
         // rotate player object
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput * (player.GetComponent<PlayerMovement>().useGravity ? 1 : -1);
+        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput * (player.GetComponent<BossMovement>().useGravity ? 1 : -1);
 
         if(inputDir != Vector3.zero){
             playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
