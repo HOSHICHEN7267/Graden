@@ -32,7 +32,6 @@ public class BossMovement : MonoBehaviour
     public bool useGravity = true;
 
     float Xrotate = 0f;
-    // float Zrotate = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -53,9 +52,6 @@ public class BossMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Debug.Log("trans: " + transform.rotation);
-        // Debug.Log("ori: " + orientation.forward);
-
         if (!useGravity)
         {
             rb.AddForce(-1.0f * Physics.gravity * GetComponent<Rigidbody>().mass); // Add a force per frame to simulate the upside-down gravity
@@ -109,7 +105,6 @@ public class BossMovement : MonoBehaviour
     {
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        // Debug.Log("moveDir: " + moveDirection);
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 

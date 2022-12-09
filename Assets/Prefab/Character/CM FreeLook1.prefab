@@ -89,7 +89,6 @@ GameObject:
   - component: {fileID: 780814036446114512}
   - component: {fileID: 780814036446114513}
   - component: {fileID: 780814036446114514}
-  - component: {fileID: 780814036446114515}
   m_Layer: 0
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -249,23 +248,6 @@ MonoBehaviour:
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
---- !u!114 &780814036446114515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780814036446114526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c50a9699311bb8347b2e90b87e05486e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 0}
-  player: {fileID: 0}
-  playerObj: {fileID: 0}
-  rb: {fileID: 0}
-  rotationSpeed: 7
 --- !u!1 &780814036649933413
 GameObject:
   m_ObjectHideFlags: 3

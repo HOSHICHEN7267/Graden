@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CloneMovement : MonoBehaviour
 {
@@ -26,13 +27,19 @@ public class CloneMovement : MonoBehaviour
 
     Rigidbody rb;
 
+    // controller variables
     bool isWalking = false;
     bool isDying = false;
     bool isGravityChange = false;
     public bool useGravity = true;
 
+    // key
+    // public Text hasKeyText;
+    // public Text totalKeyText;
+    bool hasKey = false;
+    int keyCount = 0;
+
     float Xrotate = 0f;
-    // float Zrotate = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,21 +56,23 @@ public class CloneMovement : MonoBehaviour
 
         // handle drag
         rb.drag = groundDrag;
+
+        // display key text
+        // if(hasKey){
+        //     hasKeyText.text = "HasKey";
+        // }
+        // else{
+        //     hasKeyText.text = "NoKey";
+        // }
+        // totalKeyText.text = keyCount + "/5";
     }
 
     void FixedUpdate()
     {
-        // Debug.Log("trans: " + transform.rotation);
-        // Debug.Log("ori: " + orientation.forward);
 
         if (!useGravity)
         {
             rb.AddForce(-1.0f * Physics.gravity * GetComponent<Rigidbody>().mass); // Add a force per frame to simulate the upside-down gravity
-        }
-
-        if (Input.GetKeyDown("space") && isGravityChange == false)
-        {
-            GravityChange();
         }
 
         if (isGravityChange)
@@ -109,7 +118,6 @@ public class CloneMovement : MonoBehaviour
     {
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        // Debug.Log("moveDir: " + moveDirection);
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
@@ -125,11 +133,23 @@ public class CloneMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Player")
+        // Start here 12/9 1224
+        if (other.gameObject.tag == "Key" && !hasKey)
         {
             Destroy(other.gameObject);
+            hasKey = true;
+        }
+        if (other.gameObject.tag == "Gravity" && !isGravityChange)
+        {
+            GravityChange();
+            Debug.Log("GravityChanged");
+        }
+        if(other.gameObject.tag == "KeyCenter" && hasKey){
+            Debug.Log("give key");
+            keyCount++;
+            hasKey = false;
         }
     }
 

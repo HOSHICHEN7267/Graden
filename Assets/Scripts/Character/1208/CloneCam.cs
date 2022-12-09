@@ -11,6 +11,7 @@ public class CloneCam : MonoBehaviour
     public Rigidbody rb;
 
     public float rotationSpeed;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +22,6 @@ public class CloneCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if(!player.GetComponent<PlayerMovement>().useGravity){
-        //     transform.rotation = Quaternion.Euler(0, 0, 180);
-        // }
-
         // rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
