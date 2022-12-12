@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,8 +30,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        InitUI();
-        StartCoroutine(CountDown());
+        print("LocalPlayer: " + PhotonNetwork.LocalPlayer);
+        if(PhotonNetwork.IsConnected == false){
+            SceneManager.LoadScene("StartScene");
+        }
+        else if(PhotonNetwork.CurrentRoom == null){
+            SceneManager.LoadScene("LobbyScene");
+        }
+        else{
+            StartCoroutine( InitGame() );
+        }
+        // if(PhotonNetwork.IsConnected == false){
+        //     SceneManager.LoadScene("StartScene");
+        // }
+        // else{
+        //     InitUI();
+        //     StartCoroutine(CountDown());
+        // }
     }
 
     void Update()
@@ -74,6 +90,18 @@ public class GameManager : MonoBehaviour
         // for(int i=1; i < maxPlayer; ++i){
         //     myPlayerList[i] = PhotonNetwork.PlayerListOthers[i-1];
         // }
+    }
+
+    IEnumerator InitGame(){
+        yield return new WaitForSeconds(1);
+        if(PhotonNetwork.IsMasterClient){
+            PhotonNetwork.Instantiate("Boss", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+        }
+        else{
+            PhotonNetwork.Instantiate("Clone", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+        }
+        InitUI();
+        StartCoroutine(CountDown());
     }
 
     IEnumerator CountDown(){

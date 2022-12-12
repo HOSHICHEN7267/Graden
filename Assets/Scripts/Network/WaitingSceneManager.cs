@@ -29,7 +29,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
                 Player bossPlayer = PhotonNetwork.CurrentRoom.Players[Random.Range(1, maxPlayerCount+1)];
                 PhotonNetwork.SetMasterClient(bossPlayer);
                 print("switched to " + bossPlayer);
-                SceneManager.LoadScene("TempScene");
+                SceneManager.LoadScene("MainScene");
             }
         }
     }
