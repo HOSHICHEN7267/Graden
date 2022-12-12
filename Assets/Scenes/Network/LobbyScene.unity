@@ -583,7 +583,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1839614611}
         m_TargetAssemblyTypeName: LobbySceneManager, Assembly-CSharp
         m_MethodName: OnClickCreateRoom
         m_Mode: 1
@@ -717,9 +717,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1839614608}
+      - m_Target: {fileID: 1839614611}
         m_TargetAssemblyTypeName: LobbySceneManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OnClickJoinRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395fda9de04f4fb4fb4b1bf9266f3bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputRoomKey: {fileID: 0}
+  inputRoomKey: {fileID: 417155340}
 --- !u!1 &2011349187
 GameObject:
   m_ObjectHideFlags: 0
