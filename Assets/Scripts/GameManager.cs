@@ -180,6 +180,14 @@ public class GameManager : MonoBehaviour
         _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
     }
 
+    public void EnterDebuffArea(){
+        _debuffPanel.SetActive(true);
+    }
+
+    public void LeaveDebuffArea(){
+        _debuffPanel.SetActive(false);
+    }
+
     void InitUI(){
         InitMyPlayerList();
         for(int i=0; i < maxPlayer; ++i){
