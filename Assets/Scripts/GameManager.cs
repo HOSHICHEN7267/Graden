@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> _gravityUI; // 0:   not change
                                         // 1:   changed
     
-    // debuff panel
+    // panels
     public GameObject _debuffPanel;
+    public GameObject _deadPanel;
 
     // timer
     public Text _timerText;
@@ -173,6 +174,8 @@ public class GameManager : MonoBehaviour
         int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
         _alivePlayerUI[deadIndex].SetActive(false);
         _deadPlayerUI[deadIndex].SetActive(true);
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(true);
     }
 
     public void GravityChange(){
@@ -200,6 +203,8 @@ public class GameManager : MonoBehaviour
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         timer_min = timer_totalSec / 60;
         timer_sec = timer_totalSec % 60;
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(false);
     }
 
     void InitMyPlayerList(){
@@ -212,11 +217,11 @@ public class GameManager : MonoBehaviour
     IEnumerator InitGame(){
         yield return new WaitForSeconds(1);
         if(PhotonNetwork.IsMasterClient){
-            PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         else{
-            PhotonNetwork.Instantiate("Clone", new Vector3(-3f, 0f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         InitUI();

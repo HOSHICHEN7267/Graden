@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 7810939372055313116}
-  moveSpeed: 0
+  moveSpeed: 2
   groundDrag: 6
   orientation: {fileID: 2800179759958255273}
   gcTime: 2
@@ -109,18 +109,40 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2714618470887070140}
+  - {fileID: 8761423746355209442}
   - {fileID: 3714958613772300919}
+  - {fileID: 7679226667934120785}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2714618470887070140
+--- !u!114 &8761423746355209442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2800179759823092987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!1 &2800179759958255272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3791604401157248290, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
+  m_PrefabInstance: {fileID: 1315685212650599306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7679226667934120785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800179759958255272}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
@@ -156,7 +178,7 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 3
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: Status
   m_SynchronizeLayers:
   - SynchronizeType: 1
