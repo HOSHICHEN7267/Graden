@@ -9,16 +9,16 @@ public class CloneMovement : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
-
     public Transform orientation;
 
     [Header("Time")]
     public float gcTime = 2f;
-    public float dieTime = 4f;
+    public float dieTime = 3f;
+    public float putTime = 0.8f;
     float GCtime = 0f;
     float Dtime = 0f;
+    float Ptime = 0f;
 
     float horizontalInput;
     float verticalInput;
@@ -30,6 +30,7 @@ public class CloneMovement : MonoBehaviour
     // controller variables
     bool isWalking = false;
     bool isDying = false;
+    bool isPutting = false;
     bool isGravityChange = false;
     public bool useGravity = true;
 
@@ -97,15 +98,23 @@ public class CloneMovement : MonoBehaviour
             Dtime += Time.deltaTime;
             if (Dtime > dieTime)
             {
-                isDying = false;
-                Dtime = 0;
+                this.gameObject.SetActive(false);
+            }
+        }
+        else if (isPutting)
+        {
+            Ptime += Time.deltaTime;
+            if (Ptime > putTime)
+            {
+                isPutting = false;
+                Ptime = 0;
             }
         }
         else
         {
             MovePlayer();
-            SetAnime();
         }
+        SetAnime();
     }
 
     private void MyInput()
@@ -146,10 +155,16 @@ public class CloneMovement : MonoBehaviour
             GravityChange();
             Debug.Log("GravityChanged");
         }
-        if(other.gameObject.tag == "KeyCenter" && hasKey){
+        if (other.gameObject.tag == "KeyCenter" && hasKey)
+        {
+            isPutting = true;
             Debug.Log("give key");
             keyCount++;
             hasKey = false;
+        }
+        if (other.gameObject.tag == "Boss")
+        {
+            isDying = true;
         }
     }
 
@@ -176,7 +191,15 @@ public class CloneMovement : MonoBehaviour
 
     private void SetAnime()
     {
-        if (isWalking)
+        if (isDying)
+        {
+            Anime.SetInteger("Status", 4);
+        }
+        else if (isPutting)
+        {
+            Anime.SetInteger("Status", 2);
+        }
+        else if (isWalking)
         {
             Anime.SetInteger("Status", 1);
         }
