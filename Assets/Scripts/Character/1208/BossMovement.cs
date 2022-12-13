@@ -124,6 +124,7 @@ public class BossMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            Anime.SetInteger("Status", 2);
             Destroy(other.gameObject);
         }
     }
