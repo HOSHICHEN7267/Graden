@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Photon.Pun;
 
 public class CloneMovement : MonoBehaviour
 {
@@ -42,21 +42,22 @@ public class CloneMovement : MonoBehaviour
 
     float Xrotate = 0f;
 
+    PhotonView _pv;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        _pv = this.gameObject.GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MyInput();
-        SpeedControl();
-
-        // handle drag
-        rb.drag = groundDrag;
+        if(_pv.IsMine){
+            Control();
+        }
 
         // display key text
         // if(hasKey){
@@ -66,6 +67,15 @@ public class CloneMovement : MonoBehaviour
         //     hasKeyText.text = "NoKey";
         // }
         // totalKeyText.text = keyCount + "/5";
+    }
+
+    void Control()
+    {
+        MyInput();
+        SpeedControl();
+
+        // handle drag
+        rb.drag = groundDrag;
     }
 
     void FixedUpdate()

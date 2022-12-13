@@ -26,14 +26,19 @@ public class GameManager : MonoBehaviour
     public List<GameObject> _gravityUI; // 0:   not change
                                         // 1:   changed
     
-    // debuff panel
+    // panels
     public GameObject _debuffPanel;
+    public GameObject _deadPanel;
 
     // timer
     public Text _timerText;
     public int timer_totalSec;
     int timer_min = 0;
     int timer_sec = 0;
+
+    // camera
+    public GameObject _freeLookBoss;
+    public GameObject _freeLookClone;
 
     public GameObject key1,key2,key3,key4,key5;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
@@ -169,11 +174,21 @@ public class GameManager : MonoBehaviour
         int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
         _alivePlayerUI[deadIndex].SetActive(false);
         _deadPlayerUI[deadIndex].SetActive(true);
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(true);
     }
 
     public void GravityChange(){
         _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
         _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
+    }
+
+    public void EnterDebuffArea(){
+        _debuffPanel.SetActive(true);
+    }
+
+    public void LeaveDebuffArea(){
+        _debuffPanel.SetActive(false);
     }
 
     void InitUI(){
@@ -188,6 +203,8 @@ public class GameManager : MonoBehaviour
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         timer_min = timer_totalSec / 60;
         timer_sec = timer_totalSec % 60;
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(false);
     }
 
     void InitMyPlayerList(){
@@ -200,10 +217,12 @@ public class GameManager : MonoBehaviour
     IEnumerator InitGame(){
         yield return new WaitForSeconds(1);
         if(PhotonNetwork.IsMasterClient){
-            PhotonNetwork.Instantiate("Boss", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
+            Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         else{
-            PhotonNetwork.Instantiate("Clone", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
+            Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         InitUI();
         RandomGenerateKey();

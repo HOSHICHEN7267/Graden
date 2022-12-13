@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BossMovement : MonoBehaviour
 {
@@ -32,16 +33,26 @@ public class BossMovement : MonoBehaviour
     public bool useGravity = true;
 
     float Xrotate = 0f;
+    
+    PhotonView _pv;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        _pv = this.gameObject.GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if(_pv.IsMine){
+            Control();
+        }
+    }
+
+    void Control()
     {
         MyInput();
         SpeedControl();
