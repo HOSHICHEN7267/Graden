@@ -15,9 +15,9 @@ public class BossMovement : MonoBehaviour
 
     [Header("Time")]
     public float gcTime = 2f;
-    public float dieTime = 4f;
+    public float killTime = 3f;
     float GCtime = 0f;
-    float Dtime = 0f;
+    float Ktime = 0f;
 
     float horizontalInput;
     float verticalInput;
@@ -27,7 +27,7 @@ public class BossMovement : MonoBehaviour
     Rigidbody rb;
 
     bool isWalking = false;
-    bool isDying = false;
+    bool isKilling = false;
     bool isGravityChange = false;
     public bool useGravity = true;
 
@@ -52,6 +52,11 @@ public class BossMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isKilling)
+        {
+            Debug.Log("killing");
+        }
+
         if (!useGravity)
         {
             rb.AddForce(-1.0f * Physics.gravity * GetComponent<Rigidbody>().mass); // Add a force per frame to simulate the upside-down gravity
@@ -79,20 +84,20 @@ public class BossMovement : MonoBehaviour
             isWalking = false;
         }
 
-        if (isDying)
+        if (isKilling)
         {
-            Dtime += Time.deltaTime;
-            if (Dtime > dieTime)
+            Ktime += Time.deltaTime;
+            if (Ktime > killTime)
             {
-                isDying = false;
-                Dtime = 0;
+                isKilling = false;
+                Ktime = 0;
             }
         }
         else
         {
             MovePlayer();
-            SetAnime();
         }
+        SetAnime();
     }
 
     private void MyInput()
@@ -120,12 +125,12 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player")
         {
-            Anime.SetInteger("Status", 2);
-            Destroy(other.gameObject);
+            isKilling = true;
+            //Destroy(other.gameObject);
         }
     }
 
@@ -152,10 +157,15 @@ public class BossMovement : MonoBehaviour
 
     private void SetAnime()
     {
-        if (isWalking)
+
+        if (isKilling)
+        {
+            Anime.SetInteger("Status", 2);
+        }
+        else if (isWalking)
         {
             Anime.SetInteger("Status", 1);
-        }
+        } 
         else
         {
             Anime.SetInteger("Status", 0);
