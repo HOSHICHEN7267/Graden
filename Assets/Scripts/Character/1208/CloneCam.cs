@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using Photon.Pun;
 
 public class CloneCam : MonoBehaviour
 {
@@ -17,6 +19,17 @@ public class CloneCam : MonoBehaviour
     {
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
+        GameObject[] playerList = GameObject.FindGameObjectsWithTag("Clone");
+        foreach(GameObject p in playerList){
+            if(p.GetComponent<PhotonView>().IsMine){
+                player = p.transform;
+                orientation = player.GetChild(1);
+                playerObj = player.GetChild(0).transform;
+                rb = p.GetComponent<Rigidbody>();
+                this.GetComponent<CinemachineFreeLook>().Follow = player;
+                this.GetComponent<CinemachineFreeLook>().LookAt = player;
+            }
+        }
     }
 
     // Update is called once per frame

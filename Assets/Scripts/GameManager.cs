@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     int timer_min = 0;
     int timer_sec = 0;
 
+    // camera
+    public GameObject _freeLookBoss;
+    public GameObject _freeLookClone;
+
     public GameObject key1,key2,key3,key4,key5;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
 
@@ -200,10 +204,12 @@ public class GameManager : MonoBehaviour
     IEnumerator InitGame(){
         yield return new WaitForSeconds(1);
         if(PhotonNetwork.IsMasterClient){
-            PhotonNetwork.Instantiate("Boss", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0f, -8f), Quaternion.identity);
+            Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         else{
-            PhotonNetwork.Instantiate("Clone", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone", new Vector3(-3f, 0f, -8f), Quaternion.identity);
+            Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         InitUI();
         RandomGenerateKey();

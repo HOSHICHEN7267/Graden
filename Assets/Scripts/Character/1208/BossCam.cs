@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using Photon.Pun;
 
 public class BossCam : MonoBehaviour
 {
@@ -14,8 +16,19 @@ public class BossCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
+        GameObject[] playerList = GameObject.FindGameObjectsWithTag("Boss");
+        foreach(GameObject p in playerList){
+            if(p.GetComponent<PhotonView>().IsMine){
+                player = p.transform;
+                orientation = player.GetChild(1);
+                playerObj = player.GetChild(0).transform;
+                rb = p.GetComponent<Rigidbody>();
+                this.GetComponent<CinemachineFreeLook>().Follow = player;
+                this.GetComponent<CinemachineFreeLook>().LookAt = player;
+            }
+        }
     }
 
     // Update is called once per frame

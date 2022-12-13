@@ -8,6 +8,8 @@ TagManager:
   - Gravity
   - KeyCenter
   - Boss
+  - Bullet
+  - Clone
   layers:
   - Default
   - TransparentFX
