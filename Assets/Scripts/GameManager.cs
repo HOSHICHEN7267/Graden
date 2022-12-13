@@ -17,13 +17,20 @@ public class GameManager : MonoBehaviour
 
     // key info
     const int maxKey = 5;
-    public List<GameObject> keyUI;  // 0:   no key
+    public List<GameObject> _keyUI; // 0:   no key
                                     // 1:   has key
-    public Text _totalKey;
+    public Text _totalKeyText;
     int totalKey;
 
+    // gravity info
+    public List<GameObject> _gravityUI; // 0:   not change
+                                        // 1:   changed
+    
+    // debuff panel
+    public GameObject _debuffPanel;
+
     // timer
-    public Text _timer;
+    public Text _timerText;
     public int timer_totalSec;
     int timer_min = 0;
     int timer_sec = 0;
@@ -54,8 +61,6 @@ public class GameManager : MonoBehaviour
         //     InitUI();
         //     StartCoroutine(CountDown());
         // }
-        RandomGenerateKey();
-        SwitchMap();
     }
 
     void Update()
@@ -150,14 +155,14 @@ public class GameManager : MonoBehaviour
 
     public void GetKey(){
         ++totalKey;
-        keyUI[0].SetActive(false);
-        keyUI[1].SetActive(true);
-        _totalKey.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(true);
+        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
     }
 
     public void PutKey(){
-        keyUI[0].SetActive(true);
-        keyUI[1].SetActive(false);
+        _keyUI[0].SetActive(true);
+        _keyUI[1].SetActive(false);
     }
 
     public void PlayerDie(Player deadPlayer){
@@ -166,15 +171,21 @@ public class GameManager : MonoBehaviour
         _deadPlayerUI[deadIndex].SetActive(true);
     }
 
+    public void GravityChange(){
+        _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
+        _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
+    }
+
     void InitUI(){
         InitMyPlayerList();
         for(int i=0; i < maxPlayer; ++i){
             _alivePlayerUI[i].SetActive(true);
             _deadPlayerUI[i].SetActive(false);
         }
-        keyUI[0].SetActive(true);
-        keyUI[1].SetActive(false);
+        _keyUI[0].SetActive(true);
+        _keyUI[1].SetActive(false);
         totalKey = 0;
+        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         timer_min = timer_totalSec / 60;
         timer_sec = timer_totalSec % 60;
     }
@@ -195,11 +206,13 @@ public class GameManager : MonoBehaviour
             PhotonNetwork.Instantiate("Clone", new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         InitUI();
+        RandomGenerateKey();
+        SwitchMap();
         StartCoroutine(CountDown());
     }
 
     IEnumerator CountDown(){
-        _timer.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+        _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
         while(timer_totalSec > 0){
             yield return new WaitForSeconds(1);
             --timer_totalSec;
@@ -209,7 +222,7 @@ public class GameManager : MonoBehaviour
                 --timer_min;
                 timer_sec = 59;
             }
-            _timer.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+            _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
         }
         yield return new WaitForSeconds(1);
         Time.timeScale = 0;
