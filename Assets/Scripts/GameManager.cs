@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
     public List<GameObject> _deadPlayerUI; // the order is same as myPlayerList
     public int maxPlayer = 5;
+    int bossPlayer;
     List<Player> myPlayerList;  // 0:       me
                                 // 1 - 4:   other players
 
@@ -47,8 +48,12 @@ public class GameManager : MonoBehaviour
     Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
 
     GameObject playerPosition = null;
+
+    PhotonView _pv;
+
     void Start()
     {
+        _pv = GetComponent<PhotonView>();
         print("LocalPlayer: " + PhotonNetwork.LocalPlayer);
         if(PhotonNetwork.IsConnected == false){
             SceneManager.LoadScene("StartScene");
@@ -56,8 +61,8 @@ public class GameManager : MonoBehaviour
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
         }
-        else{
-            StartCoroutine( InitGame() );
+        else if(PhotonNetwork.IsMasterClient){
+            PickBoss();
         }
         // if(PhotonNetwork.IsConnected == false){
         //     SceneManager.LoadScene("StartScene");
@@ -214,9 +219,22 @@ public class GameManager : MonoBehaviour
         // }
     }
 
+    void PickBoss(){
+        bossPlayer = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        _pv.RPC("RPC_SyncBoss", RpcTarget.All, bossPlayer);
+        print("Boss is " + bossPlayer);
+    }
+
+    [PunRPC]
+    void RPC_SyncBoss(int num){
+        bossPlayer = num;
+        StartCoroutine(InitGame());
+    }
+
     IEnumerator InitGame(){
         yield return new WaitForSeconds(1);
-        if(PhotonNetwork.IsMasterClient){
+        print("Initializing game...");
+        if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer]){
             PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
@@ -228,6 +246,7 @@ public class GameManager : MonoBehaviour
         RandomGenerateKey();
         SwitchMap();
         StartCoroutine(CountDown());
+        print("Game initialized.");
     }
 
     IEnumerator CountDown(){

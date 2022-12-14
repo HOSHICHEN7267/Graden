@@ -26,9 +26,6 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
             currRoomKeyText.text = "Room Key: " + PhotonNetwork.CurrentRoom.Name;
             waitingPlayersText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayerCount + " are waiting...";
             if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayerCount){
-                Player bossPlayer = PhotonNetwork.CurrentRoom.Players[Random.Range(1, maxPlayerCount+1)];
-                PhotonNetwork.SetMasterClient(bossPlayer);
-                print("switched to " + bossPlayer);
                 SceneManager.LoadScene("MainScene");
             }
         }

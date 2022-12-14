@@ -112,7 +112,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3791604401157248290, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
   m_PrefabInstance: {fileID: 8796347707390921897}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4795375066771261479
+--- !u!114 &2114461519255536529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,7 +133,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3791604401282191217, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
   m_PrefabInstance: {fileID: 8796347707390921897}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-8720414144505434059
+--- !u!114 &1154965237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660070079440618456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948624a713400e14a8ca60a3f3476056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Anime: {fileID: 303606916928914943}
+  moveSpeed: 2.5
+  groundDrag: 6
+  orientation: {fileID: 5660070079292938634}
+  gcTime: 2
+  killTime: 1
+  useGravity: 1
+--- !u!114 &4286116157634689751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,29 +173,11 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5710407817654362474}
   - {fileID: 328983948764849817}
-  - {fileID: 4795375066771261479}
+  - {fileID: 5408284578827272079}
+  - {fileID: 2114461519255536529}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1154965237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5660070079440618456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948624a713400e14a8ca60a3f3476056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Anime: {fileID: 303606916928914943}
-  moveSpeed: 2.5
-  groundDrag: 6
-  orientation: {fileID: 5660070079292938634}
-  gcTime: 2
-  killTime: 1
-  useGravity: 1
 --- !u!114 &5710407817654362474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,3 +220,19 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+--- !u!114 &5408284578827272079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6457419257166415167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
