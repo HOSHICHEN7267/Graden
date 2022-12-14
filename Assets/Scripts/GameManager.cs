@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public Text _totalKeyText;
     int totalKey;
 
+    public GameObject _keyStatus;
+
     // gravity info
     public List<GameObject> _gravityUI; // 0:   not change
                                         // 1:   changed
@@ -163,16 +165,16 @@ public class GameManager : MonoBehaviour
         key5.transform.localPosition = positions5[Ran_Lab5];
     }
 
-    public void GetKey(){
+    public void GiveKey(){  // give key into center
         ++totalKey;
-        _keyUI[0].SetActive(false);
-        _keyUI[1].SetActive(true);
+        _keyUI[0].SetActive(true);
+        _keyUI[1].SetActive(false);
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
     }
 
-    public void PutKey(){
-        _keyUI[0].SetActive(true);
-        _keyUI[1].SetActive(false);
+    public void GetKey(){  // get key
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(true);
     }
 
     public void PlayerDie(Player deadPlayer){
@@ -194,6 +196,11 @@ public class GameManager : MonoBehaviour
 
     public void LeaveDebuffArea(){
         _debuffPanel.SetActive(false);
+    }
+
+    public void HideKeyStatus()
+    {
+        _keyStatus.SetActive(false);
     }
 
     void InitUI(){
