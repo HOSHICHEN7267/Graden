@@ -19,8 +19,10 @@ public class BossMovement : MonoBehaviour
     [Header("Time")]
     public float gcTime = 2f;
     public float killTime = 3f;
+    public float slowTime = 20f;
     float GCtime = 0f;
     float Ktime = 0f;
+    float Stime = 0f;
 
     float horizontalInput;
     float verticalInput;
@@ -32,6 +34,8 @@ public class BossMovement : MonoBehaviour
     bool isWalking = false;
     bool isKilling = false;
     bool isGravityChange = false;
+    bool inCenter = false;
+    bool isSlow = false;
     public bool useGravity = true;
 
     float Xrotate = 0f;
@@ -116,6 +120,71 @@ public class BossMovement : MonoBehaviour
             MovePlayer();
         }
         SetAnime();
+
+        // miniMap
+        float playerPositionX = this.transform.position.x;
+        float playerPositionZ = this.transform.position.z;
+
+        if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
+            _puim.EnterCenterLab();
+            inCenter = true;
+        }
+        else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
+            _puim.EnterLab1();
+            inCenter = false;
+        }
+        else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72)
+        {
+            _puim.EnterLab2();
+            inCenter = false;
+        }
+        else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72)
+        {
+            _puim.EnterLab3();
+            inCenter = false;
+        }
+        else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20)
+        {
+            _puim.EnterLab4();
+            inCenter = false;
+        }
+        else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51)
+        {
+            _puim.EnterLab5();
+            inCenter = false;
+        }
+        else
+        {
+            _puim.InCorridor();
+            inCenter = false;
+        }
+
+        // slow
+        if (inCenter)
+        {
+            if (Stime < slowTime)
+            {
+                Stime += Time.deltaTime;
+            }
+            else if (!isSlow)
+            {
+                isSlow = true;
+                moveSpeed = moveSpeed / 2;
+                _puim.SlowSpeed();
+                Debug.Log("slow...");
+            }
+        }
+        else
+        {
+            Stime = 0;
+            if (isSlow)
+            {
+                isSlow = false;
+                moveSpeed = moveSpeed * 2;
+                _puim.NormalSpeed();
+                Debug.Log("no slow");
+            }
+        }
     }
 
     private void MyInput()

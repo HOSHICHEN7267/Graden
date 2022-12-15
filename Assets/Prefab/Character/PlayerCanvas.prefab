@@ -3885,6 +3885,13 @@ MonoBehaviour:
   - {fileID: 570314319032971627}
   _debuffPanel: {fileID: 570314317759217092}
   _deadPanel: {fileID: 570314317317885066}
+  _miniMap:
+  - {fileID: 570314318823987534}
+  - {fileID: 570314317695144320}
+  - {fileID: 570314318710553037}
+  - {fileID: 570314317025684757}
+  - {fileID: 570314317171191447}
+  - {fileID: 570314316957326807}
 --- !u!1 &570314318717556225
 GameObject:
   m_ObjectHideFlags: 0

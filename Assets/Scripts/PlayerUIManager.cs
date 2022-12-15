@@ -37,6 +37,13 @@ public class PlayerUIManager : MonoBehaviour
     // pv
     PhotonView _pv;
 
+    // mini map
+    public List<GameObject> _miniMap; // 0:   center lab
+                                      // 1:   lab1
+                                      // 2:   lab2
+                                      // .... 
+                                      // 5:   lab5  
+
     void Start()
     {
         _gm = GameObject.FindObjectOfType<GameManager>();
@@ -92,6 +99,55 @@ public class PlayerUIManager : MonoBehaviour
 
     public void HideKeyStatus(){
         _keyStatus.SetActive(false);
+    }
+
+    // miniMap
+    public void InCorridor()
+    {
+        int i;
+        for (i = 0; i < 6; i++)
+        {
+            _miniMap[i].SetActive(false);
+        }
+    }
+    public void EnterCenterLab()
+    {
+        _miniMap[0].SetActive(true);
+    }
+    public void EnterLab1()
+    {
+        
+        _miniMap[1].SetActive(true);
+    }
+    public void EnterLab2()
+    {
+
+        _miniMap[2].SetActive(true);
+    }
+    public void EnterLab3()
+    {
+
+        _miniMap[3].SetActive(true);
+    }
+    public void EnterLab4()
+    {
+
+        _miniMap[4].SetActive(true);
+    }
+    public void EnterLab5()
+    {
+
+        _miniMap[5].SetActive(true);
+    }
+    
+    public void SlowSpeed()
+    {
+        _debuffPanel.SetActive(true);
+    }
+
+    public void NormalSpeed()
+    {
+        _debuffPanel.SetActive(false);
     }
 
     void InitUI(){
