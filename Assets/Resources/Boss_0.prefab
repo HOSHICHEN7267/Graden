@@ -178,7 +178,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 303606916928914943}
-  GameManager: {fileID: 0}
   moveSpeed: 2.5
   groundDrag: 6
   orientation: {fileID: 5660070079292938634}

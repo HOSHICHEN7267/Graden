@@ -5,8 +5,9 @@ using Photon.Pun;
 
 public class BossMovement : MonoBehaviour
 {
+    GameManager _gm;
+    PlayerUIManager _puim;
     public Animator Anime;
-    public GameObject GameManager;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -43,7 +44,9 @@ public class BossMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _pv = this.gameObject.GetComponent<PhotonView>();
-        GameManager.GetComponent<GameManager>().HideKeyStatus();
+        _gm = GameObject.FindObjectOfType<GameManager>();
+        _puim = GameObject.FindObjectOfType<PlayerUIManager>();
+        _puim.HideKeyStatus();
     }
 
     // Update is called once per frame
@@ -157,7 +160,7 @@ public class BossMovement : MonoBehaviour
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, 180);
-            GameManager.GetComponent<GameManager>().GravityChange();
+            _puim.GravityChange();
         }
         else
         {
@@ -166,7 +169,7 @@ public class BossMovement : MonoBehaviour
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, -180);
-            GameManager.GetComponent<GameManager>().GravityChange();
+            _puim.GravityChange();
         }
     }
 
