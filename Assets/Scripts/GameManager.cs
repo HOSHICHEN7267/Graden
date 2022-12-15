@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // player info
-    int bossPlayer;
+    int bossPlayer = -1;
 
     // timer
     public Text _timerText;
@@ -141,18 +141,15 @@ public class GameManager : MonoBehaviour
 
     void PickBoss(){
         bossPlayer = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        // _pv.RPC("RPC_SyncBoss", RpcTarget.All, bossPlayer);
         print("Boss is " + bossPlayer);
-        InitGame();
+        _pv.RPC("RPC_Init", RpcTarget.All, bossPlayer);
     }
 
-    // [PunRPC]
-    // void RPC_SyncBoss(int num){
-    //     bossPlayer = num;
-    // }
-
-    void InitGame(){
+    [PunRPC]
+    void RPC_Init(int num){
+        bossPlayer = num;
         print("Initializing game...");
+        while(bossPlayer == -1){}
         if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer]){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
