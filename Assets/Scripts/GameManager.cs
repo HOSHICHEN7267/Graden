@@ -25,11 +25,11 @@ public class GameManager : MonoBehaviour
     public GameObject key1,key2,key3,key4,key5;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
 
-    // mini map
-    GameObject center;
-    Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
+    // // mini map
+    // GameObject center;
+    // Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
 
-    GameObject playerPosition = null;
+    // GameObject playerPosition = null;
 
     // pv
     PhotonView _pv;
@@ -51,45 +51,45 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        SwitchMap();
+        // SwitchMap();
     }
 
-    public void SwitchMap(){
-        center = GameObject.Find("Canvas/AspectRatioFitter/MiniMaps/miniMap");
-        miniMap = Resources.Load<Sprite>("Sprite/miniMap");
-        miniMap_center = Resources.Load<Sprite>("Sprite/miniMap_center");
-        miniMap_Lab1 = Resources.Load<Sprite>("Sprite/miniMap_Lab1");
-        miniMap_Lab2 = Resources.Load<Sprite>("Sprite/miniMap_Lab2");
-        miniMap_Lab3 = Resources.Load<Sprite>("Sprite/miniMap_Lab3");
-        miniMap_Lab4 = Resources.Load<Sprite>("Sprite/miniMap_Lab4");
-        miniMap_Lab5 = Resources.Load<Sprite>("Sprite/miniMap_Lab5");
-        playerPosition = GameObject.FindGameObjectWithTag("Player");
-        float playerPositionX = playerPosition.transform.position.x;
-        float playerPositionZ = playerPosition.transform.position.z;
+    // public void SwitchMap(){
+    //     center = GameObject.Find("Canvas/AspectRatioFitter/MiniMaps/miniMap");
+    //     miniMap = Resources.Load<Sprite>("Sprite/miniMap");
+    //     miniMap_center = Resources.Load<Sprite>("Sprite/miniMap_center");
+    //     miniMap_Lab1 = Resources.Load<Sprite>("Sprite/miniMap_Lab1");
+    //     miniMap_Lab2 = Resources.Load<Sprite>("Sprite/miniMap_Lab2");
+    //     miniMap_Lab3 = Resources.Load<Sprite>("Sprite/miniMap_Lab3");
+    //     miniMap_Lab4 = Resources.Load<Sprite>("Sprite/miniMap_Lab4");
+    //     miniMap_Lab5 = Resources.Load<Sprite>("Sprite/miniMap_Lab5");
+    //     playerPosition = GameObject.FindGameObjectWithTag("Player");
+    //     float playerPositionX = playerPosition.transform.position.x;
+    //     float playerPositionZ = playerPosition.transform.position.z;
 
-        if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
-            center.GetComponent<Image>().sprite = miniMap_center;
-        }
-        else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
-            center.GetComponent<Image>().sprite = miniMap_Lab1;
-        }
-        else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72){
-            center.GetComponent<Image>().sprite = miniMap_Lab2;
-        }
-        else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72){
-            center.GetComponent<Image>().sprite = miniMap_Lab3;
-        }
-        else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20){
-            center.GetComponent<Image>().sprite = miniMap_Lab4;
-        }
-        else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51){
-            center.GetComponent<Image>().sprite = miniMap_Lab5;
-        }
-        else{
-            center.GetComponent<Image>().sprite = miniMap;
-        }
+    //     if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
+    //         center.GetComponent<Image>().sprite = miniMap_center;
+    //     }
+    //     else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
+    //         center.GetComponent<Image>().sprite = miniMap_Lab1;
+    //     }
+    //     else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72){
+    //         center.GetComponent<Image>().sprite = miniMap_Lab2;
+    //     }
+    //     else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72){
+    //         center.GetComponent<Image>().sprite = miniMap_Lab3;
+    //     }
+    //     else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20){
+    //         center.GetComponent<Image>().sprite = miniMap_Lab4;
+    //     }
+    //     else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51){
+    //         center.GetComponent<Image>().sprite = miniMap_Lab5;
+    //     }
+    //     else{
+    //         center.GetComponent<Image>().sprite = miniMap;
+    //     }
         
-    }
+    // }
 
     public void RandomGenerateKey(){
         // Lab 1
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         RandomGenerateKey();
-        SwitchMap();
+        // SwitchMap();
         StartCoroutine(CountDown());
         print("Game initialized.");
     }
