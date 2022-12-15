@@ -5,8 +5,9 @@ using Photon.Pun;
 
 public class CloneMovement : MonoBehaviour
 {
+    GameManager _gm;
+    PlayerUIManager _puim;
     public Animator Anime;
-    public GameObject GameManager;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -51,6 +52,8 @@ public class CloneMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _pv = this.gameObject.GetComponent<PhotonView>();
+        _gm = GameObject.FindObjectOfType<GameManager>();
+        _puim = GameObject.FindObjectOfType<PlayerUIManager>();
     }
 
     // Update is called once per frame
@@ -117,7 +120,7 @@ public class CloneMovement : MonoBehaviour
             Ptime += Time.deltaTime;
             if (Ptime > putTime)
             {
-                GameManager.GetComponent<GameManager>().GiveKey();
+                _puim.GiveKey();
                 isPutting = false;
                 Ptime = 0;
             }
@@ -161,7 +164,7 @@ public class CloneMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             hasKey = true;
-            GameManager.GetComponent<GameManager>().GetKey();
+            _puim.GetKey();
         }
         if (other.gameObject.tag == "Gravity" && !isGravityChange)
         {
@@ -191,7 +194,7 @@ public class CloneMovement : MonoBehaviour
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, 180);
-            GameManager.GetComponent<GameManager>().GravityChange();
+            _puim.GravityChange();
         }
         else
         {
@@ -200,7 +203,7 @@ public class CloneMovement : MonoBehaviour
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, -180);
-            GameManager.GetComponent<GameManager>().GravityChange();
+            _puim.GravityChange();
         }
     }
 

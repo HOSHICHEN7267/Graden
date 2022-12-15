@@ -18,7 +18,8 @@ public class LobbySceneManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("StartScene");
         }
         else if(PhotonNetwork.CurrentLobby == null){
-            PhotonNetwork.JoinLobby();
+            while(!PhotonNetwork.JoinLobby()){
+            }
         }
     }
 
@@ -44,20 +45,29 @@ public class LobbySceneManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickCreateRoom(){
-        print("[ ClickCreate ]");
-        while(!PhotonNetwork.CreateRoom(GetRoomKey())){
+        print("[ClickCreate]");
+        if(!PhotonNetwork.CreateRoom(GetRoomKey())){
+            print("Failed to create room.");
         }
     }
 
     public void OnClickJoinRoom(){
-        print("[ ClickJoin ]");
-        while(!PhotonNetwork.JoinRoom(inputRoomKey.text)){
-            print("Invalid roomKey.");
+        print("[ClickJoin]");
+        print("input key \"" + inputRoomKey.text + "\".");
+        if(!PhotonNetwork.JoinRoom(inputRoomKey.text)){
+            print("Failed to join room.");
         }
+    }
+
+    public override void OnCreateRoomFailed (short returnCode, string message){
+        print("error " + ((int)returnCode).ToString() + ": " + message);
     }
 
     public override void OnJoinedRoom(){
         print("Joined Room " + PhotonNetwork.CurrentRoom.Name + ".");
         SceneManager.LoadScene("WaitingScene");
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message) {
+        print("error " + ((int)returnCode).ToString() + ": " + message);
     }
 }

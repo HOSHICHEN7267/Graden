@@ -9,29 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // player info
-    public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
-    public List<GameObject> _deadPlayerUI; // the order is same as myPlayerList
-    public int maxPlayer = 5;
     int bossPlayer;
-    List<Player> myPlayerList;  // 0:       me
-                                // 1 - 4:   other players
-
-    // key info
-    const int maxKey = 5;
-    public List<GameObject> _keyUI; // 0:   no key
-                                    // 1:   has key
-    public Text _totalKeyText;
-    int totalKey;
-
-    public GameObject _keyStatus;
-
-    // gravity info
-    public List<GameObject> _gravityUI; // 0:   not change
-                                        // 1:   changed
-    
-    // panels
-    public GameObject _debuffPanel;
-    public GameObject _deadPanel;
 
     // timer
     public Text _timerText;
@@ -43,14 +21,17 @@ public class GameManager : MonoBehaviour
     public GameObject _freeLookBoss;
     public GameObject _freeLookClone;
 
+    // key generate
     public GameObject key1,key2,key3,key4,key5;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
 
+    // mini map
     GameObject center;
     Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
 
     GameObject playerPosition = null;
 
+    // pv
     PhotonView _pv;
 
     void Start()
@@ -63,16 +44,9 @@ public class GameManager : MonoBehaviour
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
         }
-        else if(PhotonNetwork.IsMasterClient){
+        if(PhotonNetwork.IsMasterClient){
             PickBoss();
         }
-        // if(PhotonNetwork.IsConnected == false){
-        //     SceneManager.LoadScene("StartScene");
-        // }
-        // else{
-        //     InitUI();
-        //     StartCoroutine(CountDown());
-        // }
     }
 
     void Update()
@@ -165,81 +139,19 @@ public class GameManager : MonoBehaviour
         key5.transform.localPosition = positions5[Ran_Lab5];
     }
 
-    public void GiveKey(){  // give key into center
-        ++totalKey;
-        _keyUI[0].SetActive(true);
-        _keyUI[1].SetActive(false);
-        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
-    }
-
-    public void GetKey(){  // get key
-        _keyUI[0].SetActive(false);
-        _keyUI[1].SetActive(true);
-    }
-
-    public void PlayerDie(Player deadPlayer){
-        int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
-        _alivePlayerUI[deadIndex].SetActive(false);
-        _deadPlayerUI[deadIndex].SetActive(true);
-        _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(true);
-    }
-
-    public void GravityChange(){
-        _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
-        _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
-    }
-
-    public void EnterDebuffArea(){
-        _debuffPanel.SetActive(true);
-    }
-
-    public void LeaveDebuffArea(){
-        _debuffPanel.SetActive(false);
-    }
-
-    public void HideKeyStatus()
-    {
-        _keyStatus.SetActive(false);
-    }
-
-    void InitUI(){
-        InitMyPlayerList();
-        for(int i=0; i < maxPlayer; ++i){
-            _alivePlayerUI[i].SetActive(true);
-            _deadPlayerUI[i].SetActive(false);
-        }
-        _keyUI[0].SetActive(true);
-        _keyUI[1].SetActive(false);
-        totalKey = 0;
-        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
-        timer_min = timer_totalSec / 60;
-        timer_sec = timer_totalSec % 60;
-        _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(false);
-    }
-
-    void InitMyPlayerList(){
-        // myPlayerList[0] = PhotonNetwork.LocalPlayer;
-        // for(int i=1; i < maxPlayer; ++i){
-        //     myPlayerList[i] = PhotonNetwork.PlayerListOthers[i-1];
-        // }
-    }
-
     void PickBoss(){
         bossPlayer = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        _pv.RPC("RPC_SyncBoss", RpcTarget.All, bossPlayer);
+        // _pv.RPC("RPC_SyncBoss", RpcTarget.All, bossPlayer);
         print("Boss is " + bossPlayer);
+        InitGame();
     }
 
-    [PunRPC]
-    void RPC_SyncBoss(int num){
-        bossPlayer = num;
-        StartCoroutine(InitGame());
-    }
+    // [PunRPC]
+    // void RPC_SyncBoss(int num){
+    //     bossPlayer = num;
+    // }
 
-    IEnumerator InitGame(){
-        yield return new WaitForSeconds(1);
+    void InitGame(){
         print("Initializing game...");
         if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer]){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
@@ -249,7 +161,6 @@ public class GameManager : MonoBehaviour
             PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
-        InitUI();
         RandomGenerateKey();
         SwitchMap();
         StartCoroutine(CountDown());
@@ -257,6 +168,8 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator CountDown(){
+        timer_min = timer_totalSec / 60;
+        timer_sec = timer_totalSec % 60;
         _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
         while(timer_totalSec > 0){
             yield return new WaitForSeconds(1);

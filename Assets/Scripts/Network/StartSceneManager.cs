@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class StartSceneManager : MonoBehaviourPunCallbacks
 {
     public void OnClickStart(){
-        print("[ ClickStart ]");
+        print("[ClickStart]");
         // PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
