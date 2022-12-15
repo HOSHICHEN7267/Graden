@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 780.8
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 52
+  controlID: 179
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,8 +166,8 @@ MonoBehaviour:
     y: 0
     width: 247.20001
     height: 730.8
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -218,8 +218,8 @@ MonoBehaviour:
     y: 0
     width: 346.40002
     height: 730.8
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -244,8 +244,8 @@ MonoBehaviour:
     y: 0
     width: 723.2
     height: 369.6
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 17}
@@ -271,8 +271,8 @@ MonoBehaviour:
     y: 369.6
     width: 723.2
     height: 361.19998
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -337,9 +337,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 1afcf7ff5cfcf7ff94c2f8ffa0c2f8ffaac2f8ffb2c2f8ffa0c5f8ffe2c5f8ff1a8cf9ff268cf9ff308cf9ff388cf9fff090f9ffc09af9ff029bf9ff1861faff2461faff3261faff3e61fafffa64faff3c65faff522bfbff5e2bfbff6c2bfbff782bfbff802efbffc22efbffd8f4fbffe4f4fbfff2f4fbfffef4fbff26f8fbff68f8fbff7ebefcff8abefcff98befcffa4befcffe6c1fcff28c2fcff3e88fdff4a88fdff5888fdff6488fdffdc8bfdff1e8cfdff3852feff4852feff5a52feff6a52feff5258feff9458feffae1effffbe1effffd01effffe01effff862fffff922fffffeafafffff46700005a6a0000f2b01500
+      m_SelectedIDs: 7470f7ff
+      m_LastClickedID: -561036
+      m_ExpandedIDs: cc70f7ffd870f7fff418f8ff4c19f8ff541bf8ff961bf8ffbce0f8ffc6e0f8ffd0e0f8ffd6e0f8ff20e2f8ff62e2f8ff32aaf9ff3eaaf9ff4caaf9ff56aaf9ff3aacf9ff7cacf9ff4c74faff5874faff6674faff7074faff5476faff9676faff663efbff723efbff803efbff8a3efbff3a40fbff7c40fbff4c08fcff5808fcff6608fcff7008fcffe20afcff240bfcfff4d2fcff00d3fcff0ed3fcff18d3fcff6ad5fcffacd5fcff7c9dfdff889dfdff969dfdffa09dfdff16a0fdff58a0fdff2868feff3468feff4268feff4c68feff666afeffa86afeff7832ffff8432ffff9232ffff9c32fffff6f8ffff446f0700
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -445,22 +445,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/Network
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes/Network
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\nccu\11113DGame\Graden
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 18.200012}
-    m_SelectedIDs: 789a0000
-    m_LastClickedID: 39544
-    m_ExpandedIDs: 000000004c980000f0990000f2990000f8990000fe99000000c8140000ca9a3bffffff7f
+    m_SelectedIDs: 669a0000
+    m_LastClickedID: 39526
+    m_ExpandedIDs: 00000000609a0000629a0000649a0000669a0000689a00006a9a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -488,7 +488,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000004c980000
+    m_ExpandedIDs: 00000000609a0000629a0000649a0000669a0000689a00006a9a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

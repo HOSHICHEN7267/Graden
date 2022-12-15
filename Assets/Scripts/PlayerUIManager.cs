@@ -38,6 +38,7 @@ public class PlayerUIManager : MonoBehaviour
     void Start()
     {
         _gm = GameObject.FindObjectOfType<GameManager>();
+        InitUI();
     }
 
     void Update()
