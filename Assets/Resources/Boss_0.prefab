@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 303606916928914943}
-  moveSpeed: 2.5
+  moveSpeed: 5
   groundDrag: 6
   orientation: {fileID: 5660070079292938634}
   gcTime: 2
