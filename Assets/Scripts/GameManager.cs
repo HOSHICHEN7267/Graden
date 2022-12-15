@@ -242,11 +242,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         print("Initializing game...");
         if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer]){
-            PhotonNetwork.Instantiate("Boss", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         else{
-            PhotonNetwork.Instantiate("Clone", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         InitUI();
