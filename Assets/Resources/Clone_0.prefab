@@ -107,8 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 7810939372055313116}
-  GameManager: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 4
   groundDrag: 6
   orientation: {fileID: 2800179759958255273}
   gcTime: 2

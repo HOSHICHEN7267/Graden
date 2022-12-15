@@ -46,7 +46,7 @@ public class BossMovement : MonoBehaviour
         _pv = this.gameObject.GetComponent<PhotonView>();
         _gm = GameObject.FindObjectOfType<GameManager>();
         _puim = GameObject.FindObjectOfType<PlayerUIManager>();
-        _puim.HideKeyStatus();
+        // _puim.HideKeyStatus();
     }
 
     // Update is called once per frame
@@ -78,7 +78,7 @@ public class BossMovement : MonoBehaviour
             rb.AddForce(-1.0f * Physics.gravity * GetComponent<Rigidbody>().mass); // Add a force per frame to simulate the upside-down gravity
         }
 
-        if (Input.GetKeyDown("space") && isGravityChange == false)
+        if (_pv.IsMine && Input.GetKeyDown("space") && isGravityChange == false)
         {
             GravityChange();
         }
