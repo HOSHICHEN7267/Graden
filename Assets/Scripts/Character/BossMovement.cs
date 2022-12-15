@@ -46,7 +46,9 @@ public class BossMovement : MonoBehaviour
         _pv = this.gameObject.GetComponent<PhotonView>();
         _gm = GameObject.FindObjectOfType<GameManager>();
         _puim = GameObject.FindObjectOfType<PlayerUIManager>();
-        // _puim.HideKeyStatus();
+        if(_pv.IsMine){
+            _puim.HideKeyStatus();
+        }
     }
 
     // Update is called once per frame
