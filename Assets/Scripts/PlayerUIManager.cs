@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class PlayerUIManager : MonoBehaviour
 {
     GameManager _gm;
+
     // player info
     public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
     public List<GameObject> _deadPlayerUI; // the order is same as myPlayerList
@@ -19,6 +20,7 @@ public class PlayerUIManager : MonoBehaviour
     const int maxKey = 5;
     public List<GameObject> _keyUI; // 0:   no key
                                     // 1:   has key
+                                    // 2:   boss key
     public Text _totalKeyText;
     int totalKey;
 
@@ -50,12 +52,14 @@ public class PlayerUIManager : MonoBehaviour
         ++totalKey;
         _keyUI[0].SetActive(true);
         _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(false);
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
     }
 
     public void GetKey(){  // get key
         _keyUI[0].SetActive(false);
         _keyUI[1].SetActive(true);
+        _keyUI[2].SetActive(false);
     }
 
     public void PlayerDie(Player deadPlayer){
@@ -79,8 +83,14 @@ public class PlayerUIManager : MonoBehaviour
         _debuffPanel.SetActive(false);
     }
 
-    public void HideKeyStatus()
+    public void ChangeToBossKey()
     {
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(true);
+    }
+
+    public void HideKeyStatus(){
         _keyStatus.SetActive(false);
     }
 
@@ -90,8 +100,11 @@ public class PlayerUIManager : MonoBehaviour
             _alivePlayerUI[i].SetActive(true);
             _deadPlayerUI[i].SetActive(false);
         }
-        _keyUI[0].SetActive(true);
-        _keyUI[1].SetActive(false);
+        if(_pv.IsMine){
+            _keyUI[0].SetActive(true);
+            _keyUI[1].SetActive(false);
+            _keyUI[2].SetActive(false);
+        }
         totalKey = 0;
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         _debuffPanel.SetActive(false);
