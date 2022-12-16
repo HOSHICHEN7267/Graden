@@ -21,7 +21,7 @@ public class BossMovement : MonoBehaviour
     [Header("Time")]
     public float gcTime = 2f;
     public float killTime = 3f;
-    public float slowTime = 20f;
+    public float slowTime = 5f;
     float GCtime = 0f;
     float Ktime = 0f;
     float Stime = 0f;

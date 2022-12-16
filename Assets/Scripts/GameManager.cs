@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     // player info
     int bossPlayer = -1;
+    public GameObject[] _identityUI;    // 0:   boss
+                                        // 1:   clone
 
     // timer
     public Text _timerText;
@@ -149,7 +151,7 @@ public class GameManager : MonoBehaviour
         bossPlayer = num;
         print("Initializing game...");
         while(bossPlayer == -1){}
-        if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer]){
+        if(isBoss()){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
@@ -160,7 +162,41 @@ public class GameManager : MonoBehaviour
         RandomGenerateKey();
         // SwitchMap();
         StartCoroutine(CountDown());
+        StartCoroutine(ShowIdentity());
         print("Game initialized.");
+    }
+
+    IEnumerator ShowIdentity(){
+        if(isBoss()){
+            _identityUI[0].SetActive(true);
+            _identityUI[1].SetActive(false);
+            yield return new WaitForSeconds(2);
+            StartCoroutine(FadeOutIdentity(0));
+        }
+        else{
+            _identityUI[0].SetActive(false);
+            _identityUI[1].SetActive(true);
+            yield return new WaitForSeconds(2);
+            StartCoroutine(FadeOutIdentity(1));
+        }
+    }
+
+    IEnumerator FadeOutIdentity(int index){
+        float x = _identityUI[index].transform.localScale.x;
+        float y = _identityUI[index].transform.localScale.y;
+        float z = _identityUI[index].transform.localScale.z;
+        float rate = 0.9f;
+        while(y > 0.01f){
+            y *= rate;
+            rate *= rate;
+            _identityUI[index].transform.localScale = new Vector3(x, y, z);
+            yield return new WaitForSeconds(0.01f);
+        }
+        _identityUI[index].SetActive(false);
+    }
+
+    bool isBoss(){
+        return PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer];
     }
 
     IEnumerator CountDown(){
