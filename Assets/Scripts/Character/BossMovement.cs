@@ -125,39 +125,40 @@ public class BossMovement : MonoBehaviour
         // miniMap
         float playerPositionX = this.transform.position.x;
         float playerPositionZ = this.transform.position.z;
-
-        if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
-            _puim.EnterCenterLab();
-            inCenter = true;
-        }
-        else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
-            _puim.EnterLab1();
-            inCenter = false;
-        }
-        else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72)
-        {
-            _puim.EnterLab2();
-            inCenter = false;
-        }
-        else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72)
-        {
-            _puim.EnterLab3();
-            inCenter = false;
-        }
-        else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20)
-        {
-            _puim.EnterLab4();
-            inCenter = false;
-        }
-        else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51)
-        {
-            _puim.EnterLab5();
-            inCenter = false;
-        }
-        else
-        {
-            _puim.InCorridor();
-            inCenter = false;
+        if(_pv.IsMine){
+            if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
+                _puim.EnterCenterLab();
+                inCenter = true;
+            }
+            else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
+                _puim.EnterLab1();
+                inCenter = false;
+            }
+            else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72)
+            {
+                _puim.EnterLab2();
+                inCenter = false;
+            }
+            else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72)
+            {
+                _puim.EnterLab3();
+                inCenter = false;
+            }
+            else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20)
+            {
+                _puim.EnterLab4();
+                inCenter = false;
+            }
+            else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51)
+            {
+                _puim.EnterLab5();
+                inCenter = false;
+            }
+            else
+            {
+                _puim.InCorridor();
+                inCenter = false;
+            }
         }
 
         // slow
