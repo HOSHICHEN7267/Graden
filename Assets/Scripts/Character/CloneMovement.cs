@@ -199,7 +199,7 @@ public class CloneMovement : MonoBehaviour
             hasKey = true;
             _puim.GetKey();
         }
-        if (other.gameObject.tag == "Gravity" && !isGravityChange)
+        if (_pv.IsMine && other.gameObject.tag == "Gravity" && !isGravityChange)
         {
             GravityChange();
             Debug.Log("GravityChanged");
