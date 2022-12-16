@@ -7,6 +7,7 @@ public class CloneMovement : MonoBehaviour
 {
     GameManager _gm;
     PlayerUIManager _puim;
+    PhotonView _pv;
     public Animator Anime;
 
     [Header("Movement")]
@@ -44,7 +45,6 @@ public class CloneMovement : MonoBehaviour
 
     float Xrotate = 0f;
 
-    PhotonView _pv;
 
     // Start is called before the first frame update
     void Start()
@@ -118,7 +118,7 @@ public class CloneMovement : MonoBehaviour
         else if (isPutting)
         {
             Ptime += Time.deltaTime;
-            if (Ptime > putTime)
+            if (_pv.IsMine && Ptime > putTime)
             {
                 _puim.GiveKey();
                 isPutting = false;
@@ -193,7 +193,7 @@ public class CloneMovement : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // Start here 12/9 1224
-        if (other.gameObject.tag == "Key" && !hasKey)
+        if (_pv.IsMine && other.gameObject.tag == "Key" && !hasKey)
         {
             Destroy(other.gameObject);
             hasKey = true;

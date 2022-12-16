@@ -42,6 +42,7 @@ MonoBehaviour:
   - RPC_SyncBoss
   - RPC_SyncStart
   - RPC_Init
+  - RPC_SyncKey
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class PlayerUIManager : MonoBehaviour
 {
     GameManager _gm;
+    PhotonView _pv;
 
     // player info
     public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
@@ -34,9 +35,6 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject _debuffPanel;
     public GameObject _deadPanel;
 
-    // pv
-    PhotonView _pv;
-
     // mini map
     public List<GameObject> _miniMap; // 0:   center lab
                                       // 1:   lab1
@@ -47,6 +45,7 @@ public class PlayerUIManager : MonoBehaviour
     void Start()
     {
         _gm = GameObject.FindObjectOfType<GameManager>();
+        _pv = this.gameObject.GetComponent<PhotonView>();
         InitUI();
     }
 
@@ -57,9 +56,15 @@ public class PlayerUIManager : MonoBehaviour
 
     public void GiveKey(){  // give key into center
         ++totalKey;
+        _pv.RPC("RPC_SyncKey", RpcTarget.All, totalKey);
         _keyUI[0].SetActive(true);
         _keyUI[1].SetActive(false);
         _keyUI[2].SetActive(false);
+    }
+
+    [PunRPC]
+    void RPC_SyncKey(int num){
+        totalKey = num;
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
     }
 

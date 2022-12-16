@@ -7,6 +7,7 @@ public class BossMovement : MonoBehaviour
 {
     GameManager _gm;
     PlayerUIManager _puim;
+    PhotonView _pv;
     public Animator Anime;
 
     [Header("Movement")]
@@ -40,18 +41,17 @@ public class BossMovement : MonoBehaviour
 
     float Xrotate = 0f;
     
-    PhotonView _pv;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        _pv = this.gameObject.GetComponent<PhotonView>();
         _gm = GameObject.FindObjectOfType<GameManager>();
         _puim = GameObject.FindObjectOfType<PlayerUIManager>();
+        _pv = this.gameObject.GetComponent<PhotonView>();
         if(_pv.IsMine){
-            _puim.HideKeyStatus();
+            _puim.ChangeToBossKey();
         }
     }
 
@@ -166,7 +166,7 @@ public class BossMovement : MonoBehaviour
             {
                 Stime += Time.deltaTime;
             }
-            else if (!isSlow)
+            else if (_pv.IsMine && !isSlow)
             {
                 isSlow = true;
                 moveSpeed = moveSpeed / 2;
