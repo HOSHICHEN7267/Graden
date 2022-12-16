@@ -8,6 +8,7 @@ public class BossMovement : MonoBehaviour
     GameManager _gm;
     PlayerUIManager _puim;
     PhotonView _pv;
+    
     public Animator Anime;
 
     [Header("Movement")]

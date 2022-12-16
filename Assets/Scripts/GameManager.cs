@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    PhotonView _pv;
+
     // player info
     int bossPlayer = -1;
 
@@ -30,9 +32,6 @@ public class GameManager : MonoBehaviour
     // Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
 
     // GameObject playerPosition = null;
-
-    // pv
-    PhotonView _pv;
 
     void Start()
     {
@@ -181,5 +180,24 @@ public class GameManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         Time.timeScale = 0;
+    }
+
+    public void BossWin(){
+        print("Boss win.");
+        EndGame();
+    }
+
+    public void CloneWin(){
+        print("Clone win.");
+        EndGame();
+    }
+
+    public void Tie(){
+        print("Tie.");
+        EndGame();
+    }
+
+    void EndGame(){
+        print("Ending game...");
     }
 }

@@ -66,6 +66,9 @@ public class PlayerUIManager : MonoBehaviour
     void RPC_SyncKey(int num){
         totalKey = num;
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        if(totalKey == maxKey){
+            _gm.CloneWin();
+        }
     }
 
     public void GetKey(){  // get key
@@ -80,6 +83,17 @@ public class PlayerUIManager : MonoBehaviour
         _deadPlayerUI[deadIndex].SetActive(true);
         _debuffPanel.SetActive(false);
         _deadPanel.SetActive(true);
+        if(isAllDead()){
+            _gm.BossWin();
+        }
+    }
+
+    bool isAllDead(){
+        bool flag = false;
+        foreach(GameObject p in _deadPlayerUI){
+            flag |= p.activeSelf;
+        }
+        return !flag;
     }
 
     public void GravityChange(){
