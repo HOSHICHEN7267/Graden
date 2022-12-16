@@ -51,9 +51,9 @@ public class CloneMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        _pv = this.gameObject.GetComponent<PhotonView>();
         _gm = GameObject.FindObjectOfType<GameManager>();
         _puim = GameObject.FindObjectOfType<PlayerUIManager>();
+        _pv = this.gameObject.GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
