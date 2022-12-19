@@ -107,6 +107,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3791604401282191219, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3791604401282191221, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -183,6 +187,7 @@ MonoBehaviour:
   orientation: {fileID: 5660070079292938634}
   gcTime: 2
   killTime: 1
+  slowTime: 20
   useGravity: 1
 --- !u!114 &4286116157634689751
 MonoBehaviour:

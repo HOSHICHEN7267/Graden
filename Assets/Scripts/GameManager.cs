@@ -6,14 +6,76 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     PhotonView _pv;
 
     // player info
-    int bossPlayer = -1;
     public GameObject[] _identityUI;    // 0:   boss
                                         // 1:   clone
+    public GameObject _alivePlayerUI; // the order is same as myPlayerList
+    public GameObject _deadPlayerUI; // the order is same as myPlayerList
+    int maxPlayer = 4;
+    int bossPlayer = -1;
+    List<Player> myPlayerList = new List<Player>();     // 0:       me
+                                                        // 1 - 4:   other players
+
+    // key info
+    const int maxKey = 4;
+    public List<GameObject> _keyUI; // 0:   no key
+                                    // 1:   has key
+                                    // 2:   boss key
+    public Text _totalKeyText;
+    int totalKey;
+
+    // gravity info
+    public List<GameObject> _gravityUI; // 0:   not change
+                                        // 1:   changed
+    
+    // panels
+    public GameObject _debuffPanel;
+    public GameObject _deadPanel;
+
+    // mini map
+    public GameObject _miniMap; // 0:   center lab
+                                      // 1:   lab1
+                                      // 2:   lab2
+                                      // .... 
+                                      // 5:   lab5
+    int[][] MINIMAP_POSI_X = {new int[] {-16, 16},
+                                    new int[] {-92, -48},
+                                    new int[] {-88, -28},
+                                    new int[] {28, 88},
+                                    new int[] {48, 92},
+                                    new int[] {-20, 20},
+                                    new int[] {-28, 28},
+                                    new int[] {-77, -63},
+                                    new int[] {63, 77},
+                                    new int[] {-15, 15},
+                                    new int[] {-15, 15},
+                                    new int[] {-48, -15},
+                                    new int[] {15, 48},
+                                    new int[] {-93, -20},
+                                    new int[] {-93, -71},
+                                    new int[] {20, 91},
+                                    new int[] {80, 91}};
+    int[][] MINIMAP_POSI_Y = {new int[] {-16, 16},
+                                    new int[] {-20, 20},
+                                    new int[] {48, 72},
+                                    new int[] {48, 72},
+                                    new int[] {-20, 20},
+                                    new int[] {-48, -92},
+                                    new int[] {48, 70},
+                                    new int[] {20, 48},
+                                    new int[] {20, 48},
+                                    new int[] {14, 48},
+                                    new int[] {-48, 14},
+                                    new int[] {-48, 48},
+                                    new int[] {-48, 48},
+                                    new int[] {-77, -65},
+                                    new int[] {-65, -20},
+                                    new int[] {-66, -57},
+                                    new int[] {-57, -20}};
 
     // timer
     public Text _timerText;
@@ -33,15 +95,9 @@ public class GameManager : MonoBehaviour
     //用作取得玩家數量的，決定鑰匙生成與否
     public int MaxGamePlayer;
 
-    // // mini map
-    // GameObject center;
-    // Sprite miniMap,miniMap_center,miniMap_Lab1,miniMap_Lab2,miniMap_Lab3,miniMap_Lab4,miniMap_Lab5;
-
-    // GameObject playerPosition = null;
-
     void Start()
     {
-        _pv = GetComponent<PhotonView>();
+        _pv = this.gameObject.GetComponent<PhotonView>();
         print("LocalPlayer: " + PhotonNetwork.LocalPlayer);
         if(PhotonNetwork.IsConnected == false){
             SceneManager.LoadScene("StartScene");
@@ -54,53 +110,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // SwitchMap();
-    }
-
-    // public void SwitchMap(){
-    //     center = GameObject.Find("Canvas/AspectRatioFitter/MiniMaps/miniMap");
-    //     miniMap = Resources.Load<Sprite>("Sprite/miniMap");
-    //     miniMap_center = Resources.Load<Sprite>("Sprite/miniMap_center");
-    //     miniMap_Lab1 = Resources.Load<Sprite>("Sprite/miniMap_Lab1");
-    //     miniMap_Lab2 = Resources.Load<Sprite>("Sprite/miniMap_Lab2");
-    //     miniMap_Lab3 = Resources.Load<Sprite>("Sprite/miniMap_Lab3");
-    //     miniMap_Lab4 = Resources.Load<Sprite>("Sprite/miniMap_Lab4");
-    //     miniMap_Lab5 = Resources.Load<Sprite>("Sprite/miniMap_Lab5");
-    //     playerPosition = GameObject.FindGameObjectWithTag("Player");
-    //     float playerPositionX = playerPosition.transform.position.x;
-    //     float playerPositionZ = playerPosition.transform.position.z;
-
-    //     if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
-    //         center.GetComponent<Image>().sprite = miniMap_center;
-    //     }
-    //     else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
-    //         center.GetComponent<Image>().sprite = miniMap_Lab1;
-    //     }
-    //     else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72){
-    //         center.GetComponent<Image>().sprite = miniMap_Lab2;
-    //     }
-    //     else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72){
-    //         center.GetComponent<Image>().sprite = miniMap_Lab3;
-    //     }
-    //     else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20){
-    //         center.GetComponent<Image>().sprite = miniMap_Lab4;
-    //     }
-    //     else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51){
-    //         center.GetComponent<Image>().sprite = miniMap_Lab5;
-    //     }
-    //     else{
-    //         center.GetComponent<Image>().sprite = miniMap;
-    //     }
-        
-    // }
-
     public List<int> generateRandom (int Length)
         {
             int Rand;
             List<int> list = new List<int>();
-            list = new List<int>(new int[Length]);
+            list = new List<int>();
+            for(int i = 0; i < Length; ++i){
+                list.Add(-1);
+            }
     
             for (int j = 0; j < Length; j++)
             {
@@ -247,26 +264,29 @@ public class GameManager : MonoBehaviour
 
     [PunRPC]
     void RPC_Init(int num){
-        bossPlayer = num;
         print("Initializing game...");
+        bossPlayer = num;
         while(bossPlayer == -1){}
-        if(isBoss()){
+        if(isBoss(PhotonNetwork.LocalPlayer)){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            RandomGenerateKey();
         }
         else{
             PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
-        RandomGenerateKey();
-        // SwitchMap();
+        PhotonNetwork.LocalPlayer.NickName = "Test";
+        print("before init UI");
+        InitUI();
+        print("init UI done");
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
         print("Game initialized.");
     }
 
     IEnumerator ShowIdentity(){
-        if(isBoss()){
+        if(isBoss(PhotonNetwork.LocalPlayer)){
             _identityUI[0].SetActive(true);
             _identityUI[1].SetActive(false);
             yield return new WaitForSeconds(2);
@@ -294,8 +314,8 @@ public class GameManager : MonoBehaviour
         _identityUI[index].SetActive(false);
     }
 
-    bool isBoss(){
-        return PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[bossPlayer];
+    public bool isBoss(Player player){
+        return player == PhotonNetwork.PlayerList[bossPlayer];
     }
 
     IEnumerator CountDown(){
@@ -334,5 +354,133 @@ public class GameManager : MonoBehaviour
 
     void EndGame(){
         print("Ending game...");
+    }
+
+    public void GiveKey(){  // give key into center
+        ++totalKey;
+        _pv.RPC("RPC_SyncKey", RpcTarget.All, totalKey);
+        _keyUI[0].SetActive(true);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(false);
+    }
+
+    [PunRPC]
+    void RPC_SyncKey(int num){
+        totalKey = num;
+        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        if(totalKey == maxKey){
+            CloneWin();
+        }
+    }
+
+    public void GetKey(){  // get key
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(true);
+        _keyUI[2].SetActive(false);
+    }
+
+    public void PlayerDie(Player deadPlayer){
+        if(deadPlayer == PhotonNetwork.LocalPlayer){
+            _deadPanel.SetActive(true);
+        }
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
+    }
+
+    [PunRPC]
+    void RPC_SyncPlayer(Player deadPlayer){
+        int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
+        _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
+        _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
+        _debuffPanel.SetActive(false);
+        if(isAllDead()){
+            BossWin();
+        }
+        else if(isBoss(deadPlayer)){
+            CloneWin();
+        }
+    }
+
+    bool isAllDead(){
+        bool flag = false;
+        for(int p = 0; p < 15; ++p){
+            flag |= _deadPlayerUI.transform.GetChild(p).gameObject.activeSelf;
+        }
+        return !flag;
+    }
+
+    public void GravityChange(){
+        _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
+        _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
+    }
+
+    public void EnterDebuffArea(){
+        _debuffPanel.SetActive(true);
+    }
+
+    public void LeaveDebuffArea(){
+        _debuffPanel.SetActive(false);
+    }
+
+    // miniMap
+    public void InRoom(float x, float y){
+        for(int i = 0; i < 15; ++i){
+            if(MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1] && MINIMAP_POSI_Y[i][0] < y && y < MINIMAP_POSI_Y[i][1]){
+                _miniMap.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else{
+                _miniMap.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    public void SlowSpeed()
+    {
+        _debuffPanel.SetActive(true);
+    }
+
+    public void NormalSpeed()
+    {
+        _debuffPanel.SetActive(false);
+    }
+
+    void InitUI(){
+        print("start init ui");
+        InitMyPlayerList();
+        print("player list init done");
+        for(int i = 0; i < maxPlayer; ++i){
+            _alivePlayerUI.transform.GetChild(i).gameObject.SetActive(true);
+            _deadPlayerUI.transform.GetChild(i).gameObject.SetActive(false);
+            _alivePlayerUI.transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
+            _alivePlayerUI.transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
+        }
+        print("player ui done");
+        if(_pv.IsMine){
+            _keyUI[0].SetActive(true);
+            _keyUI[1].SetActive(false);
+            _keyUI[2].SetActive(false);
+        }
+        totalKey = 0;
+        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(false);
+    }
+
+    void InitMyPlayerList(){
+        print("start init player list");
+        myPlayerList.Add(PhotonNetwork.LocalPlayer);
+        for(int i = 1; i < maxPlayer; ++i){
+            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+        }
+    }
+
+    public void ChangeToBossKey()
+    {
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(true);
+    }
+    
+    public override void OnPlayerLeftRoom (Player otherPlayer){
+        PlayerDie(otherPlayer);
     }
 }

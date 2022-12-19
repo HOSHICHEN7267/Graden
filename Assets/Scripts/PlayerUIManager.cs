@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerUIManager : MonoBehaviour
+public class PlayerUIManager : MonoBehaviourPunCallbacks
 {
     GameManager _gm;
     PhotonView _pv;
@@ -13,12 +13,12 @@ public class PlayerUIManager : MonoBehaviour
     // player info
     public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
     public List<GameObject> _deadPlayerUI; // the order is same as myPlayerList
-    public int maxPlayer = 5;
-    List<Player> myPlayerList;  // 0:       me
-                                // 1 - 4:   other players
+    int maxPlayer = 4;
+    List<Player> myPlayerList = new List<Player>();     // 0:       me
+                                                        // 1 - 4:   other players
 
     // key info
-    const int maxKey = 5;
+    const int maxKey = 4;
     public List<GameObject> _keyUI; // 0:   no key
                                     // 1:   has key
                                     // 2:   boss key
@@ -40,7 +40,7 @@ public class PlayerUIManager : MonoBehaviour
                                       // 1:   lab1
                                       // 2:   lab2
                                       // .... 
-                                      // 5:   lab5  
+                                      // 5:   lab5
 
     void Start()
     {
@@ -78,13 +78,23 @@ public class PlayerUIManager : MonoBehaviour
     }
 
     public void PlayerDie(Player deadPlayer){
+        if(deadPlayer == PhotonNetwork.LocalPlayer){
+            _deadPanel.SetActive(true);
+        }
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
+    }
+
+    [PunRPC]
+    void RPC_SyncPlayer(Player deadPlayer){
         int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
         _alivePlayerUI[deadIndex].SetActive(false);
         _deadPlayerUI[deadIndex].SetActive(true);
         _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(true);
         if(isAllDead()){
             _gm.BossWin();
+        }
+        else if(_gm.isBoss(deadPlayer)){
+            _gm.CloneWin();
         }
     }
 
@@ -107,17 +117,6 @@ public class PlayerUIManager : MonoBehaviour
 
     public void LeaveDebuffArea(){
         _debuffPanel.SetActive(false);
-    }
-
-    public void ChangeToBossKey()
-    {
-        _keyUI[0].SetActive(false);
-        _keyUI[1].SetActive(false);
-        _keyUI[2].SetActive(true);
-    }
-
-    public void HideKeyStatus(){
-        _keyStatus.SetActive(false);
     }
 
     // miniMap
@@ -216,9 +215,10 @@ public class PlayerUIManager : MonoBehaviour
 
     void InitUI(){
         InitMyPlayerList();
-        for(int i=0; i < maxPlayer; ++i){
+        for(int i = 0; i < maxPlayer; ++i){
             _alivePlayerUI[i].SetActive(true);
             _deadPlayerUI[i].SetActive(false);
+            _alivePlayerUI[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
         }
         if(_pv.IsMine){
             _keyUI[0].SetActive(true);
@@ -232,9 +232,20 @@ public class PlayerUIManager : MonoBehaviour
     }
 
     void InitMyPlayerList(){
-        // myPlayerList[0] = PhotonNetwork.LocalPlayer;
-        // for(int i=1; i < maxPlayer; ++i){
-        //     myPlayerList[i] = PhotonNetwork.PlayerListOthers[i-1];
-        // }
+        myPlayerList.Add(PhotonNetwork.LocalPlayer);
+        for(int i = 1; i < maxPlayer; ++i){
+            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+        }
+    }
+
+    public void ChangeToBossKey()
+    {
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(true);
+    }
+    
+    public override void OnPlayerLeftRoom (Player otherPlayer){
+        PlayerDie(otherPlayer);
     }
 }
