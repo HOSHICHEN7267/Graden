@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                                         // 1:   clone
     public GameObject _alivePlayerUI; // the order is same as myPlayerList
     public GameObject _deadPlayerUI; // the order is same as myPlayerList
-    int maxPlayer = 4;
-    int bossPlayer = -1;
+    public int maxPlayer = 4;
+    Player bossPlayer = null;
     List<Player> myPlayerList = new List<Player>();     // 0:       me
                                                         // 1 - 4:   other players
 
@@ -42,40 +42,40 @@ public class GameManager : MonoBehaviourPunCallbacks
                                       // 2:   lab2
                                       // .... 
                                       // 5:   lab5
-    int[][] MINIMAP_POSI_X = {new int[] {-16, 16},
-                                    new int[] {-92, -48},
-                                    new int[] {-88, -28},
-                                    new int[] {28, 88},
-                                    new int[] {48, 92},
-                                    new int[] {-20, 20},
-                                    new int[] {-28, 28},
-                                    new int[] {-77, -63},
-                                    new int[] {63, 77},
-                                    new int[] {-15, 15},
-                                    new int[] {-15, 15},
-                                    new int[] {-48, -15},
-                                    new int[] {15, 48},
-                                    new int[] {-93, -20},
-                                    new int[] {-93, -71},
-                                    new int[] {20, 91},
-                                    new int[] {80, 91}};
-    int[][] MINIMAP_POSI_Y = {new int[] {-16, 16},
-                                    new int[] {-20, 20},
-                                    new int[] {48, 72},
-                                    new int[] {48, 72},
-                                    new int[] {-20, 20},
-                                    new int[] {-48, -92},
-                                    new int[] {48, 70},
-                                    new int[] {20, 48},
-                                    new int[] {20, 48},
-                                    new int[] {14, 48},
-                                    new int[] {-48, 14},
-                                    new int[] {-48, 48},
-                                    new int[] {-48, 48},
-                                    new int[] {-77, -65},
-                                    new int[] {-65, -20},
-                                    new int[] {-66, -57},
-                                    new int[] {-57, -20}};
+    int[][] MINIMAP_POSI_X = {  new int[] {-16, 16},
+                                new int[] {-92, -48},
+                                new int[] {-88, -28},
+                                new int[] {28, 88},
+                                new int[] {48, 92},
+                                new int[] {-20, 20},
+                                new int[] {-28, 28},
+                                new int[] {-77, -63},
+                                new int[] {63, 77},
+                                new int[] {-28, 28},
+                                new int[] {-28, 28},
+                                new int[] {-48, -16},
+                                new int[] {16, 48},
+                                new int[] {-94, -74},
+                                new int[] {74, 94},
+                                new int[] {-94, -20},
+                                new int[] {20, 94}};
+    int[][] MINIMAP_POSI_Z = {  new int[] {-16, 16},
+                                new int[] {-20, 20},
+                                new int[] {48, 72},
+                                new int[] {48, 72},
+                                new int[] {-20, 20},
+                                new int[] {-48, -92},
+                                new int[] {36, 72},
+                                new int[] {20, 48},
+                                new int[] {20, 48},
+                                new int[] {14, 48},
+                                new int[] {-48, -14},
+                                new int[] {-48, 48},
+                                new int[] {-48, 48},
+                                new int[] {-78, -20},
+                                new int[] {-70, -20},
+                                new int[] {-66, -74},
+                                new int[] {-70, -54}};
 
     // timer
     public Text _timerText;
@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Lab1Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
-                SecondRandom[i] = i;
+                SecondRandom.Add(i);
             }
             SecondRandom.Remove(Ran_Lab1);
             int SecondRandomNum = Random.Range(0,4);
@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Lab2Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
-                SecondRandom[i] = i;
+                SecondRandom.Add(i);
             }
             SecondRandom.Remove(Ran_Lab2);
             int SecondRandomNum = Random.Range(0,4);
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Lab3Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
-                SecondRandom[i] = i;
+                SecondRandom.Add(i);
             }
             SecondRandom.Remove(Ran_Lab3);
             int SecondRandomNum = Random.Range(0,4);
@@ -227,7 +227,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Lab4Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
-                SecondRandom[i] = i;
+                SecondRandom.Add(i);
             }
             SecondRandom.Remove(Ran_Lab4);
             int SecondRandomNum = Random.Range(0,4);
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (Lab5Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
-                SecondRandom[i] = i;
+                SecondRandom.Add(i);
             }
             SecondRandom.Remove(Ran_Lab5);
             int SecondRandomNum = Random.Range(0,4);
@@ -257,16 +257,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     void PickBoss(){
-        bossPlayer = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        bossPlayer = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)];
         print("Boss is " + bossPlayer);
         _pv.RPC("RPC_Init", RpcTarget.All, bossPlayer);
     }
 
     [PunRPC]
-    void RPC_Init(int num){
+    void RPC_Init(Player _bossPlayer){
         print("Initializing game...");
-        bossPlayer = num;
-        while(bossPlayer == -1){}
+        bossPlayer = _bossPlayer;
         if(isBoss(PhotonNetwork.LocalPlayer)){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
@@ -277,12 +276,57 @@ public class GameManager : MonoBehaviourPunCallbacks
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
         PhotonNetwork.LocalPlayer.NickName = "Test";
-        print("before init UI");
         InitUI();
-        print("init UI done");
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
         print("Game initialized.");
+    }
+
+    void InitUI(){
+        InitMyPlayerList();
+        for(int i = 0; i < maxPlayer; ++i){
+            _alivePlayerUI.transform.GetChild(i).gameObject.SetActive(true);
+            _alivePlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
+            _deadPlayerUI.transform.GetChild(i).gameObject.SetActive(false);
+            _deadPlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
+        }
+        if(_pv.IsMine){
+            _keyUI[0].SetActive(true);
+            _keyUI[1].SetActive(false);
+            _keyUI[2].SetActive(false);
+        }
+        totalKey = 0;
+        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        _debuffPanel.SetActive(false);
+        _deadPanel.SetActive(false);
+    }
+
+    void InitMyPlayerList(){
+        myPlayerList.Add(PhotonNetwork.LocalPlayer);
+        print("myPlayerList[0] = " + myPlayerList[0]);
+        for(int i = 1; i < maxPlayer; ++i){
+            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+            print("myPlayerList[" + i + "] = " + myPlayerList[i]);
+        }
+    }
+
+    IEnumerator CountDown(){
+        timer_min = timer_totalSec / 60;
+        timer_sec = timer_totalSec % 60;
+        _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+        while(timer_totalSec > 0){
+            yield return new WaitForSeconds(1);
+            --timer_totalSec;
+            --timer_sec;
+
+            if(timer_sec < 0 && timer_min > 0){
+                --timer_min;
+                timer_sec = 59;
+            }
+            _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+        }
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0;
     }
 
     IEnumerator ShowIdentity(){
@@ -315,26 +359,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public bool isBoss(Player player){
-        return player == PhotonNetwork.PlayerList[bossPlayer];
-    }
-
-    IEnumerator CountDown(){
-        timer_min = timer_totalSec / 60;
-        timer_sec = timer_totalSec % 60;
-        _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
-        while(timer_totalSec > 0){
-            yield return new WaitForSeconds(1);
-            --timer_totalSec;
-            --timer_sec;
-
-            if(timer_sec < 0 && timer_min > 0){
-                --timer_min;
-                timer_sec = 59;
-            }
-            _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
-        }
-        yield return new WaitForSeconds(1);
-        Time.timeScale = 0;
+        return player == bossPlayer;
     }
 
     public void BossWin(){
@@ -402,7 +427,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     bool isAllDead(){
         bool flag = false;
-        for(int p = 0; p < 15; ++p){
+        for(int p = 0; p < maxPlayer; ++p){
             flag |= _deadPlayerUI.transform.GetChild(p).gameObject.activeSelf;
         }
         return !flag;
@@ -422,13 +447,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // miniMap
-    public void InRoom(float x, float y){
-        for(int i = 0; i < 15; ++i){
-            if(MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1] && MINIMAP_POSI_Y[i][0] < y && y < MINIMAP_POSI_Y[i][1]){
+    public void InRoom(float x, float z){
+        for(int i = 1; i < 15; ++i){
+            if(i >= 13  && ((   MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
+                            &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1])
+                        ||   (  MINIMAP_POSI_X[i+2][0] < x && x < MINIMAP_POSI_X[i+2][1]
+                            &&  MINIMAP_POSI_Z[i+2][0] < z && z < MINIMAP_POSI_Z[i+2][1]))){
+                    _miniMap.transform.GetChild(i).gameObject.SetActive(true);
+                }
+            else if(    MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
+                    &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1]){
                 _miniMap.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else{
-                _miniMap.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }
@@ -441,36 +470,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void NormalSpeed()
     {
         _debuffPanel.SetActive(false);
-    }
-
-    void InitUI(){
-        print("start init ui");
-        InitMyPlayerList();
-        print("player list init done");
-        for(int i = 0; i < maxPlayer; ++i){
-            _alivePlayerUI.transform.GetChild(i).gameObject.SetActive(true);
-            _deadPlayerUI.transform.GetChild(i).gameObject.SetActive(false);
-            _alivePlayerUI.transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
-            _alivePlayerUI.transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
-        }
-        print("player ui done");
-        if(_pv.IsMine){
-            _keyUI[0].SetActive(true);
-            _keyUI[1].SetActive(false);
-            _keyUI[2].SetActive(false);
-        }
-        totalKey = 0;
-        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
-        _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(false);
-    }
-
-    void InitMyPlayerList(){
-        print("start init player list");
-        myPlayerList.Add(PhotonNetwork.LocalPlayer);
-        for(int i = 1; i < maxPlayer; ++i){
-            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
-        }
     }
 
     public void ChangeToBossKey()
