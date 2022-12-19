@@ -124,7 +124,7 @@ public class PlayerUIManager : MonoBehaviour
     public void InCorridor()
     {
         int i;
-        for (i = 0; i < 6; i++)
+        for (i = 0; i < 15; i++)
         {
             _miniMap[i].SetActive(false);
         }
@@ -158,6 +158,51 @@ public class PlayerUIManager : MonoBehaviour
 
         _miniMap[5].SetActive(true);
     }
+    public void EnterTop()
+    {
+        _miniMap[6].SetActive(true);
+    }
+
+    public void EnterLeft()
+    {
+        _miniMap[7].SetActive(true);
+    }
+
+    public void EnterRight()
+    {
+        _miniMap[8].SetActive(true);
+    }
+
+    public void EnterCenterTop()
+    {
+        _miniMap[9].SetActive(true);
+    }
+
+    public void EnterCenterBottom()
+    {
+        _miniMap[10].SetActive(true);
+    }
+
+    public void EnterCenterLeft()
+    {
+        _miniMap[11].SetActive(true);
+    }
+
+    public void EnterCenterRight()
+    {
+        _miniMap[12].SetActive(true);
+    }
+
+    public void EnterBottomLeft()
+    {
+        _miniMap[13].SetActive(true);
+    }
+
+    public void EnterBottomRight()
+    {
+        _miniMap[14].SetActive(true);
+    }
+
     
     public void SlowSpeed()
     {
