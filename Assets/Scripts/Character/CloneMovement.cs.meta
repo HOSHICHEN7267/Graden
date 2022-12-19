@@ -3,7 +3,12 @@ guid: 8d66d650ad03c5543a1849716e1b5d6b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Anime: {instanceID: 0}
+  - fx_getKey: {fileID: 8300000, guid: f2253425716ae0a4c989e157e8c6b28f, type: 3}
+  - fx_putKey: {instanceID: 0}
+  - fx_gravityPlate: {instanceID: 0}
+  - orientation: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

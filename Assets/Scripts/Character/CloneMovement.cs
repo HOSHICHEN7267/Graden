@@ -9,6 +9,12 @@ public class CloneMovement : MonoBehaviourPunCallbacks
     PhotonView _pv;
     public Animator Anime;
 
+    private AudioSource audioSource;
+
+    public AudioClip fx_getKey;
+    public AudioClip fx_putKey;
+    public AudioClip fx_gravityPlate;
+
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
@@ -171,17 +177,19 @@ public class CloneMovement : MonoBehaviourPunCallbacks
         // Start here 12/9 1224
         if (_pv.IsMine && other.gameObject.tag == "Key" && !hasKey)
         {
+            audioSource.PlayOneShot(fx_getKey);
             Destroy(other.gameObject);
             hasKey = true;
             _gm.GetKey();
         }
         if (_pv.IsMine && other.gameObject.tag == "Gravity" && !isGravityChange)
         {
+            audioSource.PlayOneShot(fx_gravityPlate);
             GravityChange();
-            Debug.Log("GravityChanged");
         }
         if (other.gameObject.tag == "KeyCenter" && hasKey)
         {
+            audioSource.PlayOneShot(fx_putKey);
             isPutting = true;
             Debug.Log("give key");
             keyCount++;
