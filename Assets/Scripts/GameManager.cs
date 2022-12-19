@@ -100,7 +100,10 @@ public class GameManager : MonoBehaviour
         {
             int Rand;
             List<int> list = new List<int>();
-            list = new List<int>(new int[Length]);
+            list = new List<int>();
+            for(int i = 0; i < Length; ++i){
+                list.Add(-1);
+            }
     
             for (int j = 0; j < Length; j++)
             {
@@ -253,12 +256,12 @@ public class GameManager : MonoBehaviour
         if(isBoss()){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            RandomGenerateKey();
         }
         else{
             PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
-        RandomGenerateKey();
         // SwitchMap();
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());

@@ -13,12 +13,12 @@ public class PlayerUIManager : MonoBehaviour
     // player info
     public List<GameObject> _alivePlayerUI; // the order is same as myPlayerList
     public List<GameObject> _deadPlayerUI; // the order is same as myPlayerList
-    public int maxPlayer = 5;
-    List<Player> myPlayerList;  // 0:       me
-                                // 1 - 4:   other players
+    int maxPlayer = 4;
+    List<Player> myPlayerList = new List<Player>();     // 0:       me
+                                                        // 1 - 4:   other players
 
     // key info
-    const int maxKey = 5;
+    const int maxKey = 4;
     public List<GameObject> _keyUI; // 0:   no key
                                     // 1:   has key
                                     // 2:   boss key
@@ -46,7 +46,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         _gm = GameObject.FindObjectOfType<GameManager>();
         _pv = this.gameObject.GetComponent<PhotonView>();
-        InitUI();
+        StartCoroutine(InitUI());
     }
 
     void Update()
@@ -107,17 +107,6 @@ public class PlayerUIManager : MonoBehaviour
 
     public void LeaveDebuffArea(){
         _debuffPanel.SetActive(false);
-    }
-
-    public void ChangeToBossKey()
-    {
-        _keyUI[0].SetActive(false);
-        _keyUI[1].SetActive(false);
-        _keyUI[2].SetActive(true);
-    }
-
-    public void HideKeyStatus(){
-        _keyStatus.SetActive(false);
     }
 
     // miniMap
@@ -214,9 +203,12 @@ public class PlayerUIManager : MonoBehaviour
         _debuffPanel.SetActive(false);
     }
 
-    void InitUI(){
+    IEnumerator InitUI(){
+        yield return new WaitForSeconds(1);
         InitMyPlayerList();
-        for(int i=0; i < maxPlayer; ++i){
+        print("set player deactive");
+        for(int i = 0; i < maxPlayer; ++i){
+            print("set player deactive");
             _alivePlayerUI[i].SetActive(true);
             _deadPlayerUI[i].SetActive(false);
         }
@@ -228,13 +220,20 @@ public class PlayerUIManager : MonoBehaviour
         totalKey = 0;
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(false);
+        _deadPanel.SetActive(true);
     }
 
     void InitMyPlayerList(){
-        // myPlayerList[0] = PhotonNetwork.LocalPlayer;
-        // for(int i=1; i < maxPlayer; ++i){
-        //     myPlayerList[i] = PhotonNetwork.PlayerListOthers[i-1];
-        // }
+        myPlayerList.Add(PhotonNetwork.LocalPlayer);
+        for(int i = 1; i < maxPlayer; ++i){
+            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+        }
+    }
+
+    public void ChangeToBossKey()
+    {
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(true);
     }
 }

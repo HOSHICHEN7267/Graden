@@ -183,6 +183,7 @@ MonoBehaviour:
   orientation: {fileID: 5660070079292938634}
   gcTime: 2
   killTime: 1
+  slowTime: 20
   useGravity: 1
 --- !u!114 &4286116157634689751
 MonoBehaviour:
