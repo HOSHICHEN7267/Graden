@@ -148,11 +148,11 @@ public class CloneMovement : MonoBehaviour
             {
                 _puim.EnterLab2();
             }
-            else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72)
+            else if (playerPositionX < 88 && playerPositionX > 28 && playerPositionZ > 48 && playerPositionZ < 72)
             {
                 _puim.EnterLab3();
             }
-            else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20)
+            else if (playerPositionX < 92 && playerPositionX > 48 && playerPositionZ > -20 && playerPositionZ < 20)
             {
                 _puim.EnterLab4();
             }
@@ -160,10 +160,51 @@ public class CloneMovement : MonoBehaviour
             {
                 _puim.EnterLab5();
             }
-            else
-            {
-                _puim.InCorridor();
+            else if (playerPositionX < 28 && playerPositionX > -28 && playerPositionZ < 70 && playerPositionZ > 48){
+                // Top
+                _puim.EnterTop();
             }
+            else if (playerPositionX < -63 && playerPositionX > -77 && playerPositionZ < 48 && playerPositionZ > 20){
+                // Left
+                _puim.EnterLeft();
+            }
+            else if (playerPositionX <  77&& playerPositionX >  63&& playerPositionZ < 48 && playerPositionZ > 20){
+                // Right
+                _puim.EnterRight();
+            }
+            else if (playerPositionX < 15 && playerPositionX > -15 && playerPositionZ < 48 && playerPositionZ > 14){
+                // CenterTop
+                _puim.EnterCenterTop();
+            }
+            else if (playerPositionX < 15 && playerPositionX > -15 && playerPositionZ < 14 && playerPositionZ > -48){
+                // CenterBottom
+                _puim.EnterCenterBottom();
+            }
+            else if (playerPositionX < -15 && playerPositionX > -48 && playerPositionZ < 48 && playerPositionZ > -48){
+                // CenterLeft
+                _puim.EnterCenterLeft();
+            }
+            else if (playerPositionX < 48 && playerPositionX > 15 && playerPositionZ < 48 && playerPositionZ > -48){
+                // CenterRight
+                _puim.EnterCenterRight();
+            }
+            else if (playerPositionX < -20 && playerPositionX > -93 && playerPositionZ < -65 && playerPositionZ > -77){
+                // BottomLeft
+                _puim.EnterBottomLeft();
+            }
+            else if (playerPositionX < -71 && playerPositionX > -93&& playerPositionZ < -20 && playerPositionZ > -65){
+                // BottomLeft
+                _puim.EnterBottomLeft();
+            }
+            else if (playerPositionX < 91 && playerPositionX > 20 && playerPositionZ < -57 && playerPositionZ > -66){
+                // BottomRight
+                _puim.EnterBottomRight();
+            }
+            else if (playerPositionX < 91 && playerPositionX > 80 && playerPositionZ < -20 && playerPositionZ > -57){
+                // BottomRight
+                _puim.EnterBottomRight();
+            }
+            
         }
     }
 

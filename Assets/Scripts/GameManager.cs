@@ -26,8 +26,12 @@ public class GameManager : MonoBehaviour
     public GameObject _freeLookClone;
 
     // key generate
-    public GameObject key1,key2,key3,key4,key5;
+    public GameObject key1,key2,key3,key4,key5,key6,key7,key8,key9,key10;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
+    int Lab1Extra, Lab2Extra, Lab3Extra,Lab4Extra,Lab5Extra;
+
+    //用作取得玩家數量的，決定鑰匙生成與否
+    public int MaxGamePlayer;
 
     // // mini map
     // GameObject center;
@@ -92,7 +96,52 @@ public class GameManager : MonoBehaviour
         
     // }
 
+    public List<int> generateRandom (int Length)
+        {
+            int Rand;
+            List<int> list = new List<int>();
+            list = new List<int>(new int[Length]);
+    
+            for (int j = 0; j < Length; j++)
+            {
+                Rand = Random.Range(0,5);
+    
+                while (list.Contains(Rand))
+                {
+                    Rand = Random.Range(0,5);
+                }
+    
+                list[j] = Rand;
+            }
+
+            return list;
+    
+        }
+
     public void RandomGenerateKey(){
+        int maxKeyAmount = (MaxGamePlayer - 1)*2;
+
+        List<int> keyList = generateRandom(maxKeyAmount-5);
+        
+        for (int i = 0; i < keyList.Count; i++){
+            if (keyList[i] == 0){
+                Lab1Extra += 1;
+            }
+            else if(keyList[i] == 1){
+                Lab2Extra += 1;
+            }
+            else if(keyList[i] == 2){
+                Lab3Extra += 1;
+            }
+            else if(keyList[i] == 3){
+                Lab4Extra += 1;
+            }
+            else if(keyList[i] == 4){
+                Lab5Extra += 1;
+            }
+
+        }
+        
         // Lab 1
         Vector3[] positions1 = new Vector3[5];
         positions1[0] = new Vector3(-84.225f,0.88f,7.35f);
@@ -101,6 +150,16 @@ public class GameManager : MonoBehaviour
         positions1[3] = new Vector3(-64.8f,4.83f,-11.43f);
         positions1[4] = new Vector3(-75.41f,0.72f,-17.73f);
         Ran_Lab1 = Random.Range(0,5);
+        if (Lab1Extra != 0){
+            List<int> SecondRandom = new List<int>();
+            for (int i = 0; i < 5; i++){
+                SecondRandom[i] = i;
+            }
+            SecondRandom.Remove(Ran_Lab1);
+            int SecondRandomNum = Random.Range(0,4);
+            key6.SetActive(true);
+            key6.transform.localPosition = positions1[SecondRandom[SecondRandomNum]];
+        }
         key1.transform.localPosition = positions1[Ran_Lab1];
         // Lab 2
         Vector3[] positions2 = new Vector3[5];
@@ -110,6 +169,16 @@ public class GameManager : MonoBehaviour
         positions2[3] = new Vector3(-48.08f,0.61f,52.66f);
         positions2[4] = new Vector3(-38.412f,-1.835f,40.73f);
         Ran_Lab2 = Random.Range(0,5);
+        if (Lab2Extra != 0){
+            List<int> SecondRandom = new List<int>();
+            for (int i = 0; i < 5; i++){
+                SecondRandom[i] = i;
+            }
+            SecondRandom.Remove(Ran_Lab2);
+            int SecondRandomNum = Random.Range(0,4);
+            key7.SetActive(true);
+            key7.transform.localPosition = positions2[SecondRandom[SecondRandomNum]];
+        }
         key2.transform.localPosition = positions2[Ran_Lab2];
         // Lab 3
         Vector3[] positions3 = new Vector3[5];
@@ -119,6 +188,16 @@ public class GameManager : MonoBehaviour
         positions3[3] = new Vector3(88.946f,1.692f,50.31f);
         positions3[4] = new Vector3(104.826f,1.872f,50.848f);
         Ran_Lab3 = Random.Range(0,5);
+        if (Lab3Extra != 0){
+            List<int> SecondRandom = new List<int>();
+            for (int i = 0; i < 5; i++){
+                SecondRandom[i] = i;
+            }
+            SecondRandom.Remove(Ran_Lab3);
+            int SecondRandomNum = Random.Range(0,4);
+            key8.SetActive(true);
+            key8.transform.localPosition = positions3[SecondRandom[SecondRandomNum]];
+        }
         key3.transform.localPosition = positions3[Ran_Lab3];
         // Lab 4
         Vector3[] positions4 = new Vector3[5];
@@ -128,6 +207,16 @@ public class GameManager : MonoBehaviour
         positions4[3] = new Vector3(94.101f,1.946f,6.117f);
         positions4[4] = new Vector3(72.88f,4.44f,-10.69f);
         Ran_Lab4 = Random.Range(0,5);
+        if (Lab4Extra != 0){
+            List<int> SecondRandom = new List<int>();
+            for (int i = 0; i < 5; i++){
+                SecondRandom[i] = i;
+            }
+            SecondRandom.Remove(Ran_Lab4);
+            int SecondRandomNum = Random.Range(0,4);
+            key9.SetActive(true);
+            key9.transform.localPosition = positions4[SecondRandom[SecondRandomNum]];
+        }
         key4.transform.localPosition = positions4[Ran_Lab4];
         // Lab 5
         Vector3[] positions5 = new Vector3[5];
@@ -137,6 +226,16 @@ public class GameManager : MonoBehaviour
         positions5[3] = new Vector3(-11.07f,0.88f,-58.58f);
         positions5[4] = new Vector3(-14.7f,0.88f,-89.87f);
         Ran_Lab5 = Random.Range(0,5);
+        if (Lab5Extra != 0){
+            List<int> SecondRandom = new List<int>();
+            for (int i = 0; i < 5; i++){
+                SecondRandom[i] = i;
+            }
+            SecondRandom.Remove(Ran_Lab5);
+            int SecondRandomNum = Random.Range(0,4);
+            key10.SetActive(true);
+            key10.transform.localPosition = positions5[SecondRandom[SecondRandomNum]];
+        }
         key5.transform.localPosition = positions5[Ran_Lab5];
     }
 
