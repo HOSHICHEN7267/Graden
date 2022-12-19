@@ -10,6 +10,10 @@ public class BossMovement : MonoBehaviourPunCallbacks
     
     public Animator Anime;
 
+    private AudioSource audioSource;
+    public AudioClip fx_gravityJump;
+    public AudioClip fx_kill;
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -45,6 +49,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _gm = GameObject.FindObjectOfType<GameManager>();
@@ -85,6 +90,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
 
         if (_pv.IsMine && Input.GetKeyDown("space") && isGravityChange == false)
         {
+            audioSource.PlayOneShot(fx_gravityJump);
             GravityChange();
         }
 
@@ -184,6 +190,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
+            audioSource.PlayOneShot(fx_kill);
             isKilling = true;
             //Destroy(other.gameObject);
         }
