@@ -190,8 +190,8 @@ public class BossMovement : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
-            isKilling = true;
             audioSource.PlayOneShot(fx_kill);
+            isKilling = true;
             //Destroy(other.gameObject);
         }
     }

@@ -98,71 +98,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3791604401282191217, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
   m_PrefabInstance: {fileID: 1315685212650599306}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1501795058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2800179759823092987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d66d650ad03c5543a1849716e1b5d6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Anime: {fileID: 7810939372055313116}
-  fx_getKey: {fileID: 8300000, guid: f2253425716ae0a4c989e157e8c6b28f, type: 3}
-  fx_putKey: {fileID: 8300000, guid: 7f9f7135ff135ca4186a9cfd8ff95ead, type: 3}
-  fx_gravityPlate: {fileID: 8300000, guid: 2c225e3c3bd083e4eb8222593f87ecd2, type: 3}
-  moveSpeed: 4
-  groundDrag: 6
-  orientation: {fileID: 2800179759958255273}
-  gcTime: 2
-  dieTime: 3
-  putTime: 0.8
-  useGravity: 1
---- !u!114 &2638932394793416429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2800179759823092987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 8761423746355209442}
-  - {fileID: 3714958613772300919}
-  - {fileID: 4680934821247707136}
-  - {fileID: 683079722281365308}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &8761423746355209442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2800179759823092987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!82 &6662077288328367843
 AudioSource:
   m_ObjectHideFlags: 0
@@ -259,6 +194,71 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1501795058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800179759823092987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d66d650ad03c5543a1849716e1b5d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Anime: {fileID: 7810939372055313116}
+  fx_getKey: {fileID: 8300000, guid: f2253425716ae0a4c989e157e8c6b28f, type: 3}
+  fx_putKey: {fileID: 8300000, guid: 7f9f7135ff135ca4186a9cfd8ff95ead, type: 3}
+  fx_gravityPlate: {fileID: 8300000, guid: 2c225e3c3bd083e4eb8222593f87ecd2, type: 3}
+  moveSpeed: 4
+  groundDrag: 6
+  orientation: {fileID: 2800179759958255273}
+  gcTime: 2
+  dieTime: 3
+  putTime: 0.8
+  useGravity: 1
+--- !u!114 &2638932394793416429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800179759823092987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 8761423746355209442}
+  - {fileID: 3714958613772300919}
+  - {fileID: 4680934821247707136}
+  - {fileID: 683079722281365308}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8761423746355209442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800179759823092987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2800179759958255272 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3791604401157248290, guid: c7c8462e24b072a44b7ed051dbc7a533, type: 3}
