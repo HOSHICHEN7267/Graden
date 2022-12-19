@@ -11,7 +11,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
 {
     public Text currRoomKeyText;
     public Text waitingPlayersText;
-    public int maxPlayerCount = 4;
+    public int maxPlayer = 4;
 
     void Start()
     {
@@ -24,8 +24,8 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
     {
         if(PhotonNetwork.InRoom){
             currRoomKeyText.text = "Room Key: " + PhotonNetwork.CurrentRoom.Name;
-            waitingPlayersText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayerCount + " are waiting...";
-            if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayerCount){
+            waitingPlayersText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayer + " are waiting...";
+            if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayer){
                 SceneManager.LoadScene("MainScene");
             }
         }
