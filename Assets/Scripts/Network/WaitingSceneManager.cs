@@ -11,7 +11,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
 {
     public Text currRoomKeyText;
     public Text waitingPlayersText;
-    public int maxPlayerCount = 5;
+    public int maxPlayerCount = 4;
 
     void Start()
     {

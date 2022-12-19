@@ -78,11 +78,18 @@ public class PlayerUIManager : MonoBehaviour
     }
 
     public void PlayerDie(Player deadPlayer){
+        if(deadPlayer == PhotonNetwork.LocalPlayer){
+            _deadPanel.SetActive(false);
+        }
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
+    }
+
+    [PunRPC]
+    void RPC_SyncPlayer(Player deadPlayer){
         int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
         _alivePlayerUI[deadIndex].SetActive(false);
         _deadPlayerUI[deadIndex].SetActive(true);
         _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(true);
         if(isAllDead()){
             _gm.BossWin();
         }
@@ -220,7 +227,7 @@ public class PlayerUIManager : MonoBehaviour
         totalKey = 0;
         _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
         _debuffPanel.SetActive(false);
-        _deadPanel.SetActive(true);
+        _deadPanel.SetActive(false);
     }
 
     void InitMyPlayerList(){

@@ -110,8 +110,9 @@ public class CloneMovement : MonoBehaviour
         if (isDying)
         {
             Dtime += Time.deltaTime;
-            if (Dtime > dieTime)
+            if (_pv.IsMine && Dtime > dieTime)
             {
+                _puim.PlayerDie(PhotonNetwork.LocalPlayer);
                 this.gameObject.SetActive(false);
             }
         }
