@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerUIManager : MonoBehaviour
+public class PlayerUIManager : MonoBehaviourPunCallbacks
 {
     GameManager _gm;
     PhotonView _pv;
@@ -40,13 +40,13 @@ public class PlayerUIManager : MonoBehaviour
                                       // 1:   lab1
                                       // 2:   lab2
                                       // .... 
-                                      // 5:   lab5  
+                                      // 5:   lab5
 
     void Start()
     {
         _gm = GameObject.FindObjectOfType<GameManager>();
         _pv = this.gameObject.GetComponent<PhotonView>();
-        StartCoroutine(InitUI());
+        InitUI();
     }
 
     void Update()
@@ -79,7 +79,7 @@ public class PlayerUIManager : MonoBehaviour
 
     public void PlayerDie(Player deadPlayer){
         if(deadPlayer == PhotonNetwork.LocalPlayer){
-            _deadPanel.SetActive(false);
+            _deadPanel.SetActive(true);
         }
         _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
     }
@@ -92,6 +92,9 @@ public class PlayerUIManager : MonoBehaviour
         _debuffPanel.SetActive(false);
         if(isAllDead()){
             _gm.BossWin();
+        }
+        else if(_gm.isBoss(deadPlayer)){
+            _gm.CloneWin();
         }
     }
 
@@ -210,14 +213,12 @@ public class PlayerUIManager : MonoBehaviour
         _debuffPanel.SetActive(false);
     }
 
-    IEnumerator InitUI(){
-        yield return new WaitForSeconds(1);
+    void InitUI(){
         InitMyPlayerList();
-        print("set player deactive");
         for(int i = 0; i < maxPlayer; ++i){
-            print("set player deactive");
             _alivePlayerUI[i].SetActive(true);
             _deadPlayerUI[i].SetActive(false);
+            _alivePlayerUI[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = myPlayerList[i].NickName;
         }
         if(_pv.IsMine){
             _keyUI[0].SetActive(true);
@@ -242,5 +243,9 @@ public class PlayerUIManager : MonoBehaviour
         _keyUI[0].SetActive(false);
         _keyUI[1].SetActive(false);
         _keyUI[2].SetActive(true);
+    }
+    
+    public override void OnPlayerLeftRoom (Player otherPlayer){
+        PlayerDie(otherPlayer);
     }
 }

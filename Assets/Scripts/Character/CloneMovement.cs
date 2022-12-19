@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class CloneMovement : MonoBehaviour
+public class CloneMovement : MonoBehaviourPunCallbacks
 {
     GameManager _gm;
-    PlayerUIManager _puim;
     PhotonView _pv;
     public Animator Anime;
 
@@ -52,7 +51,6 @@ public class CloneMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _gm = GameObject.FindObjectOfType<GameManager>();
-        _puim = GameObject.FindObjectOfType<PlayerUIManager>();
         _pv = this.gameObject.GetComponent<PhotonView>();
     }
 
@@ -110,9 +108,11 @@ public class CloneMovement : MonoBehaviour
         if (isDying)
         {
             Dtime += Time.deltaTime;
-            if (_pv.IsMine && Dtime > dieTime)
+            if (Dtime > dieTime)
             {
-                _puim.PlayerDie(PhotonNetwork.LocalPlayer);
+                if(_pv.IsMine){
+                    _gm.PlayerDie(PhotonNetwork.LocalPlayer);
+                }
                 this.gameObject.SetActive(false);
             }
         }
@@ -121,7 +121,7 @@ public class CloneMovement : MonoBehaviour
             Ptime += Time.deltaTime;
             if (_pv.IsMine && Ptime > putTime)
             {
-                _puim.GiveKey();
+                _gm.GiveKey();
                 isPutting = false;
                 Ptime = 0;
             }
@@ -137,75 +137,7 @@ public class CloneMovement : MonoBehaviour
         float playerPositionZ = this.transform.position.z;
 
         if(_pv.IsMine){
-            if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16)
-            {
-                _puim.EnterCenterLab();
-            }
-            else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20)
-            {
-                _puim.EnterLab1();
-            }
-            else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72)
-            {
-                _puim.EnterLab2();
-            }
-            else if (playerPositionX < 88 && playerPositionX > 28 && playerPositionZ > 48 && playerPositionZ < 72)
-            {
-                _puim.EnterLab3();
-            }
-            else if (playerPositionX < 92 && playerPositionX > 48 && playerPositionZ > -20 && playerPositionZ < 20)
-            {
-                _puim.EnterLab4();
-            }
-            else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51)
-            {
-                _puim.EnterLab5();
-            }
-            else if (playerPositionX < 28 && playerPositionX > -28 && playerPositionZ < 70 && playerPositionZ > 48){
-                // Top
-                _puim.EnterTop();
-            }
-            else if (playerPositionX < -63 && playerPositionX > -77 && playerPositionZ < 48 && playerPositionZ > 20){
-                // Left
-                _puim.EnterLeft();
-            }
-            else if (playerPositionX <  77&& playerPositionX >  63&& playerPositionZ < 48 && playerPositionZ > 20){
-                // Right
-                _puim.EnterRight();
-            }
-            else if (playerPositionX < 15 && playerPositionX > -15 && playerPositionZ < 48 && playerPositionZ > 14){
-                // CenterTop
-                _puim.EnterCenterTop();
-            }
-            else if (playerPositionX < 15 && playerPositionX > -15 && playerPositionZ < 14 && playerPositionZ > -48){
-                // CenterBottom
-                _puim.EnterCenterBottom();
-            }
-            else if (playerPositionX < -15 && playerPositionX > -48 && playerPositionZ < 48 && playerPositionZ > -48){
-                // CenterLeft
-                _puim.EnterCenterLeft();
-            }
-            else if (playerPositionX < 48 && playerPositionX > 15 && playerPositionZ < 48 && playerPositionZ > -48){
-                // CenterRight
-                _puim.EnterCenterRight();
-            }
-            else if (playerPositionX < -20 && playerPositionX > -93 && playerPositionZ < -65 && playerPositionZ > -77){
-                // BottomLeft
-                _puim.EnterBottomLeft();
-            }
-            else if (playerPositionX < -71 && playerPositionX > -93&& playerPositionZ < -20 && playerPositionZ > -65){
-                // BottomLeft
-                _puim.EnterBottomLeft();
-            }
-            else if (playerPositionX < 91 && playerPositionX > 20 && playerPositionZ < -57 && playerPositionZ > -66){
-                // BottomRight
-                _puim.EnterBottomRight();
-            }
-            else if (playerPositionX < 91 && playerPositionX > 80 && playerPositionZ < -20 && playerPositionZ > -57){
-                // BottomRight
-                _puim.EnterBottomRight();
-            }
-            
+            _gm.InRoom(playerPositionX, playerPositionZ);
         }
     }
 
@@ -241,7 +173,7 @@ public class CloneMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             hasKey = true;
-            _puim.GetKey();
+            _gm.GetKey();
         }
         if (_pv.IsMine && other.gameObject.tag == "Gravity" && !isGravityChange)
         {
@@ -271,7 +203,7 @@ public class CloneMovement : MonoBehaviour
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, 180);
-            _puim.GravityChange();
+            _gm.GravityChange();
         }
         else
         {
@@ -280,7 +212,7 @@ public class CloneMovement : MonoBehaviour
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, -180);
-            _puim.GravityChange();
+            _gm.GravityChange();
         }
     }
 
@@ -302,5 +234,9 @@ public class CloneMovement : MonoBehaviour
         {
             Anime.SetInteger("Status", 0);
         }
+    }
+
+    public override void OnLeftRoom(){
+        this.gameObject.SetActive(false);
     }
 }

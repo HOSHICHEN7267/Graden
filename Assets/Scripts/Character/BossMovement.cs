@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BossMovement : MonoBehaviour
+public class BossMovement : MonoBehaviourPunCallbacks
 {
     GameManager _gm;
-    PlayerUIManager _puim;
     PhotonView _pv;
     
     public Animator Anime;
@@ -49,10 +48,9 @@ public class BossMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _gm = GameObject.FindObjectOfType<GameManager>();
-        _puim = GameObject.FindObjectOfType<PlayerUIManager>();
         _pv = this.gameObject.GetComponent<PhotonView>();
         if(_pv.IsMine){
-            _puim.ChangeToBossKey();
+            _gm.ChangeToBossKey();
         }
     }
 
@@ -126,39 +124,7 @@ public class BossMovement : MonoBehaviour
         float playerPositionX = this.transform.position.x;
         float playerPositionZ = this.transform.position.z;
         if(_pv.IsMine){
-            if (playerPositionX < 16 && playerPositionX > -16 && playerPositionZ > -16 && playerPositionZ < 16){
-                _puim.EnterCenterLab();
-                inCenter = true;
-            }
-            else if (playerPositionX < -48 && playerPositionX > -92 && playerPositionZ > -20 && playerPositionZ < 20){
-                _puim.EnterLab1();
-                inCenter = false;
-            }
-            else if (playerPositionX < -28 && playerPositionX > -88 && playerPositionZ > 48 && playerPositionZ < 72)
-            {
-                _puim.EnterLab2();
-                inCenter = false;
-            }
-            else if (playerPositionX < 110 && playerPositionX > 48 && playerPositionZ > 48 && playerPositionZ < 72)
-            {
-                _puim.EnterLab3();
-                inCenter = false;
-            }
-            else if (playerPositionX < 118 && playerPositionX > 70 && playerPositionZ > -20 && playerPositionZ < 20)
-            {
-                _puim.EnterLab4();
-                inCenter = false;
-            }
-            else if (playerPositionX < 18.68 && playerPositionX > -18.92 && playerPositionZ > -90.46 && playerPositionZ < -48.51)
-            {
-                _puim.EnterLab5();
-                inCenter = false;
-            }
-            else
-            {
-                _puim.InCorridor();
-                inCenter = false;
-            }
+            _gm.InRoom(playerPositionX, playerPositionZ);
         }
 
         // slow
@@ -172,7 +138,7 @@ public class BossMovement : MonoBehaviour
             {
                 isSlow = true;
                 moveSpeed = moveSpeed / 2;
-                _puim.SlowSpeed();
+                _gm.SlowSpeed();
                 Debug.Log("slow...");
             }
         }
@@ -183,7 +149,7 @@ public class BossMovement : MonoBehaviour
             {
                 isSlow = false;
                 moveSpeed = moveSpeed * 2;
-                _puim.NormalSpeed();
+                _gm.NormalSpeed();
                 Debug.Log("no slow");
             }
         }
@@ -233,7 +199,7 @@ public class BossMovement : MonoBehaviour
             Xrotate = 180f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, 180);
-            _puim.GravityChange();
+            _gm.GravityChange();
         }
         else
         {
@@ -242,7 +208,7 @@ public class BossMovement : MonoBehaviour
             Xrotate = 0f;
             transform.Translate(new Vector3(0f, 3.7f, 0f));
             transform.Rotate(0, 0, -180);
-            _puim.GravityChange();
+            _gm.GravityChange();
         }
     }
 
@@ -261,5 +227,10 @@ public class BossMovement : MonoBehaviour
         {
             Anime.SetInteger("Status", 0);
         }
+    }
+
+    public override void OnLeftRoom(){
+        this.gameObject.SetActive(false);
+        _gm.CloneWin();
     }
 }
