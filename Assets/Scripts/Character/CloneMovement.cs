@@ -54,6 +54,7 @@ public class CloneMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _gm = GameObject.FindObjectOfType<GameManager>();
