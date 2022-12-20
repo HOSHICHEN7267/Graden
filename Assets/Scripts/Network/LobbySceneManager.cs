@@ -14,7 +14,7 @@ public class LobbySceneManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(PhotonNetwork.IsConnected == false){
+        if(!PhotonNetwork.IsConnected){
             SceneManager.LoadScene("StartScene");
         }
         else if(PhotonNetwork.CurrentLobby == null){

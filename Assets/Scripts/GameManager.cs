@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     // panels
     public GameObject _debuffPanel;
     public GameObject _deadPanel;
+    public GameObject[] _gameOverPanel; // 0:   boss win
+                                        // 1:   clones win
+                                        // 2:   tie
 
     // mini map
     public GameObject _miniMap; // 0:   center lab
@@ -97,15 +100,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        _pv = this.gameObject.GetComponent<PhotonView>();
-        print("LocalPlayer: " + PhotonNetwork.LocalPlayer);
-        if(PhotonNetwork.IsConnected == false){
+        if(!PhotonNetwork.IsConnected){
             SceneManager.LoadScene("StartScene");
         }
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
         }
         if(PhotonNetwork.IsMasterClient){
+            _pv = this.gameObject.GetComponent<PhotonView>();
             PickBoss();
         }
     }
@@ -365,22 +367,63 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void BossWin(){
-        print("Boss win.");
-        EndGame();
+        StartCoroutine(EndGame(0));
     }
 
     public void CloneWin(){
-        print("Clone win.");
-        EndGame();
+        StartCoroutine(EndGame(1));
     }
 
     public void Tie(){
-        print("Tie.");
-        EndGame();
+        StartCoroutine(EndGame(2));
     }
 
-    void EndGame(){
+    IEnumerator EndGame(int gameOverCode){
         print("Ending game...");
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1);
+        // panel
+        _gameOverPanel[gameOverCode].SetActive(true);
+        float originX = _gameOverPanel[gameOverCode].transform.localScale.x;
+        float originY = _gameOverPanel[gameOverCode].transform.localScale.y;
+        float originZ = _gameOverPanel[gameOverCode].transform.localScale.z;
+        float y = 0;
+        float unit = originY/10f;
+        _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
+        while(y < originY){
+            y += unit;
+            _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+        yield return new WaitForSecondsRealtime(0.8f);
+        // contents
+        for(int i = 0; i < 3; ++i){
+            _gameOverPanel[gameOverCode].transform.GetChild(i).gameObject.SetActive(true);
+            originX = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.x;
+            originY = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.y;
+            originZ = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.z;
+            y = 0;
+            unit = originY/10f;
+            _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
+            while(y < originY){
+                y += unit;
+                _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
+                yield return new WaitForSecondsRealtime(0.01f);
+            }
+            yield return new WaitForSecondsRealtime(0.8f*(float)(i+1));
+        }
+    }
+
+    public void OnClickReturnToLobby(){
+        print("[ClickReturnToLobby]");
+        if(PhotonNetwork.InRoom){
+            Time.timeScale = 1;
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    public override void OnLeftRoom(){
+        SceneManager.LoadScene("LobbyScene");
     }
 
     public void GiveKey(){  // give key into center

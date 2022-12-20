@@ -8,7 +8,6 @@ public class StartSceneManager : MonoBehaviourPunCallbacks
 {
     public void OnClickStart(){
         print("[ClickStart]");
-        // PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
 
