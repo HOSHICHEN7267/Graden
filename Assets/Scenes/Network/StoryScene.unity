@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 17845667}
   - component: {fileID: 17845666}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: StoryText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 70
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -194,7 +194,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Story text...
+
+'
 --- !u!222 &17845667
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -407,6 +409,86 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1991581755179585454, guid: f529f55947d4b8843966c317436257ea, type: 3}
   m_PrefabInstance: {fileID: 722816704}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1211863123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1211863124}
+  - component: {fileID: 1211863126}
+  - component: {fileID: 1211863125}
+  m_Layer: 5
+  m_Name: NextText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1211863124
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211863123}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1276012646}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 594.7, y: -303.6}
+  m_SizeDelta: {x: 300, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1211863125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211863123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 495c9e2a934bcc640a8d7427b13cb680, type: 3}
+    m_FontSize: 50
+    m_FontStyle: 2
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 70
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1.2
+  m_Text: Next...
+--- !u!222 &1211863126
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211863123}
+  m_CullTransparentMesh: 1
 --- !u!1 &1276012645
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +521,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 17845665}
+  - {fileID: 1211863124}
   m_Father: {fileID: 261858811}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -497,6 +580,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c237808d2bb534eac7309e82a2e32b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storyText: {fileID: 17845666}
+  lines:
+  - "\u5E74\u9F61\uFF1A18\u6B72\u53C87\u500B\u6708\n\u8EAB\u5206\uFF1A\u672C\u5C0A\n\u6A23\u8C8C\uFF1A\u73A9\u5BB6\u5C07\u4E0D\u77E5\u9053\u74E6\u742A\u7DF9\u7684\u6A23\u8C8C\uFF0C\u53EF\u80FD\u6703\u8DDF\u4EFB\u4F55\u4E00\u7CFB\u5217\u7684\u5BE6\u9A57\u9AD4\u6709\u76F8\u540C\u9577\u76F8\uFF0C\u9700\u8981\u4F9D\u9760\u73A9\u5BB6\u7684\u667A\u6167\u8DDF\u7B56\u7565\u4F86\u627E\u51FA\u74E6\u742A\u7DF9\u3002 "
+  - "\u74E6\u742A\u7DF9: ......"
+  - "\u6211\u4E00\u76F4\u8A8D\u70BA\u2026\u2026\u6211\u6240\u64C1\u6709\u7684\u80FD\u529B\u662F\u7368\u4E00\u7121\u4E8C\u7684\u2026\u2026\n\u6211\u4E00\u76F4\u8A8D\u70BA\u2026\u2026\u6211\u662F\u6700\u7279\u5225\u7684\u2026\u2026\n\u5E7E\u5E74\u524D\uFF0C\u9662\u9577\u544A\u8A34\u6211\uFF0C\u6211\u7684\u57FA\u56E0\u53EF\u4EE5\u9020\u798F\u4EBA\u985E\uFF0C\u57FA\u56E0\u7F3A\u9677\u7684\u4ED6\u4EBA\u53EF\u4EE5\u88AB\u6211\u62EF\u6551\u3002\n\u6211\u6BEB\u4E0D\u7336\u8C6B\u7684\u4F38\u51FA\u4E86\u6211\u7684\u624B\uFF0C\u56E0\u70BA\u6211\u4EE5\u70BA\u6211\u9019\u6700\u5F37\u7684\u80FD\u529B\u53EF\u4EE5\u62EF\u6551\u4E16\u754C... "
+  - "\u4F46\u662F\u2026\u2026\u4F46\u662F\u2026\u2026\n\u90A3\u5929\u7ADF\u7136\u767C\u73FE\u8207\u6211\u64C1\u6709\u540C\u6A23\u9577\u76F8\u8DDF\u80FD\u529B\u7684\u4EBA\u3002\n"
+  - "\u4F60\u5011\u662F\u8AB0\uFF1F\u4F60\u5011\u5230\u5E95\u70BA\u4EC0\u9EBC\u8DDF\u6211\u6709\u4E00\u6A23\u7684\u80FD\u529B\uFF1F\u4F60\u5011\u5230\u5E95\u70BA\u4EC0\u9EBC\u8DDF\u6211\u6709\u4E00\u6A23\u7684\u81C9\u5B54\uFF1F\u4E0D\u53EF\u9952\u6055\uFF0C\u539F\u4F86\u9019\u4E00\u5207\u90FD\u662F\u9A19\u5C40\u55CE\uFF1F\u9020\u798F\u793E\u6703\uFF1F\u62EF\u6551\u4EBA\u985E\uFF1F\u6211\u4E0D\u8981\u4E86\uFF0C\u7D66\u6211\u5F9E\u9019\u500B\u4E16\u754C\u6D88\u5931\u5427\uFF01 "
+  - "\u6211\u8981\u2026\u2026\u6211\u8981\u8B93\u9019\u500B\u4E16\u754C\u611F\u53D7\u75DB\u82E6\u2026\u2026 "
+  - "\u300C\u597D\u5641\u5FC3\u554A\uFF01\u300D \n\u300C\u602A\u80CE\uFF01\u300D
+    \n\u300C\u96E2\u6211\u9060\u4E00\u9EDE\uFF01\u300D   \u74E6\u742A\u7DF9\u5468\u570D\u6F02\u6D6E\u8457\u5B64\u5152\u9662\u5167\u7684\u7A4D\u6728\uFF0C\u81EA\u6709\u8A18\u61B6\u4EE5\u4F86\uFF0C\u4ED6\u4FBF\u751F\u6D3B\u5728\u5B64\u5152\u9662\u4E2D\uFF0C\u4F46\u4ED6\u4E26\u4E0D\u77E5\u9053\u81EA\u5DF1\u8DDF\u5176\u4ED6\u4EBA\u5230\u5E95\u4E0D\u540C\u5728\u54EA\uFF0C\u4ED6\u53EA\u77E5\u9053\u4ED6\u53EF\u4EE5\u63A7\u5236\u5468\u906D\u7684\u91CD\u529B\uFF0C\u537B\u4E5F\u4E0D\u6E05\u695A\u9019\u4EFD\u80FD\u529B\u7279\u5225\u5728\u54EA\uFF0C\u4ED6\u4EE5\u70BA\u4ED6\u53EF\u4EE5\u7528\u9019\u7A2E\u80FD\u529B\u7D66\u5468\u906D\u7684\u4EBA\u5FEB\u6A02\uFF0C\u6C92\u60F3\u5230\u906D\u4F86\u7684\u537B\u662F\u6B3A\u51CC\u8DDF\u6F20\u8996\u3002  
+    \u96A8\u8457\u5E74\u9F61\u7684\u6210\u9577\uFF0C\u5F9E\u5C0F\u8DDF\u4ED6\u4E00\u8D77\u5728\u5B64\u5152\u9662\u9577\u5927\u7684\u5152\u7AE5\u5927\u591A\u5DF2\u88AB\u9818\u990A\uFF0C\u4ED6\u4E0D\u6E05\u695A\u81EA\u5DF1\u70BA\u4F55\u4E00\u76F4\u5F85\u5728\u9019\u88E1\uFF0C\u76F4\u5230\u4E00\u5929\u4E00\u540D\u81EA\u7A31\u9662\u9577\u7684\u4EBA\u8207\u4ED6\u8AAA\u660E\u4E86\u81EA\u5DF1\u7684\u7279\u5225\uFF0C\u544A\u8A34\u4ED6\u9019\u662F\u4E00\u4EFD\u79AE\u7269\uFF0C\u9700\u8981\u611F\u5230\u9A55\u50B2\u624D\u5C0D\uFF0C\u4E26\u628A\u4ED6\u5E36\u5230\u4E86\u4E00\u5EA7\u5BE6\u9A57\u5BA4\u3002\u807D\u8AAA\u5BE6\u9A57\u5167\u5BB9\u53EF\u4EE5\u9020\u798F\u9019\u500B\u793E\u6703\uFF0C\u4ED6\u958B\u59CB\u5C0D\u81EA\u5DF1\u611F\u5230\u81EA\u4FE1\uFF0C\u4E26\u6DF1\u4FE1\u9019\u662F\u81EA\u5DF1\u80FD\u529B\u7684\u7528\u8655\u3001\u660E\u767D\u539F\u4F86\u662F\u6700\u5F37\u7684... "
+  textSpeed: 0.15
 --- !u!1 &1657850365
 GameObject:
   m_ObjectHideFlags: 0
