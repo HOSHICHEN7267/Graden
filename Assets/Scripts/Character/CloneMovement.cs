@@ -67,15 +67,6 @@ public class CloneMovement : MonoBehaviourPunCallbacks
         if(_pv.IsMine){
             Control();
         }
-
-        // display key text
-        // if(hasKey){
-        //     hasKeyText.text = "HasKey";
-        // }
-        // else{
-        //     hasKeyText.text = "NoKey";
-        // }
-        // totalKeyText.text = keyCount + "/5";
     }
 
     void Control()
@@ -196,7 +187,7 @@ public class CloneMovement : MonoBehaviourPunCallbacks
             keyCount++;
             hasKey = false;
         }
-        if (other.gameObject.tag == "Boss")
+        if (_pv.IsMine && other.gameObject.tag == "Boss")
         {
             isDying = true;
         }
@@ -246,6 +237,8 @@ public class CloneMovement : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom(){
-        this.gameObject.SetActive(false);
+        if(this.gameObject.activeSelf){
+            this.gameObject.SetActive(false);
+        }
     }
 }

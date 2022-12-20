@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                                 new int[] {48, 72},
                                 new int[] {48, 72},
                                 new int[] {-20, 20},
-                                new int[] {-48, -92},
+                                new int[] {-92, -48},
                                 new int[] {36, 72},
                                 new int[] {20, 48},
                                 new int[] {20, 48},
@@ -265,6 +265,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Init(Player _bossPlayer){
         print("Initializing game...");
+        // PhotonNetwork.LocalPlayer.NickName = "Test";
         bossPlayer = _bossPlayer;
         if(isBoss(PhotonNetwork.LocalPlayer)){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
@@ -275,7 +276,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
             Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
         }
-        PhotonNetwork.LocalPlayer.NickName = "Test";
         InitUI();
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
@@ -286,9 +286,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         InitMyPlayerList();
         for(int i = 0; i < maxPlayer; ++i){
             _alivePlayerUI.transform.GetChild(i).gameObject.SetActive(true);
-            _alivePlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
+            _alivePlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].UserId;
+            print("player " + i + ": " + myPlayerList[i].UserId);
             _deadPlayerUI.transform.GetChild(i).gameObject.SetActive(false);
-            _deadPlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
+            _deadPlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].UserId;
         }
         if(_pv.IsMine){
             _keyUI[0].SetActive(true);
@@ -327,6 +328,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         yield return new WaitForSeconds(1);
         Time.timeScale = 0;
+        Tie();
     }
 
     IEnumerator ShowIdentity(){
@@ -414,6 +416,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_SyncPlayer(Player deadPlayer){
         int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
+        print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
         _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
         _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
         _debuffPanel.SetActive(false);
@@ -427,7 +430,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     bool isAllDead(){
         bool flag = false;
-        for(int p = 0; p < maxPlayer; ++p){
+        for(int p = 1; p < maxPlayer; ++p){
             flag |= _deadPlayerUI.transform.GetChild(p).gameObject.activeSelf;
         }
         return !flag;
@@ -447,18 +450,28 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // miniMap
-    public void InRoom(float x, float z){
-        for(int i = 1; i < 15; ++i){
+    public int InRoom(float x, float z){
+        resetMiniMap();
+        int i;
+        for(i = 0; i < MINIMAP_POSI_X.Length-2; ++i){
             if(i >= 13  && ((   MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
                             &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1])
                         ||   (  MINIMAP_POSI_X[i+2][0] < x && x < MINIMAP_POSI_X[i+2][1]
                             &&  MINIMAP_POSI_Z[i+2][0] < z && z < MINIMAP_POSI_Z[i+2][1]))){
-                    _miniMap.transform.GetChild(i).gameObject.SetActive(true);
+                    _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
                 }
             else if(    MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
                     &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1]){
-                _miniMap.transform.GetChild(i).gameObject.SetActive(true);
+                _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
             }
+        }
+        return i;
+    }
+
+    void resetMiniMap(){
+        _miniMap.transform.GetChild(0).gameObject.SetActive(true);
+        for(int i = 1; i < MINIMAP_POSI_X.Length-2; ++i){
+            _miniMap.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
     
@@ -480,6 +493,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     
     public override void OnPlayerLeftRoom (Player otherPlayer){
-        PlayerDie(otherPlayer);
+        if(_pv.IsMine){
+            PlayerDie(otherPlayer);
+        }
     }
 }
