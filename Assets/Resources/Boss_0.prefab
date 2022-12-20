@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anime: {fileID: 303606916928914943}
-  fx_gravityJump: {fileID: 8300000, guid: 91df2697115fea44a89dee6034f3760a, type: 3}
+  fx_gravityJump: {fileID: 8300000, guid: 7a83c66ff9cf36945922560688ab6171, type: 3}
   fx_kill: {fileID: 8300000, guid: 02853deb840c94e48a79afc652168245, type: 3}
   moveSpeed: 5
   groundDrag: 6
