@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                                 new int[] {-48, 48},
                                 new int[] {-78, -20},
                                 new int[] {-70, -20},
-                                new int[] {-66, -74},
+                                new int[] {-74, -66},
                                 new int[] {-70, -54}};
 
     // timer
@@ -470,7 +470,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void resetMiniMap(){
         _miniMap.transform.GetChild(0).gameObject.SetActive(true);
-        for(int i = 1; i < MINIMAP_POSI_X.Length-2; ++i){
+        for(int i = 1; i < MINIMAP_POSI_X.Length-1; ++i){
             _miniMap.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
