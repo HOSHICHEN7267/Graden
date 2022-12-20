@@ -417,12 +417,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnClickReturnToLobby(){
         print("[ClickReturnToLobby]");
         if(PhotonNetwork.InRoom){
+            Time.timeScale = 1;
             PhotonNetwork.LeaveRoom();
         }
     }
 
     public override void OnLeftRoom(){
-        Time.timeScale = 1;
         SceneManager.LoadScene("LobbyScene");
     }
 
