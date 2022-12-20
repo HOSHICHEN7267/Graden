@@ -4,8 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-using Text = TMPro.TextMeshProUGUI;
+// using Text = TMPro.TextMeshProUGUI;
 
 public class WaitingSceneManager : MonoBehaviourPunCallbacks
 {
@@ -25,7 +26,8 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
         if(PhotonNetwork.InRoom){
             currRoomKeyText.text = "Room Key: " + PhotonNetwork.CurrentRoom.Name;
             waitingPlayersText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayer + " are waiting...";
-            if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayer){
+            if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayer)
+            {
                 SceneManager.LoadScene("MainScene");
             }
         }
