@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // using Text = TMPro.TextMeshProUGUI;
 
@@ -17,7 +17,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
     void Start()
     {
         if(!PhotonNetwork.IsConnected){
-            SceneManager.LoadScene("StartScene");
+            SceneManager.LoadScene("BeginScene");
         }
     }
 
@@ -34,7 +34,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickQuit(){
-        print("[ClickQuit]");
+        print("[Click Quit]");
         if(PhotonNetwork.InRoom){
             PhotonNetwork.LeaveRoom();
         }

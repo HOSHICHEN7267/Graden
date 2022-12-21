@@ -227,8 +227,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1004991134}
   - component: {fileID: 1004991135}
+  - component: {fileID: 1004991136}
   m_Layer: 0
-  m_Name: IntroSceneManager
+  m_Name: TutorialSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,6 +260,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ba8a85b3c5250d45bb3abe9e6412ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1004991136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004991133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a385acf1e80f747b88a17d02d475c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1114468710
@@ -686,7 +699,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1989420969}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1004991136}
+        m_TargetAssemblyTypeName: TutorialSceneManager, Assembly-CSharp
+        m_MethodName: OnClickQuit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1989420969
 MonoBehaviour:
   m_ObjectHideFlags: 0
