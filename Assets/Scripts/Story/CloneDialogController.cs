@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StoryDialogController : MonoBehaviour
+public class CloneDialogController : MonoBehaviour
 {
+
+    public GameObject CloneIntroPanel;
 
     public Text storyText;
 
@@ -55,22 +57,16 @@ public class StoryDialogController : MonoBehaviour
 
     void NextLine()
     {
-        if (index < lines.Length - 2)
+        if (index < lines.Length - 1)
         {
             index++;
             storyText.text = string.Empty;
             StartCoroutine(TypeLine());
         }
-        else if(index < lines.Length - 1)
-        {
-            index++;
-            StopAllCoroutines();
-            storyText.text = lines[index];
-            storyText.fontSize = 38;
-        }
         else
         {
             gameObject.SetActive(false);
+            CloneIntroPanel.SetActive(true);
         }
     }
 }
