@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         if(!PhotonNetwork.IsConnected){
-            SceneManager.LoadScene("BeginScene");
+            SceneManager.LoadScene("MenuScene");
         }
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
