@@ -267,7 +267,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Init(Player _bossPlayer){
         print("Initializing game...");
-        // PhotonNetwork.LocalPlayer.NickName = "Test";
         bossPlayer = _bossPlayer;
         if(isBoss(PhotonNetwork.LocalPlayer)){
             PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
@@ -382,13 +381,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         print("Ending game...");
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(1);
-        // panel
+        StartCoroutine(FadeInGameOverPanel(gameOverCode));
+    }
+
+    IEnumerator FadeInGameOverPanel(int gameOverCode){
         _gameOverPanel[gameOverCode].SetActive(true);
         float originX = _gameOverPanel[gameOverCode].transform.localScale.x;
         float originY = _gameOverPanel[gameOverCode].transform.localScale.y;
         float originZ = _gameOverPanel[gameOverCode].transform.localScale.z;
         float y = 0;
-        float unit = originY/10f;
+        float unit = originY/5f;
         _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
         while(y < originY){
             y += unit;
@@ -396,21 +398,20 @@ public class GameManager : MonoBehaviourPunCallbacks
             yield return new WaitForSecondsRealtime(0.01f);
         }
         yield return new WaitForSecondsRealtime(0.8f);
-        // contents
-        for(int i = 0; i < 3; ++i){
+        for(int i = 1; i < 3; ++i){
             _gameOverPanel[gameOverCode].transform.GetChild(i).gameObject.SetActive(true);
             originX = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.x;
             originY = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.y;
             originZ = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.z;
             y = 0;
-            unit = originY/10f;
+            unit = originY/5f;
             _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
             while(y < originY){
                 y += unit;
                 _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
                 yield return new WaitForSecondsRealtime(0.01f);
             }
-            yield return new WaitForSecondsRealtime(0.8f*(float)(i+1));
+            yield return new WaitForSecondsRealtime(1.5f);
         }
     }
 
@@ -451,7 +452,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void PlayerDie(Player deadPlayer){
         if(deadPlayer == PhotonNetwork.LocalPlayer){
-            _deadPanel.SetActive(true);
+            StartCoroutine(FadeInDeadPanel());
         }
         _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
     }
@@ -471,10 +472,58 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    IEnumerator FadeInDeadPanel(){
+        // panel
+        _deadPanel.SetActive(true);
+        float originR = _deadPanel.GetComponent<Image>().color.r;
+        float originB = _deadPanel.GetComponent<Image>().color.b;
+        float originG = _deadPanel.GetComponent<Image>().color.g;
+        float originAlpha = _deadPanel.GetComponent<Image>().color.a;
+        float alpha = 0;
+        float unit = originAlpha/5f;
+        _deadPanel.GetComponent<Image>().color = new Color(originR, originB, originG, alpha);
+        while(alpha < originAlpha){
+            alpha += unit;
+            _deadPanel.GetComponent<Image>().color = new Color(originR, originB, originG, alpha);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+        // title
+        _deadPanel.transform.GetChild(0).gameObject.SetActive(true);
+        originR = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.r;
+        originB = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.b;
+        originG = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.g;
+        originAlpha = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.a;
+        alpha = 0;
+        unit = originAlpha/5f;
+        _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color = new Color(originR, originB, originG, alpha);
+        while(alpha < originAlpha){
+            alpha += unit;
+            _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color = new Color(originR, originB, originG, alpha);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+        yield return new WaitForSecondsRealtime(1.5f);
+        // buttons
+        _deadPanel.transform.GetChild(1).gameObject.SetActive(true);
+        float originX = _deadPanel.transform.GetChild(1).localScale.x;
+        float originY = _deadPanel.transform.GetChild(1).localScale.y;
+        float originZ = _deadPanel.transform.GetChild(1).localScale.z;
+        float y = 0;
+        unit = originY/5f;
+        _deadPanel.transform.GetChild(1).localScale = new Vector3(originX, y, originZ);
+        while(y < originY){
+            y += unit;
+            _deadPanel.transform.GetChild(1).localScale = new Vector3(originX, y, originZ);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+    }
+
     bool isAllDead(){
         bool flag = false;
-        for(int p = 1; p < maxPlayer; ++p){
-            flag |= _deadPlayerUI.transform.GetChild(p).gameObject.activeSelf;
+        for(int i = 0; i < maxPlayer; ++i){
+            if(myPlayerList[i] == bossPlayer){
+                continue;
+            }
+            flag |= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
         }
         return !flag;
     }
