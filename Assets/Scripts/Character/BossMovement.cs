@@ -130,7 +130,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
         float playerPositionX = this.transform.position.x;
         float playerPositionZ = this.transform.position.z;
         if(_pv.IsMine){
-            _gm.InRoom(playerPositionX, playerPositionZ);
+            inCenter = (_gm.InRoom(playerPositionX, playerPositionZ) == 0);
         }
 
         // slow
@@ -237,7 +237,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
     }
 
     public override void OnLeftRoom(){
-        this.gameObject.SetActive(false);
         _gm.CloneWin();
+        this.gameObject.SetActive(false);
     }
 }

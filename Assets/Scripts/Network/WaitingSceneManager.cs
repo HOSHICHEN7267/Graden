@@ -16,7 +16,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(PhotonNetwork.IsConnected == false){
+        if(!PhotonNetwork.IsConnected){
             SceneManager.LoadScene("StartScene");
         }
     }
@@ -34,7 +34,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickQuit(){
-        print("[ ClickQuit ]");
+        print("[ClickQuit]");
         if(PhotonNetwork.InRoom){
             PhotonNetwork.LeaveRoom();
         }
