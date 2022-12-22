@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject _freeLookClone;
 
     // key generate
-    public GameObject key1,key2,key3,key4,key5,key6,key7,key8,key9,key10;
+    // public GameObject key1,key2,key3,key4,key5,key6,key7,key8,key9,key10;
     int Ran_Lab1,Ran_Lab2,Ran_Lab3,Ran_Lab4,Ran_Lab5;
     int Lab1Extra, Lab2Extra, Lab3Extra,Lab4Extra,Lab5Extra;
 
@@ -117,9 +117,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             int Rand;
             List<int> list = new List<int>();
             list = new List<int>();
-            for(int i = 0; i < Length; ++i){
-                list.Add(-1);
-            }
     
             for (int j = 0; j < Length; j++)
             {
@@ -130,7 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     Rand = Random.Range(0,5);
                 }
     
-                list[j] = Rand;
+                list.Add(Rand);
             }
 
             return list;
@@ -176,10 +173,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             SecondRandom.Remove(Ran_Lab1);
             int SecondRandomNum = Random.Range(0,4);
-            key6.SetActive(true);
-            key6.transform.localPosition = positions1[SecondRandom[SecondRandomNum]];
+            PhotonNetwork.Instantiate("KeyFragment", positions1[SecondRandom[SecondRandomNum]], Quaternion.identity);
+            // key6.SetActive(true);
+            // key6.transform.localPosition = positions1[SecondRandom[SecondRandomNum]];
         }
-        key1.transform.localPosition = positions1[Ran_Lab1];
+        PhotonNetwork.Instantiate("KeyFragment", positions1[Ran_Lab1], Quaternion.identity);
+        // key1.transform.localPosition = positions1[Ran_Lab1];
         // Lab 2
         Vector3[] positions2 = new Vector3[5];
         positions2[0] = new Vector3(-45.802f,4.83f,49.81f);
@@ -195,10 +194,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             SecondRandom.Remove(Ran_Lab2);
             int SecondRandomNum = Random.Range(0,4);
-            key7.SetActive(true);
-            key7.transform.localPosition = positions2[SecondRandom[SecondRandomNum]];
+            PhotonNetwork.Instantiate("KeyFragment", positions2[SecondRandom[SecondRandomNum]], Quaternion.identity);
+            // key7.SetActive(true);
+            // key7.transform.localPosition = positions2[SecondRandom[SecondRandomNum]];
         }
-        key2.transform.localPosition = positions2[Ran_Lab2];
+        PhotonNetwork.Instantiate("KeyFragment", positions2[Ran_Lab1], Quaternion.identity);
+        // key2.transform.localPosition = positions2[Ran_Lab2];
         // Lab 3
         Vector3[] positions3 = new Vector3[5];
         positions3[0] = new Vector3(67.94f,1.76f,49f);
@@ -214,10 +215,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             SecondRandom.Remove(Ran_Lab3);
             int SecondRandomNum = Random.Range(0,4);
-            key8.SetActive(true);
-            key8.transform.localPosition = positions3[SecondRandom[SecondRandomNum]];
+            PhotonNetwork.Instantiate("KeyFragment", positions3[SecondRandom[SecondRandomNum]], Quaternion.identity);
+            // key8.SetActive(true);
+            // key8.transform.localPosition = positions3[SecondRandom[SecondRandomNum]];
         }
-        key3.transform.localPosition = positions3[Ran_Lab3];
+        PhotonNetwork.Instantiate("KeyFragment", positions3[Ran_Lab1], Quaternion.identity);
+        // key3.transform.localPosition = positions3[Ran_Lab3];
         // Lab 4
         Vector3[] positions4 = new Vector3[5];
         positions4[0] = new Vector3(93.14f,1.84f,-11.46f);
@@ -233,10 +236,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             SecondRandom.Remove(Ran_Lab4);
             int SecondRandomNum = Random.Range(0,4);
-            key9.SetActive(true);
-            key9.transform.localPosition = positions4[SecondRandom[SecondRandomNum]];
+            PhotonNetwork.Instantiate("KeyFragment", positions4[SecondRandom[SecondRandomNum]], Quaternion.identity);
+            // key9.SetActive(true);
+            // key9.transform.localPosition = positions4[SecondRandom[SecondRandomNum]];
         }
-        key4.transform.localPosition = positions4[Ran_Lab4];
+        PhotonNetwork.Instantiate("KeyFragment", positions4[Ran_Lab1], Quaternion.identity);
+        // key4.transform.localPosition = positions4[Ran_Lab4];
         // Lab 5
         Vector3[] positions5 = new Vector3[5];
         positions5[0] = new Vector3(3f,3.3f,-71.6f);
@@ -252,10 +257,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             SecondRandom.Remove(Ran_Lab5);
             int SecondRandomNum = Random.Range(0,4);
-            key10.SetActive(true);
-            key10.transform.localPosition = positions5[SecondRandom[SecondRandomNum]];
+            PhotonNetwork.Instantiate("KeyFragment", positions5[SecondRandom[SecondRandomNum]], Quaternion.identity);
+            // key10.SetActive(true);
+            // key10.transform.localPosition = positions5[SecondRandom[SecondRandomNum]];
         }
-        key5.transform.localPosition = positions5[Ran_Lab5];
+        PhotonNetwork.Instantiate("KeyFragment", positions5[Ran_Lab1], Quaternion.identity);
+        // key5.transform.localPosition = positions5[Ran_Lab5];
     }
 
     void PickBoss(){
