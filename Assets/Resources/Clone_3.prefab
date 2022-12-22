@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2800179759823092987, guid: eeda9924231844444abb3518f040809e, type: 3}
       propertyPath: m_Name
-      value: Clone_3 Variant
+      value: Clone_3
       objectReference: {fileID: 0}
     - target: {fileID: 2800179759823092987, guid: eeda9924231844444abb3518f040809e, type: 3}
       propertyPath: m_IsActive

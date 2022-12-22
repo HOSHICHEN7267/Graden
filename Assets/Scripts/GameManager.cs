@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     Player bossPlayer = null;
     List<Player> myPlayerList = new List<Player>();     // 0:       me
                                                         // 1 - 4:   other players
+    Vector3[] posi = {    new Vector3(0, 0.5f, -52f),
+                        new Vector3(-52f, 0.5f, 0),
+                        new Vector3(52f, 0.5f, 0),
+                        new Vector3(-32f, 0.5f, 60f) };
 
     // key info
     const int maxKey = 4;
@@ -106,8 +110,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
         }
+        _pv = this.gameObject.GetComponent<PhotonView>();
         if(PhotonNetwork.IsMasterClient){
-            _pv = this.gameObject.GetComponent<PhotonView>();
             PickBoss();
         }
     }
@@ -275,14 +279,20 @@ public class GameManager : MonoBehaviourPunCallbacks
     void RPC_Init(Player _bossPlayer){
         print("Initializing game...");
         bossPlayer = _bossPlayer;
+        int myIndex = 0;
+        for(; myIndex < maxPlayer; ++myIndex){
+            if(PhotonNetwork.PlayerList[myIndex] == PhotonNetwork.LocalPlayer){
+                break;
+            }
+        }
         if(isBoss(PhotonNetwork.LocalPlayer)){
-            PhotonNetwork.Instantiate("Boss_0", new Vector3(3f, 0.5f, -8f), Quaternion.identity);
-            Instantiate(_freeLookBoss, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), new Vector3(3f, 0.5f, -8f), Quaternion.identity);
+            Instantiate(_freeLookBoss, posi[myIndex], Quaternion.identity);
             RandomGenerateKey();
         }
         else{
-            PhotonNetwork.Instantiate("Clone_0", new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
-            Instantiate(_freeLookClone, new Vector3(2.47f, 0f, 1.501f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone_" + myIndex.ToString(), new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
+            Instantiate(_freeLookClone, posi[myIndex], Quaternion.identity);
         }
         InitUI();
         StartCoroutine(CountDown());
