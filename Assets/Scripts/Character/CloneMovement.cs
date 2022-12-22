@@ -167,12 +167,14 @@ public class CloneMovement : MonoBehaviourPunCallbacks
     private void OnCollisionEnter(Collision other)
     {
         // Start here 12/9 1224
-        if (_pv.IsMine && other.gameObject.tag == "Key" && !hasKey)
+        if (other.gameObject.tag == "Key" && !hasKey)
         {
             audioSource.PlayOneShot(fx_getKey);
             Destroy(other.gameObject);
-            hasKey = true;
-            _gm.GetKey();
+            if(_pv.IsMine){
+                hasKey = true;
+                _gm.GetKey();
+            }
         }
         if (_pv.IsMine && other.gameObject.tag == "Gravity" && !isGravityChange)
         {
