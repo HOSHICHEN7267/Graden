@@ -286,12 +286,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
         if(isBoss(PhotonNetwork.LocalPlayer)){
-            PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), new Vector3(3f, 0.5f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
             Instantiate(_freeLookBoss, posi[myIndex], Quaternion.identity);
             RandomGenerateKey();
         }
         else{
-            PhotonNetwork.Instantiate("Clone_" + myIndex.ToString(), new Vector3(-3f, 0.5f, -8f), Quaternion.identity);
+            PhotonNetwork.Instantiate("Clone_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
             Instantiate(_freeLookClone, posi[myIndex], Quaternion.identity);
         }
         InitUI();
