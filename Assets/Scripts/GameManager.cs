@@ -297,7 +297,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // init UI
         InitUI();
         // instantiate
-        if(isBoss(PhotonNetwork.LocalPlayer)){
+        if(isBoss(myPlayerList[myIndex].NickName)){
             PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
             Instantiate(_freeLookBoss, posi[myIndex], Quaternion.identity);
             RandomGenerateKey();
@@ -313,19 +313,23 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitUI(){
         InitMyPlayerList();
+        // i: myPlayerList
+        // j: j-th player in PlayerUI
+        // k: the UI you wanna modify
         for(int i = 0, j = 1, k; i < maxPlayer; ++i){
             if(i == myIndex){
                 k = 0;
                 PhotonNetwork.LocalPlayer.NickName = playerName[i];
             }
             else{
-                k = j++;
+                k = j;
+                ++j;
             }
             _alivePlayerUI.transform.GetChild(k).gameObject.SetActive(true);
-            _alivePlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = playerName[i];
+            _alivePlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
             _deadPlayerUI.transform.GetChild(k).gameObject.SetActive(false);
-            _deadPlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = playerName[i];
-            print("player " + i + ": " + myPlayerList[i].NickName);
+            _deadPlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].NickName;
+            print("player " + i + ": " + myPlayerList[i].NickName + " in k = " + k.ToString());
         }
         if(_pv.IsMine){
             _keyUI[0].SetActive(true);
@@ -378,7 +382,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     IEnumerator ShowIdentity(){
-        if(isBoss(PhotonNetwork.LocalPlayer)){
+        if(isBoss(myPlayerList[myIndex].NickName)){
             _identityUI[0].SetActive(true);
             _identityUI[1].SetActive(false);
             yield return new WaitForSeconds(2);
@@ -406,8 +410,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         _identityUI[index].SetActive(false);
     }
 
-    public bool isBoss(Player player){
-        return player.NickName == bossName;
+    bool isBoss(string playerName){
+        return playerName == bossName;
     }
 
     public void BossWin(){
@@ -499,14 +503,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(deadPlayer == PhotonNetwork.LocalPlayer){
             StartCoroutine(FadeInDeadPanel());
         }
-        string cmpName;
-        if(deadPlayer.NickName == bossName){
-            cmpName = bossName;
-        }
-        else{
-            cmpName = myPlayerList[myIndex].NickName;
-        }
-        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, cmpName);
+        int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadPlayer.NickName);
+        string deadName = myPlayerList[deadIndex].NickName;
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadName);
     }
 
     [PunRPC]
@@ -520,12 +519,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             myPlayerUI.Add(playerName[i]);
         }
-        // int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadName);
         int deadIndex = myPlayerUI.FindIndex(x => x == deadName);
         print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
         _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
         _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
-        _debuffPanel.SetActive(false);
         if(isAllDead()){
             BossWin();
         }
@@ -582,7 +579,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     bool isAllDead(){
         bool flag = false;
         for(int i = 0; i < maxPlayer; ++i){
-            if(isBoss(myPlayerList[i])){
+            if(isBoss(myPlayerList[i].NickName)){
                 continue;
             }
             flag |= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
