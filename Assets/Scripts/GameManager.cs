@@ -349,12 +349,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     void InitMyPlayerList(){
-        // myPlayerList.Add(PhotonNetwork.LocalPlayer);
-        // print("myPlayerList[0] = " + myPlayerList[0]);
-        // for(int i = 0; i < maxPlayer; ++i){
-        //     myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
-        //     print("myPlayerList[" + i + "] = " + myPlayerList[i]);
-        // }
         for(int i = 0; i < maxPlayer; ++i){
             myPlayerList.Add(PhotonNetwork.PlayerList[i]);
             if(i == bossIndex){
@@ -598,14 +592,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
     }
 
-    public void EnterDebuffArea(){
-        _debuffPanel.SetActive(true);
-    }
-
-    public void LeaveDebuffArea(){
-        _debuffPanel.SetActive(false);
-    }
-
     // miniMap
     public int InRoom(float x, float z){
         resetMiniMap();
@@ -622,7 +608,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
             }
         }
-        return i;
+        return i+1;
     }
 
     void resetMiniMap(){
