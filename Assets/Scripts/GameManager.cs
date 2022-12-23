@@ -296,6 +296,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         print("myIndex = " + myIndex.ToString());
         // init UI
         InitUI();
+        print("my name is" + myPlayerList[myIndex].NickName);
         // instantiate
         if(isBoss(myPlayerList[myIndex].NickName)){
             PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
@@ -319,7 +320,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         for(int i = 0, j = 1, k; i < maxPlayer; ++i){
             if(i == myIndex){
                 k = 0;
-                PhotonNetwork.LocalPlayer.NickName = playerName[i];
+                if(isBoss(myPlayerList[i].NickName)){
+                    PhotonNetwork.LocalPlayer.NickName = bossName;
+                }
+                else{
+                    PhotonNetwork.LocalPlayer.NickName = playerName[i];
+                }
             }
             else{
                 k = j;
