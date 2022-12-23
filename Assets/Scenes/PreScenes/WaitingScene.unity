@@ -770,7 +770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currRoomKeyText: {fileID: 1654446714}
   waitingPlayersText: {fileID: 1948914069}
-  maxPlayer: 4
+  maxPlayer: 1
 --- !u!1 &1902544190
 GameObject:
   m_ObjectHideFlags: 0

@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         print("myIndex = " + myIndex.ToString());
         // init UI
         InitUI();
-        print("my name is" + myPlayerList[myIndex].NickName);
+        print("my name is " + myPlayerList[myIndex].NickName);
         // instantiate
         if(isBoss(myPlayerList[myIndex].NickName)){
             PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
@@ -595,20 +595,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     // miniMap
     public int InRoom(float x, float z){
         resetMiniMap();
-        int i;
-        for(i = 0; i < MINIMAP_POSI_X.Length-2; ++i){
+        int returnRoom = -1;
+        for(int i = 0; i < MINIMAP_POSI_X.Length-2; ++i){
             if(i >= 13  && ((   MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
                             &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1])
                         ||   (  MINIMAP_POSI_X[i+2][0] < x && x < MINIMAP_POSI_X[i+2][1]
                             &&  MINIMAP_POSI_Z[i+2][0] < z && z < MINIMAP_POSI_Z[i+2][1]))){
                     _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
+                    returnRoom = i;
                 }
             else if(    MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
                     &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1]){
                 _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
+                returnRoom = i;
             }
         }
-        return i+1;
+        return returnRoom;
     }
 
     void resetMiniMap(){

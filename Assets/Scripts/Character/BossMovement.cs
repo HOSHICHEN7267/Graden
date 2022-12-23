@@ -142,6 +142,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
             }
             else if (!isSlow)
             {
+                print("is slow now");
                 isSlow = true;
                 moveSpeed = moveSpeed / 2;
                 if(_pv.IsMine){
