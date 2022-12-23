@@ -140,11 +140,14 @@ public class BossMovement : MonoBehaviourPunCallbacks
             {
                 Stime += Time.deltaTime;
             }
-            else if (_pv.IsMine && !isSlow)
+            else if (!isSlow)
             {
+                print("is slow now");
                 isSlow = true;
                 moveSpeed = moveSpeed / 2;
-                _gm.SlowSpeed();
+                if(_pv.IsMine){
+                    _gm.SlowSpeed();
+                }
                 Debug.Log("slow...");
             }
         }

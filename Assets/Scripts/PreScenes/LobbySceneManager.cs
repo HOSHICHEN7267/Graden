@@ -12,6 +12,7 @@ public class LobbySceneManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     InputField inputRoomKey;
+    string roomForTest = "4test";
 
     void Start()
     {
@@ -43,7 +44,10 @@ public class LobbySceneManager : MonoBehaviourPunCallbacks
     public void OnClickJoinRoom(){
         print("[Click Join]");
         print("input key \"" + inputRoomKey.text + "\".");
-        if(!PhotonNetwork.JoinRoom(inputRoomKey.text)){
+        if(inputRoomKey.text == roomForTest){
+            PhotonNetwork.CreateRoom(roomForTest);
+        }
+        else if(!PhotonNetwork.JoinRoom(inputRoomKey.text)){
             print("Failed to join room.");
         }
     }

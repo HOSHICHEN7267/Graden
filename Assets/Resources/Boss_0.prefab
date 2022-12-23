@@ -285,7 +285,7 @@ MonoBehaviour:
   orientation: {fileID: 5660070079292938634}
   gcTime: 2
   killTime: 1
-  slowTime: 20
+  slowTime: 5
   useGravity: 1
 --- !u!114 &4286116157634689751
 MonoBehaviour:
@@ -306,8 +306,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5710407817654362474}
   - {fileID: 4998200312808165749}
+  - {fileID: 5710407817654362474}
   - {fileID: 328983948764849817}
   - {fileID: 5408284578827272079}
   - {fileID: 2114461519255536529}
