@@ -16,16 +16,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject _alivePlayerUI; // the order is same as myPlayerList
     public GameObject _deadPlayerUI; // the order is same as myPlayerList
     public int maxPlayer = 4;
-    Player bossPlayer = null;
+    int bossIndex;
+    int myIndex;
     List<Player> myPlayerList = new List<Player>();     // 0:       me
                                                         // 1 - 4:   other players
-    Vector3[] posi = {    new Vector3(0, 0.5f, -52f),
+    Vector3[] posi = {  new Vector3(0, 0.5f, -52f),
                         new Vector3(-52f, 0.5f, 0),
                         new Vector3(52f, 0.5f, 0),
                         new Vector3(-32f, 0.5f, 60f) };
+    string[] playerName = { "#050300",
+                            "#050500",
+                            "#060000",
+                            "#050715" };
+    string bossName = "Vargity";
 
     // key info
-    const int maxKey = 4;
+    const int MAX_KEY = 4;
     public List<GameObject> _keyUI; // 0:   no key
                                     // 1:   has key
                                     // 2:   boss key
@@ -113,6 +119,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         _pv = this.gameObject.GetComponent<PhotonView>();
         if(PhotonNetwork.IsMasterClient){
             PickBoss();
+            _pv.RPC("RPC_Init", RpcTarget.All, bossIndex);
         }
     }
 
@@ -270,21 +277,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     void PickBoss(){
-        bossPlayer = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)];
-        print("Boss is " + bossPlayer);
-        _pv.RPC("RPC_Init", RpcTarget.All, bossPlayer);
+        bossIndex = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        print("Boss is " + bossIndex.ToString());
     }
 
     [PunRPC]
-    void RPC_Init(Player _bossPlayer){
+    void RPC_Init(int _bossIndex){
         print("Initializing game...");
-        bossPlayer = _bossPlayer;
-        int myIndex = 0;
+        // bossIndex
+        bossIndex = _bossIndex;
+        myIndex = 0;
+        // myIndex
         for(; myIndex < maxPlayer; ++myIndex){
             if(PhotonNetwork.PlayerList[myIndex] == PhotonNetwork.LocalPlayer){
                 break;
             }
         }
+        print("myIndex = " + myIndex.ToString());
+        // init UI
+        InitUI();
+        // instantiate
         if(isBoss(PhotonNetwork.LocalPlayer)){
             PhotonNetwork.Instantiate("Boss_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
             Instantiate(_freeLookBoss, posi[myIndex], Quaternion.identity);
@@ -294,7 +306,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate("Clone_" + myIndex.ToString(), posi[myIndex], Quaternion.identity);
             Instantiate(_freeLookClone, posi[myIndex], Quaternion.identity);
         }
-        InitUI();
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
         print("Game initialized.");
@@ -302,12 +313,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitUI(){
         InitMyPlayerList();
-        for(int i = 0; i < maxPlayer; ++i){
-            _alivePlayerUI.transform.GetChild(i).gameObject.SetActive(true);
-            _alivePlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].UserId;
-            print("player " + i + ": " + myPlayerList[i].UserId);
-            _deadPlayerUI.transform.GetChild(i).gameObject.SetActive(false);
-            _deadPlayerUI.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = myPlayerList[i].UserId;
+        for(int i = 0, j = 1, k; i < maxPlayer; ++i){
+            if(i == myIndex){
+                k = 0;
+                PhotonNetwork.LocalPlayer.NickName = playerName[i];
+            }
+            else{
+                k = j++;
+            }
+            _alivePlayerUI.transform.GetChild(k).gameObject.SetActive(true);
+            _alivePlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = playerName[i];
+            _deadPlayerUI.transform.GetChild(k).gameObject.SetActive(false);
+            _deadPlayerUI.transform.GetChild(k).transform.GetChild(1).GetComponent<Text>().text = playerName[i];
+            print("player " + i + ": " + myPlayerList[i].NickName);
         }
         if(_pv.IsMine){
             _keyUI[0].SetActive(true);
@@ -315,16 +333,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             _keyUI[2].SetActive(false);
         }
         totalKey = 0;
-        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
+        _totalKeyText.text = totalKey.ToString() + "  /  " + MAX_KEY.ToString();
         _debuffPanel.SetActive(false);
         _deadPanel.SetActive(false);
     }
 
     void InitMyPlayerList(){
-        myPlayerList.Add(PhotonNetwork.LocalPlayer);
-        print("myPlayerList[0] = " + myPlayerList[0]);
-        for(int i = 1; i < maxPlayer; ++i){
-            myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+        // myPlayerList.Add(PhotonNetwork.LocalPlayer);
+        // print("myPlayerList[0] = " + myPlayerList[0]);
+        // for(int i = 0; i < maxPlayer; ++i){
+        //     myPlayerList.Add(PhotonNetwork.PlayerListOthers[i-1]);
+        //     print("myPlayerList[" + i + "] = " + myPlayerList[i]);
+        // }
+        for(int i = 0; i < maxPlayer; ++i){
+            myPlayerList.Add(PhotonNetwork.PlayerList[i]);
+            if(i == bossIndex){
+                myPlayerList[i].NickName = bossName;
+            }
+            else{
+                myPlayerList[i].NickName = playerName[i];
+            }
             print("myPlayerList[" + i + "] = " + myPlayerList[i]);
         }
     }
@@ -379,7 +407,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public bool isBoss(Player player){
-        return player == bossPlayer;
+        return player.NickName == bossName;
     }
 
     public void BossWin(){
@@ -455,8 +483,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_SyncKey(int num){
         totalKey = num;
-        _totalKeyText.text = totalKey.ToString() + "  /  " + maxKey.ToString();
-        if(totalKey == maxKey){
+        _totalKeyText.text = totalKey.ToString() + "  /  " + MAX_KEY.ToString();
+        if(totalKey == MAX_KEY){
             CloneWin();
         }
     }
@@ -471,12 +499,29 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(deadPlayer == PhotonNetwork.LocalPlayer){
             StartCoroutine(FadeInDeadPanel());
         }
-        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadPlayer);
+        string cmpName;
+        if(deadPlayer.NickName == bossName){
+            cmpName = bossName;
+        }
+        else{
+            cmpName = myPlayerList[myIndex].NickName;
+        }
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, cmpName);
     }
 
     [PunRPC]
-    void RPC_SyncPlayer(Player deadPlayer){
-        int deadIndex = myPlayerList.FindIndex(x => x == deadPlayer);
+    void RPC_SyncPlayer(string deadName){
+        print("dead player name: " + deadName);
+        List<string> myPlayerUI = new List<string>();
+        myPlayerUI.Add(playerName[myIndex]);
+        for(int i = 0; i < maxPlayer; ++i){
+            if(i == myIndex){
+                continue;
+            }
+            myPlayerUI.Add(playerName[i]);
+        }
+        // int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadName);
+        int deadIndex = myPlayerUI.FindIndex(x => x == deadName);
         print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
         _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
         _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
@@ -484,7 +529,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(isAllDead()){
             BossWin();
         }
-        else if(isBoss(deadPlayer)){
+        else if(deadName == bossName){
             CloneWin();
         }
     }
@@ -537,7 +582,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     bool isAllDead(){
         bool flag = false;
         for(int i = 0; i < maxPlayer; ++i){
-            if(myPlayerList[i] == bossPlayer){
+            if(isBoss(myPlayerList[i])){
                 continue;
             }
             flag |= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
