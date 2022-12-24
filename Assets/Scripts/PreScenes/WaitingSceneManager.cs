@@ -28,6 +28,7 @@ public class WaitingSceneManager : MonoBehaviourPunCallbacks
             waitingPlayersText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayer + " are waiting...";
             if(PhotonNetwork.CurrentRoom.PlayerCount == maxPlayer)
             {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
                 SceneManager.LoadScene("MainScene");
             }
         }

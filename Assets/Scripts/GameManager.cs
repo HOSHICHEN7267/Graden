@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
         }
+        Time.timeScale = 1;
         _pv = this.gameObject.GetComponent<PhotonView>();
         if(PhotonNetwork.IsMasterClient){
             PickBoss();
@@ -465,9 +466,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickReturnToLobby(){
-        print("[ClickReturnToLobby]");
+        print("[Click Return To Lobby]");
         if(PhotonNetwork.InRoom){
-            Time.timeScale = 1;
             PhotonNetwork.LeaveRoom();
         }
     }
@@ -512,22 +512,32 @@ public class GameManager : MonoBehaviourPunCallbacks
     void RPC_SyncPlayer(string deadName){
         print("dead player name: " + deadName);
         List<string> myPlayerUI = new List<string>();
-        myPlayerUI.Add(playerName[myIndex]);
+        if(isBoss(myPlayerList[myIndex].NickName)){
+            myPlayerUI.Add(bossName);
+        }
+        else{
+            myPlayerUI.Add(playerName[myIndex]);
+        }
         for(int i = 0; i < maxPlayer; ++i){
             if(i == myIndex){
                 continue;
             }
-            myPlayerUI.Add(playerName[i]);
+            if(i == bossIndex){
+                myPlayerUI.Add(bossName);
+            }
+            else{
+                myPlayerUI.Add(playerName[i]);
+            }
         }
         int deadIndex = myPlayerUI.FindIndex(x => x == deadName);
         print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
         _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
         _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
-        if(isAllDead()){
-            BossWin();
-        }
-        else if(deadName == bossName){
+        if(deadName == bossName){
             CloneWin();
+        }
+        else if(isAllDead()){
+            BossWin();
         }
     }
 
@@ -577,14 +587,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     bool isAllDead(){
-        bool flag = false;
-        for(int i = 0; i < maxPlayer; ++i){
+        bool flag = true;
+        if(!isBoss(myPlayerList[myIndex].NickName)){
+            flag &= _deadPlayerUI.transform.GetChild(0).gameObject.activeSelf;
+        }
+        for(int i = 1; i < maxPlayer; ++i){
             if(isBoss(myPlayerList[i].NickName)){
                 continue;
             }
-            flag |= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
+            flag &= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
         }
-        return !flag;
+        return flag;
     }
 
     public void GravityChange(){
@@ -637,8 +650,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         _keyUI[2].SetActive(true);
     }
     
-    public override void OnPlayerLeftRoom (Player otherPlayer){
-        if(_pv.IsMine){
+    public override void OnPlayerLeftRoom(Player otherPlayer){
+        if(_pv.IsMine && (Time.timeScale != 0)){
             PlayerDie(otherPlayer);
         }
     }

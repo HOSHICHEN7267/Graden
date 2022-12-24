@@ -108,10 +108,11 @@ public class CloneMovement : MonoBehaviourPunCallbacks
             Dtime += Time.deltaTime;
             if (Dtime > dieTime)
             {
+                print(PhotonNetwork.LocalPlayer + " died");
+                this.gameObject.SetActive(false);
                 if(_pv.IsMine){
                     _gm.PlayerDie(PhotonNetwork.LocalPlayer);
                 }
-                this.gameObject.SetActive(false);
             }
         }
         else if (isPutting)
