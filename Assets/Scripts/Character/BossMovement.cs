@@ -191,7 +191,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Clone")
         {
             audioSource.PlayOneShot(fx_kill);
             isKilling = true;
