@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         if(!PhotonNetwork.IsConnected){
-            SceneManager.LoadScene("MenuScene");
+            SceneManager.LoadScene("BeginScene");
         }
         else if(PhotonNetwork.CurrentRoom == null){
             SceneManager.LoadScene("LobbyScene");
@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void InitUI(){
         InitMyPlayerList();
-        // i: myPlayerList
+        // i: i-th player in myPlayerList
         // j: j-th player in PlayerUI
         // k: the UI you wanna modify
         for(int i = 0, j = 1, k; i < maxPlayer; ++i){
@@ -423,15 +423,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void BossWin(){
-        StartCoroutine(EndGame(0));
+        if(Time.timeScale != 0){
+            StartCoroutine(EndGame(0));
+        }
     }
 
     public void CloneWin(){
-        StartCoroutine(EndGame(1));
+        if(Time.timeScale != 0){
+            StartCoroutine(EndGame(1));
+        }
     }
 
     public void Tie(){
-        StartCoroutine(EndGame(2));
+        if(Time.timeScale != 0){
+            StartCoroutine(EndGame(2));
+        }
     }
 
     IEnumerator EndGame(int gameOverCode){
@@ -473,13 +479,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickReturnToLobby(){
+        Time.timeScale = 1;
         print("[Click Return To Lobby]");
         if(PhotonNetwork.InRoom){
+            print("in room");
             PhotonNetwork.LeaveRoom();
         }
     }
 
     public override void OnLeftRoom(){
+        print("hi i'm going to leave room now");
         SceneManager.LoadScene("LobbyScene");
     }
 
@@ -540,7 +549,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
         _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
         _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
-        if(deadName == bossName){
+        if(isBoss(deadName)){
             CloneWin();
         }
         else if(isAllDead()){
@@ -594,17 +603,25 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     bool isAllDead(){
-        bool flag = true;
-        if(!isBoss(myPlayerList[myIndex].NickName)){
-            flag &= _deadPlayerUI.transform.GetChild(0).gameObject.activeSelf;
-        }
-        for(int i = 1; i < maxPlayer; ++i){
+        // i: i-th player in myPlayerList
+        // j: j-th player in PlayerUI
+        // k: the UI you wanna check
+        for(int i = 0, j = 1, k; i < maxPlayer; ++i){
+            if(i == myIndex){
+                k = 0;
+            }
+            else{
+                k = j;
+                ++j;
+            }
             if(isBoss(myPlayerList[i].NickName)){
                 continue;
             }
-            flag &= _deadPlayerUI.transform.GetChild(i).gameObject.activeSelf;
+            if(_alivePlayerUI.transform.GetChild(k).gameObject.activeSelf){
+                return false;
+            }
         }
-        return flag;
+        return true;
     }
 
     public void GravityChange(){
