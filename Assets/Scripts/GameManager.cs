@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     PhotonView _pv;
+    bool IsGameOver = false;
 
     // player info
     public GameObject[] _identityUI;    // 0:   boss
@@ -318,6 +320,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
         print("Game initialized.");
+        StartCoroutine(FadeInDeadPanel());
     }
 
     void InitUI(){
@@ -423,19 +426,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void BossWin(){
-        if(Time.timeScale != 0){
+        if(!IsGameOver){
             StartCoroutine(EndGame(0));
         }
     }
 
     public void CloneWin(){
-        if(Time.timeScale != 0){
+        if(!IsGameOver){
             StartCoroutine(EndGame(1));
         }
     }
 
     public void Tie(){
-        if(Time.timeScale != 0){
+        if(!IsGameOver){
             StartCoroutine(EndGame(2));
         }
     }
@@ -443,6 +446,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     IEnumerator EndGame(int gameOverCode){
         print("Ending game...");
         Time.timeScale = 0;
+        IsGameOver = true;
         yield return new WaitForSecondsRealtime(1);
         StartCoroutine(FadeInGameOverPanel(gameOverCode));
     }
@@ -478,20 +482,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnClickReturnToLobby(){
-        Time.timeScale = 1;
-        print("[Click Return To Lobby]");
-        if(PhotonNetwork.InRoom){
-            print("in room");
-            PhotonNetwork.LeaveRoom();
-        }
-    }
-
-    public override void OnLeftRoom(){
-        print("hi i'm going to leave room now");
-        SceneManager.LoadScene("LobbyScene");
-    }
-
     public void GiveKey(){  // give key into center
         ++totalKey;
         _pv.RPC("RPC_SyncKey", RpcTarget.All, totalKey);
@@ -516,7 +506,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void PlayerDie(Player deadPlayer){
-        if(deadPlayer == PhotonNetwork.LocalPlayer){
+        if(!isBoss(deadPlayer.NickName) && (deadPlayer == PhotonNetwork.LocalPlayer)){
             StartCoroutine(FadeInDeadPanel());
         }
         int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadPlayer.NickName);
@@ -673,10 +663,31 @@ public class GameManager : MonoBehaviourPunCallbacks
         _keyUI[1].SetActive(false);
         _keyUI[2].SetActive(true);
     }
+
+    public void OnClickReturnToLobby(){
+        Time.timeScale = 1;
+        print("[Click Return To Lobby]");
+        if(PhotonNetwork.InRoom){
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    public void OnClickWatchGame(){
+        print("[Click Watch Game]");
+        GameObject camera = GameObject.FindGameObjectWithTag("Camera");
+        GameObject bossPlayer = GameObject.FindGameObjectWithTag("Boss");
+        camera.GetComponent<CinemachineFreeLook>().Follow = bossPlayer.transform;
+        camera.GetComponent<CinemachineFreeLook>().LookAt = bossPlayer.transform;
+    }
     
     public override void OnPlayerLeftRoom(Player otherPlayer){
-        if(_pv.IsMine && (Time.timeScale != 0)){
+        if(_pv.IsMine){
             PlayerDie(otherPlayer);
         }
+    }
+
+    public override void OnLeftRoom(){
+        print("Left Room");
+        SceneManager.LoadScene("LobbyScene");
     }
 }

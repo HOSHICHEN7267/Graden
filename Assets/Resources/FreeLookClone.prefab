@@ -105,7 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 780814036446114526, guid: 2843ea30b6eda904da43ccc162e9acec, type: 3}
       propertyPath: m_Name
-      value: CM FreeLook1
+      value: FreeLookClone
+      objectReference: {fileID: 0}
+    - target: {fileID: 780814036446114526, guid: 2843ea30b6eda904da43ccc162e9acec, type: 3}
+      propertyPath: m_TagString
+      value: Camera
       objectReference: {fileID: 0}
     - target: {fileID: 780814036649933415, guid: 2843ea30b6eda904da43ccc162e9acec, type: 3}
       propertyPath: m_LocalPosition.x
