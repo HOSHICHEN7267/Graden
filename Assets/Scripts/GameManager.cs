@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if(isAllDead()){
             BossWin();
         }
-        else if(!isBoss(deadName) && (deadIndex == myIndex)){
+        else if(!isBoss(deadName) && (deadName == myPlayerList[myIndex].NickName)){
             StartCoroutine(FadeInDeadPanel());
         }
     }
