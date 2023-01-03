@@ -447,6 +447,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void PlayerDie(Player deadPlayer){
+        if(deadPlayer == PhotonNetwork.LocalPlayer && !isBoss(deadPlayer.NickName)){
+            StartCoroutine(FadeInDeadPanel());
+        }
         if(isGameOver){
             return;
         }
@@ -485,9 +488,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else if(isAllDead()){
             BossWin();
-        }
-        else if(!isBoss(deadName) && (deadIndex == myIndex)){
-            StartCoroutine(FadeInDeadPanel());
         }
     }
 
