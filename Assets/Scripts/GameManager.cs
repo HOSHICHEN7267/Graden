@@ -150,6 +150,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         int maxKeyAmount = (MaxGamePlayer - 1)*2;
 
         List<int> keyList = generateRandom(maxKeyAmount-5);
+
+        Debug.Log(keyList);
         
         for (int i = 0; i < keyList.Count; i++){
             if (keyList[i] == 0){
@@ -172,12 +174,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         // Lab 1
         Vector3[] positions1 = new Vector3[5];
-        positions1[0] = new Vector3(-84.225f,0.88f,7.35f);
-        positions1[1] = new Vector3(-64.97f,0.88f,-10.23f);
-        positions1[2] = new Vector3(-64.77f,7.32f,-5.7f);
-        positions1[3] = new Vector3(-64.8f,4.83f,-11.43f);
-        positions1[4] = new Vector3(-75.41f,0.72f,-17.73f);
+        positions1[0] = new Vector3(-49.5f,1.82f,1.82f);
+        positions1[1] = new Vector3(-55.95f,1.82f,-25.81f);
+        positions1[2] = new Vector3(-47.2f,4.462f,-13.54f);
+        positions1[3] = new Vector3(-44.08f,2.272f,-0.089f);
+        positions1[4] = new Vector3(-53.94f,-1.98f,-15.04f);
         Ran_Lab1 = Random.Range(0,5);
+        Debug.Log(Ran_Lab1);
         if (Lab1Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
@@ -193,12 +196,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key1.transform.localPosition = positions1[Ran_Lab1];
         // Lab 2
         Vector3[] positions2 = new Vector3[5];
-        positions2[0] = new Vector3(-45.802f,4.83f,49.81f);
-        positions2[1] = new Vector3(-47.01f,4.83f,41.07f);
-        positions2[2] = new Vector3(-48.08f,-2.151f,42.33f);
-        positions2[3] = new Vector3(-48.08f,0.61f,52.66f);
-        positions2[4] = new Vector3(-38.412f,-1.835f,40.73f);
+        positions2[0] = new Vector3(-44.3f,4.183f,49.87f);
+        positions2[1] = new Vector3(-22.11f,4.183f,49.492f);
+        positions2[2] = new Vector3(-20.96f,2.09f,41.45f);
+        positions2[3] = new Vector3(-47.311f,4.183f,49.493f);
+        positions2[4] = new Vector3(-44.27f,-2.056f,51.34f);
         Ran_Lab2 = Random.Range(0,5);
+        Debug.Log(Ran_Lab2);
         if (Lab2Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
@@ -220,6 +224,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         positions3[3] = new Vector3(88.946f,1.692f,50.31f);
         positions3[4] = new Vector3(104.826f,1.872f,50.848f);
         Ran_Lab3 = Random.Range(0,5);
+        Debug.Log(Ran_Lab3);
         if (Lab3Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
@@ -237,10 +242,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         Vector3[] positions4 = new Vector3[5];
         positions4[0] = new Vector3(93.14f,1.84f,-11.46f);
         positions4[1] = new Vector3(95.69f,-2.151f,1.16f);
-        positions4[2] = new Vector3(108.103f,-2.13f,42.33f);
+        positions4[2] = new Vector3(105.68f,-2.13f,42.33f);
         positions4[3] = new Vector3(94.101f,1.946f,6.117f);
         positions4[4] = new Vector3(72.88f,4.44f,-10.69f);
         Ran_Lab4 = Random.Range(0,5);
+        Debug.Log(Ran_Lab4);
         if (Lab4Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
@@ -256,12 +262,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key4.transform.localPosition = positions4[Ran_Lab4];
         // Lab 5
         Vector3[] positions5 = new Vector3[5];
-        positions5[0] = new Vector3(3f,3.3f,-71.6f);
-        positions5[1] = new Vector3(17.45f,4.83f,-76.78f);
-        positions5[2] = new Vector3(11.05f,4.83f,-57.4f);
-        positions5[3] = new Vector3(-11.07f,0.88f,-58.58f);
-        positions5[4] = new Vector3(-14.7f,0.88f,-89.87f);
+        positions5[0] = new Vector3(9.33f,2.28f,-71.6f);
+        positions5[1] = new Vector3(20.84f,2.28f,-84.14f);
+        positions5[2] = new Vector3(20.84f,4.3f,-78.18f);
+        positions5[3] = new Vector3(32.11f,4.3f,-70.13f);
+        positions5[4] = new Vector3(6.091756f,-1.918255f,-100.633f);
         Ran_Lab5 = Random.Range(0,5);
+        Debug.Log(Ran_Lab5);
         if (Lab5Extra != 0){
             List<int> SecondRandom = new List<int>();
             for (int i = 0; i < 5; i++){
