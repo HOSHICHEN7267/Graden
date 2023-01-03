@@ -10,7 +10,7 @@ using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     PhotonView _pv;
-    bool IsGameOver = false;
+    bool isGameOver;
 
     // player info
     public GameObject[] _identityUI;    // 0:   boss
@@ -294,6 +294,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Init(int _bossIndex){
         print("Initializing game...");
+        // isGameOver
+        isGameOver = false;
         // bossIndex
         bossIndex = _bossIndex;
         myIndex = 0;
@@ -318,7 +320,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Instantiate(_freeLookClone, posi[myIndex], Quaternion.identity);
         }
         StartCoroutine(CountDown());
-        StartCoroutine(ShowIdentity());
+        StartCoroutine(FadeInIdentity());
         print("Game initialized.");
     }
 
@@ -371,114 +373,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator CountDown(){
-        timer_min = timer_totalSec / 60;
-        timer_sec = timer_totalSec % 60;
-        _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
-        while(timer_totalSec > 0){
-            yield return new WaitForSeconds(1);
-            --timer_totalSec;
-            --timer_sec;
-
-            if(timer_sec < 0 && timer_min > 0){
-                --timer_min;
-                timer_sec = 59;
-            }
-            _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
-        }
-        yield return new WaitForSeconds(1);
-        Time.timeScale = 0;
-        Tie();
-    }
-
-    IEnumerator ShowIdentity(){
-        if(isBoss(myPlayerList[myIndex].NickName)){
-            _identityUI[0].SetActive(true);
-            _identityUI[1].SetActive(false);
-            yield return new WaitForSeconds(2);
-            StartCoroutine(FadeOutIdentity(0));
-        }
-        else{
-            _identityUI[0].SetActive(false);
-            _identityUI[1].SetActive(true);
-            yield return new WaitForSeconds(2);
-            StartCoroutine(FadeOutIdentity(1));
-        }
-    }
-
-    IEnumerator FadeOutIdentity(int index){
-        float x = _identityUI[index].transform.localScale.x;
-        float y = _identityUI[index].transform.localScale.y;
-        float z = _identityUI[index].transform.localScale.z;
-        float rate = 0.9f;
-        while(y > 0.01f){
-            y *= rate;
-            rate *= rate;
-            _identityUI[index].transform.localScale = new Vector3(x, y, z);
-            yield return new WaitForSeconds(0.01f);
-        }
-        _identityUI[index].SetActive(false);
-    }
-
-    bool isBoss(string playerName){
-        return playerName == bossName;
-    }
-
-    public void BossWin(){
-        if(!IsGameOver){
-            StartCoroutine(EndGame(0));
-        }
-    }
-
-    public void CloneWin(){
-        if(!IsGameOver){
-            StartCoroutine(EndGame(1));
-        }
-    }
-
-    public void Tie(){
-        if(!IsGameOver){
-            StartCoroutine(EndGame(2));
-        }
-    }
-
-    IEnumerator EndGame(int gameOverCode){
-        print("Ending game...");
-        Time.timeScale = 0;
-        IsGameOver = true;
-        yield return new WaitForSecondsRealtime(1);
-        StartCoroutine(FadeInGameOverPanel(gameOverCode));
-    }
-
-    IEnumerator FadeInGameOverPanel(int gameOverCode){
-        _gameOverPanel[gameOverCode].SetActive(true);
-        float originX = _gameOverPanel[gameOverCode].transform.localScale.x;
-        float originY = _gameOverPanel[gameOverCode].transform.localScale.y;
-        float originZ = _gameOverPanel[gameOverCode].transform.localScale.z;
-        float y = 0;
-        float unit = originY/5f;
-        _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
-        while(y < originY){
-            y += unit;
-            _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
-            yield return new WaitForSecondsRealtime(0.01f);
-        }
-        yield return new WaitForSecondsRealtime(0.8f);
-        for(int i = 1; i < 3; ++i){
-            _gameOverPanel[gameOverCode].transform.GetChild(i).gameObject.SetActive(true);
-            originX = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.x;
-            originY = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.y;
-            originZ = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.z;
-            y = 0;
-            unit = originY/5f;
-            _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
-            while(y < originY){
-                y += unit;
-                _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
-                yield return new WaitForSecondsRealtime(0.01f);
-            }
-            yield return new WaitForSecondsRealtime(1.5f);
-        }
+    public void ChangeToBossKey()
+    {
+        _keyUI[0].SetActive(false);
+        _keyUI[1].SetActive(false);
+        _keyUI[2].SetActive(true);
     }
 
     public void GiveKey(){  // give key into center
@@ -504,9 +403,52 @@ public class GameManager : MonoBehaviourPunCallbacks
         _keyUI[2].SetActive(false);
     }
 
+    public void GravityChange(){
+        _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
+        _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
+    }
+
+    // miniMap
+    public int InRoom(float x, float z){
+        ResetMiniMap();
+        int returnRoom = -1;
+        for(int i = 0; i < MINIMAP_POSI_X.Length-2; ++i){
+            if(i >= 13  && ((   MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
+                            &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1])
+                        ||   (  MINIMAP_POSI_X[i+2][0] < x && x < MINIMAP_POSI_X[i+2][1]
+                            &&  MINIMAP_POSI_Z[i+2][0] < z && z < MINIMAP_POSI_Z[i+2][1]))){
+                    _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
+                    returnRoom = i;
+                }
+            else if(    MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
+                    &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1]){
+                _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
+                returnRoom = i;
+            }
+        }
+        return returnRoom;
+    }
+
+    void ResetMiniMap(){
+        _miniMap.transform.GetChild(0).gameObject.SetActive(true);
+        for(int i = 1; i < MINIMAP_POSI_X.Length-1; ++i){
+            _miniMap.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+    
+    public void SlowSpeed()
+    {
+        _debuffPanel.SetActive(true);
+    }
+
+    public void NormalSpeed()
+    {
+        _debuffPanel.SetActive(false);
+    }
+
     public void PlayerDie(Player deadPlayer){
-        if(!isBoss(deadPlayer.NickName) && (deadPlayer == PhotonNetwork.LocalPlayer)){
-            StartCoroutine(FadeInDeadPanel());
+        if(isGameOver){
+            return;
         }
         int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadPlayer.NickName);
         string deadName = myPlayerList[deadIndex].NickName;
@@ -544,6 +486,102 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if(isAllDead()){
             BossWin();
         }
+        else if(!isBoss(deadName) && (deadIndex == myIndex)){
+            StartCoroutine(FadeInDeadPanel());
+        }
+    }
+
+    bool isBoss(string playerName){
+        return playerName == bossName;
+    }
+
+    bool isAllDead(){
+        // i: i-th player in myPlayerList
+        // j: j-th player in PlayerUI
+        // k: the UI you wanna check
+        for(int i = 0, j = 1, k; i < maxPlayer; ++i){
+            if(i == myIndex){
+                k = 0;
+            }
+            else{
+                k = j;
+                ++j;
+            }
+            if(isBoss(myPlayerList[i].NickName)){
+                continue;
+            }
+            if(_alivePlayerUI.transform.GetChild(k).gameObject.activeSelf){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void BossWin(){
+        if(!isGameOver){
+            StartCoroutine(EndGame(0));
+        }
+    }
+
+    public void CloneWin(){
+        if(!isGameOver){
+            StartCoroutine(EndGame(1));
+        }
+    }
+
+    public void Tie(){
+        if(!isGameOver){
+            StartCoroutine(EndGame(2));
+        }
+    }
+
+    IEnumerator CountDown(){
+        timer_min = timer_totalSec / 60;
+        timer_sec = timer_totalSec % 60;
+        _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+        while(timer_totalSec > 0){
+            yield return new WaitForSeconds(1);
+            --timer_totalSec;
+            --timer_sec;
+
+            if(timer_sec < 0 && timer_min > 0){
+                --timer_min;
+                timer_sec = 59;
+            }
+            _timerText.text = string.Format("{0} : {1}", timer_min.ToString("00"), timer_sec.ToString("00"));
+        }
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0;
+        Tie();
+    }
+
+    IEnumerator FadeInIdentity(){
+        if(isBoss(myPlayerList[myIndex].NickName)){
+            _identityUI[0].SetActive(true);
+            _identityUI[1].SetActive(false);
+            yield return new WaitForSeconds(2);
+            StartCoroutine(FadeOutIdentity(0));
+        }
+        else{
+            _identityUI[0].SetActive(false);
+            _identityUI[1].SetActive(true);
+            yield return new WaitForSeconds(2);
+            StartCoroutine(FadeOutIdentity(1));
+        }
+    }
+
+    IEnumerator FadeOutIdentity(int index){
+        float x = _identityUI[index].transform.localScale.x;
+        float y = _identityUI[index].transform.localScale.y;
+        float z = _identityUI[index].transform.localScale.z;
+        float rate = 0.9f;
+        while(y > 0.01f){
+            y *= rate;
+            rate *= rate;
+            _identityUI[index].transform.localScale = new Vector3(x, y, z);
+            yield return new WaitForSeconds(0.01f);
+        }
+        _identityUI[index].SetActive(false);
     }
 
     IEnumerator FadeInDeadPanel(){
@@ -591,76 +629,90 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    bool isAllDead(){
-        // i: i-th player in myPlayerList
-        // j: j-th player in PlayerUI
-        // k: the UI you wanna check
-        for(int i = 0, j = 1, k; i < maxPlayer; ++i){
-            if(i == myIndex){
-                k = 0;
-            }
-            else{
-                k = j;
-                ++j;
-            }
-            if(isBoss(myPlayerList[i].NickName)){
-                continue;
-            }
-            if(_alivePlayerUI.transform.GetChild(k).gameObject.activeSelf){
-                return false;
-            }
+    IEnumerator FadeOutDeadPanel(){
+        // buttons
+        _deadPanel.transform.GetChild(1).gameObject.SetActive(true);
+        float originX = _deadPanel.transform.GetChild(1).localScale.x;
+        float originY = _deadPanel.transform.GetChild(1).localScale.y;
+        float originZ = _deadPanel.transform.GetChild(1).localScale.z;
+        float y = originY;
+        float unit = -originY/5f;
+        _deadPanel.transform.GetChild(1).localScale = new Vector3(originX, y, originZ);
+        while(y > 0.01f){
+            y += unit;
+            _deadPanel.transform.GetChild(1).localScale = new Vector3(originX, y, originZ);
+            yield return new WaitForSecondsRealtime(0.01f);
         }
-        return true;
-    }
-
-    public void GravityChange(){
-        _gravityUI[0].SetActive(!_gravityUI[0].activeSelf);
-        _gravityUI[1].SetActive(!_gravityUI[1].activeSelf);
-    }
-
-    // miniMap
-    public int InRoom(float x, float z){
-        resetMiniMap();
-        int returnRoom = -1;
-        for(int i = 0; i < MINIMAP_POSI_X.Length-2; ++i){
-            if(i >= 13  && ((   MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
-                            &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1])
-                        ||   (  MINIMAP_POSI_X[i+2][0] < x && x < MINIMAP_POSI_X[i+2][1]
-                            &&  MINIMAP_POSI_Z[i+2][0] < z && z < MINIMAP_POSI_Z[i+2][1]))){
-                    _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
-                    returnRoom = i;
-                }
-            else if(    MINIMAP_POSI_X[i][0] < x && x < MINIMAP_POSI_X[i][1]
-                    &&  MINIMAP_POSI_Z[i][0] < z && z < MINIMAP_POSI_Z[i][1]){
-                _miniMap.transform.GetChild(i+1).gameObject.SetActive(true);
-                returnRoom = i;
-            }
+        // title
+        _deadPanel.transform.GetChild(0).gameObject.SetActive(true);
+        float originR = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.r;
+        float originB = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.b;
+        float originG = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.g;
+        float originAlpha = _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color.a;
+        float alpha = originAlpha;
+        unit = -originAlpha/5f;
+        _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color = new Color(originR, originB, originG, alpha);
+        while(alpha > 0.01){
+            alpha += unit;
+            _deadPanel.transform.GetChild(0).gameObject.GetComponent<Text>().color = new Color(originR, originB, originG, alpha);
+            yield return new WaitForSecondsRealtime(0.01f);
         }
-        return returnRoom;
-    }
-
-    void resetMiniMap(){
-        _miniMap.transform.GetChild(0).gameObject.SetActive(true);
-        for(int i = 1; i < MINIMAP_POSI_X.Length-1; ++i){
-            _miniMap.transform.GetChild(i).gameObject.SetActive(false);
+        // panel
+        _deadPanel.SetActive(true);
+        originR = _deadPanel.GetComponent<Image>().color.r;
+        originB = _deadPanel.GetComponent<Image>().color.b;
+        originG = _deadPanel.GetComponent<Image>().color.g;
+        originAlpha = _deadPanel.GetComponent<Image>().color.a;
+        alpha = originAlpha;
+        unit = -originAlpha/5f;
+        _deadPanel.GetComponent<Image>().color = new Color(originR, originB, originG, alpha);
+        while(alpha > 0.01){
+            alpha += unit;
+            _deadPanel.GetComponent<Image>().color = new Color(originR, originB, originG, alpha);
+            yield return new WaitForSecondsRealtime(0.01f);
         }
     }
-    
-    public void SlowSpeed()
-    {
-        _debuffPanel.SetActive(true);
+
+    IEnumerator EndGame(int gameOverCode){
+        print("Ending game...");
+        Time.timeScale = 0;
+        isGameOver = true;
+        yield return new WaitForSecondsRealtime(1);
+        if(_deadPanel.activeSelf){
+            StartCoroutine(FadeOutDeadPanel());
+        }
+        StartCoroutine(FadeInGameOverPanel(gameOverCode));
     }
 
-    public void NormalSpeed()
-    {
-        _debuffPanel.SetActive(false);
-    }
-
-    public void ChangeToBossKey()
-    {
-        _keyUI[0].SetActive(false);
-        _keyUI[1].SetActive(false);
-        _keyUI[2].SetActive(true);
+    IEnumerator FadeInGameOverPanel(int gameOverCode){
+        _gameOverPanel[gameOverCode].SetActive(true);
+        float originX = _gameOverPanel[gameOverCode].transform.localScale.x;
+        float originY = _gameOverPanel[gameOverCode].transform.localScale.y;
+        float originZ = _gameOverPanel[gameOverCode].transform.localScale.z;
+        float y = 0;
+        float unit = originY/5f;
+        _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
+        while(y < originY){
+            y += unit;
+            _gameOverPanel[gameOverCode].transform.localScale = new Vector3(originX, y, originZ);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+        yield return new WaitForSecondsRealtime(0.8f);
+        for(int i = 1; i < 3; ++i){
+            _gameOverPanel[gameOverCode].transform.GetChild(i).gameObject.SetActive(true);
+            originX = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.x;
+            originY = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.y;
+            originZ = _gameOverPanel[gameOverCode].transform.GetChild(i).localScale.z;
+            y = 0;
+            unit = originY/5f;
+            _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
+            while(y < originY){
+                y += unit;
+                _gameOverPanel[gameOverCode].transform.GetChild(i).localScale = new Vector3(originX, y, originZ);
+                yield return new WaitForSecondsRealtime(0.01f);
+            }
+            yield return new WaitForSecondsRealtime(1.5f);
+        }
     }
 
     public void OnClickReturnToLobby(){
@@ -677,6 +729,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject bossPlayer = GameObject.FindGameObjectWithTag("Boss");
         camera.GetComponent<CinemachineFreeLook>().Follow = bossPlayer.transform;
         camera.GetComponent<CinemachineFreeLook>().LookAt = bossPlayer.transform;
+        StartCoroutine(FadeOutDeadPanel());
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer){
