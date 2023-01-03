@@ -479,6 +479,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public void OnClickReturnToLobby(){
+        Time.timeScale = 1;
         print("[Click Return To Lobby]");
         if(PhotonNetwork.InRoom){
             print("in room");
