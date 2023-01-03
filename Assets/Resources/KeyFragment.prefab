@@ -171,11 +171,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2934085094928009238, guid: 13fdd677048494e438f2d28a0403780b, type: 3}
       propertyPath: m_Range
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2934085094928009238, guid: 13fdd677048494e438f2d28a0403780b, type: 3}
       propertyPath: m_Intensity
-      value: 3.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2934085094928009238, guid: 13fdd677048494e438f2d28a0403780b, type: 3}
       propertyPath: m_BounceIntensity
