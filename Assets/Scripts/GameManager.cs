@@ -320,7 +320,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(CountDown());
         StartCoroutine(ShowIdentity());
         print("Game initialized.");
-        StartCoroutine(FadeInDeadPanel());
     }
 
     void InitUI(){
