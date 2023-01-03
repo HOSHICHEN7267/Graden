@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -347,6 +347,63 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1991581755179585454, guid: f529f55947d4b8843966c317436257ea, type: 3}
   m_PrefabInstance: {fileID: 455349477}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &702544584
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22517
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0561553
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.12789983
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632821, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082808763695632823, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
+      propertyPath: m_Name
+      value: BGM
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96e2a7aef0eeeaf41bf49827f8d26bff, type: 3}
 --- !u!1 &1004991133
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1298147404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -632,6 +689,7 @@ GameObject:
   - component: {fileID: 1706835845}
   - component: {fileID: 1706835844}
   - component: {fileID: 1706835843}
+  - component: {fileID: 1706835846}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -705,6 +763,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!328 &1706835846
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706835842}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 36cc578a977bf204896b594ce95485f7, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 1706835844}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 0
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 0
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &2129466917
 GameObject:
   m_ObjectHideFlags: 0
