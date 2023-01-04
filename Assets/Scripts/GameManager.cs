@@ -284,11 +284,27 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.Instantiate("KeyFragment", positions5[Ran_Lab1], Quaternion.identity);
         // key5.transform.localPosition = positions5[Ran_Lab5];
+
+        // instantiate all the key fragments to check position
+        // for(int i = 0; i < 5; ++i){
+        //     PhotonNetwork.Instantiate("KeyFragment", positions1[i], Quaternion.identity);
+        // }
+        // for(int i = 0; i < 5; ++i){
+        //     PhotonNetwork.Instantiate("KeyFragment", positions2[i], Quaternion.identity);
+        // }
+        // for(int i = 0; i < 5; ++i){
+        //     PhotonNetwork.Instantiate("KeyFragment", positions3[i], Quaternion.identity);
+        // }
+        // for(int i = 0; i < 5; ++i){
+        //     PhotonNetwork.Instantiate("KeyFragment", positions4[i], Quaternion.identity);
+        // }
+        // for(int i = 0; i < 5; ++i){
+        //     PhotonNetwork.Instantiate("KeyFragment", positions5[i], Quaternion.identity);
+        // }
     }
 
     void PickBoss(){
-        bossIndex = 0;
-        // bossIndex = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        bossIndex = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         print("Boss is " + bossIndex.ToString());
     }
 
