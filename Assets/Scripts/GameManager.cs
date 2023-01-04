@@ -176,11 +176,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         // Lab 1
         Vector3[] positions1 = new Vector3[5];
-        positions1[0] = new Vector3(-49.5f,1.82f,1.82f);
-        positions1[1] = new Vector3(-55.95f,1.82f,-25.81f);
-        positions1[2] = new Vector3(-47.2f,4.462f,-13.54f);
-        positions1[3] = new Vector3(-44.08f,2.272f,-0.089f);
-        positions1[4] = new Vector3(-53.94f,-1.98f,-15.04f);
+        positions1[0] = new Vector3(-70.3f,4.62f,12.62f);
+        positions1[1] = new Vector3(-76.75f,4.62f,-15.01f);
+        positions1[2] = new Vector3(-68f,7.262f,-2.74f);
+        positions1[3] = new Vector3(-64.88f,5.072f,10.711f);
+        positions1[4] = new Vector3(-74.74f,0.82f,-4.24f);
         Ran_Lab1 = Random.Range(0,5);
         Debug.Log(Ran_Lab1);
         if (Lab1Extra != 0){
@@ -198,11 +198,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key1.transform.localPosition = positions1[Ran_Lab1];
         // Lab 2
         Vector3[] positions2 = new Vector3[5];
-        positions2[0] = new Vector3(-44.3f,4.183f,49.87f);
-        positions2[1] = new Vector3(-22.11f,4.183f,49.492f);
-        positions2[2] = new Vector3(-20.96f,2.09f,41.45f);
-        positions2[3] = new Vector3(-47.311f,4.183f,49.493f);
-        positions2[4] = new Vector3(-44.27f,-2.056f,51.34f);
+        positions2[0] = new Vector3(-65.1f,6.983f,60.67f);
+        positions2[1] = new Vector3(-42.91f,6.983f,60.292f);
+        positions2[2] = new Vector3(-41.76f,4.89f,52.25f);
+        positions2[3] = new Vector3(-68.111f,6.983f,60.293f);
+        positions2[4] = new Vector3(-65.07f,0.744f,62.14f);
         Ran_Lab2 = Random.Range(0,5);
         Debug.Log(Ran_Lab2);
         if (Lab2Extra != 0){
@@ -220,11 +220,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key2.transform.localPosition = positions2[Ran_Lab2];
         // Lab 3
         Vector3[] positions3 = new Vector3[5];
-        positions3[0] = new Vector3(67.94f,1.76f,49f);
-        positions3[1] = new Vector3(80.74f,-2.151f,41.24f);
-        positions3[2] = new Vector3(78.779f,1.89f,49.101f);
-        positions3[3] = new Vector3(88.946f,1.692f,50.31f);
-        positions3[4] = new Vector3(104.826f,1.872f,50.848f);
+        positions3[0] = new Vector3(47.14f,4.56f,59.8f);
+        positions3[1] = new Vector3(59.94f,0.649f,52.04f);
+        positions3[2] = new Vector3(57.979f,4.69f,59.901f);
+        positions3[3] = new Vector3(68.146f,4.492f,61.11f);
+        positions3[4] = new Vector3(84.026f,4.672f,61.648f);
         Ran_Lab3 = Random.Range(0,5);
         Debug.Log(Ran_Lab3);
         if (Lab3Extra != 0){
@@ -242,11 +242,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key3.transform.localPosition = positions3[Ran_Lab3];
         // Lab 4
         Vector3[] positions4 = new Vector3[5];
-        positions4[0] = new Vector3(93.14f,1.84f,-11.46f);
-        positions4[1] = new Vector3(95.69f,-2.151f,1.16f);
-        positions4[2] = new Vector3(105.68f,-2.13f,42.33f);
-        positions4[3] = new Vector3(94.101f,1.946f,6.117f);
-        positions4[4] = new Vector3(72.88f,4.44f,-10.69f);
+        positions4[0] = new Vector3(72.34f,4.64f,-0.66f);
+        positions4[1] = new Vector3(74.89f,0.649f,11.96f);
+        positions4[2] = new Vector3(84.88f,0.67f,53.13f);
+        positions4[3] = new Vector3(73.301f,4.746f,16.917f);
+        positions4[4] = new Vector3(52.08f,7.24f,0.11f);
         Ran_Lab4 = Random.Range(0,5);
         Debug.Log(Ran_Lab4);
         if (Lab4Extra != 0){
@@ -264,11 +264,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         // key4.transform.localPosition = positions4[Ran_Lab4];
         // Lab 5
         Vector3[] positions5 = new Vector3[5];
-        positions5[0] = new Vector3(9.33f,2.28f,-71.6f);
-        positions5[1] = new Vector3(20.84f,2.28f,-84.14f);
-        positions5[2] = new Vector3(20.84f,4.3f,-78.18f);
-        positions5[3] = new Vector3(32.11f,4.3f,-70.13f);
-        positions5[4] = new Vector3(6.091756f,-1.918255f,-100.633f);
+        positions5[0] = new Vector3(-11.47f,5.08f,-60.8f);
+        positions5[1] = new Vector3(0.04f,5.08f,-73.34f);
+        positions5[2] = new Vector3(0.04f,7.1f,-67.38f);
+        positions5[3] = new Vector3(11.31f,7.1f,-59.33f);
+        positions5[4] = new Vector3(-14.708f,0.882f,-89.833f);
         Ran_Lab5 = Random.Range(0,5);
         Debug.Log(Ran_Lab5);
         if (Lab5Extra != 0){
@@ -287,7 +287,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     void PickBoss(){
-        bossIndex = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        bossIndex = 0;
+        // bossIndex = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         print("Boss is " + bossIndex.ToString());
     }
 
