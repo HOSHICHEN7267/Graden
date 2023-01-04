@@ -508,6 +508,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void ShowMouse(){
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    void DontShowMouse(){
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     bool isBoss(string playerName){
         return playerName == bossName;
     }
@@ -602,6 +612,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     IEnumerator FadeInDeadPanel(){
+        ShowMouse();
         // panel
         _deadPanel.SetActive(true);
         float originR = _deadPanel.GetComponent<Image>().color.r;
@@ -647,6 +658,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     IEnumerator FadeOutDeadPanel(){
+        DontShowMouse();
         // buttons
         _deadPanel.transform.GetChild(1).gameObject.SetActive(true);
         float originX = _deadPanel.transform.GetChild(1).localScale.x;
@@ -702,6 +714,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     IEnumerator FadeInGameOverPanel(int gameOverCode){
+        ShowMouse();
         _gameOverPanel[gameOverCode].SetActive(true);
         float originX = _gameOverPanel[gameOverCode].transform.localScale.x;
         float originY = _gameOverPanel[gameOverCode].transform.localScale.y;

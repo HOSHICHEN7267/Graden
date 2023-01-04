@@ -16,8 +16,8 @@ public class BossCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         GameObject[] playerList = GameObject.FindGameObjectsWithTag("Boss");
         foreach(GameObject p in playerList){
             if(p.GetComponent<PhotonView>().IsMine){
