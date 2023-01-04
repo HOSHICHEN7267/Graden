@@ -13,6 +13,8 @@ public class CloneCam : MonoBehaviour
     public Rigidbody rb;
 
     public float rotationSpeed;
+
+    bool isFollowingBoss;
     
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,7 @@ public class CloneCam : MonoBehaviour
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
         GameObject[] playerList = GameObject.FindGameObjectsWithTag("Clone");
+        isFollowingBoss = false;
         foreach(GameObject p in playerList){
             if(p.GetComponent<PhotonView>().IsMine){
                 player = p.transform;
@@ -42,12 +45,28 @@ public class CloneCam : MonoBehaviour
         // rotate player object
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput * (player.GetComponent<CloneMovement>().useGravity ? 1 : -1);
+        Vector3 inputDir = new Vector3();
+        if(isFollowingBoss){
+            inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput * (player.GetComponent<BossMovement>().useGravity ? 1 : -1);
+        }
+        else{
+            inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput * (player.GetComponent<CloneMovement>().useGravity ? 1 : -1);
+        }
 
         if(inputDir != Vector3.zero){
             playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
 
         playerObj.localRotation = Quaternion.Euler(0, playerObj.localRotation.eulerAngles.y, 0);
+    }
+
+    public void SetPlayer(GameObject p){
+        player = p.transform;
+        orientation = player.GetChild(1);
+        playerObj = player.GetChild(0).transform;
+        rb = p.GetComponent<Rigidbody>();
+        this.GetComponent<CinemachineFreeLook>().Follow = player;
+        this.GetComponent<CinemachineFreeLook>().LookAt = player;
+        isFollowingBoss = true;
     }
 }
