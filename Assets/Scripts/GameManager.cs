@@ -727,8 +727,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         print("[Click Watch Game]");
         GameObject camera = GameObject.FindGameObjectWithTag("Camera");
         GameObject bossPlayer = GameObject.FindGameObjectWithTag("Boss");
-        camera.GetComponent<CinemachineFreeLook>().Follow = bossPlayer.transform;
-        camera.GetComponent<CinemachineFreeLook>().LookAt = bossPlayer.transform;
+        camera.GetComponent<CloneCam>().SetPlayer(bossPlayer);
         StartCoroutine(FadeOutDeadPanel());
     }
     

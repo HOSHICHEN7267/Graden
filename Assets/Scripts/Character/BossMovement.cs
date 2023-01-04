@@ -195,7 +195,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
         {
             audioSource.PlayOneShot(fx_kill);
             isKilling = true;
-            //Destroy(other.gameObject);
+            StartCoroutine(CleanUpDeadBody(other.gameObject));
         }
     }
 
@@ -242,5 +242,11 @@ public class BossMovement : MonoBehaviourPunCallbacks
     public override void OnLeftRoom(){
         _gm.CloneWin();
         this.gameObject.SetActive(false);
+    }
+
+    IEnumerator CleanUpDeadBody(GameObject deadPlayer){
+        float dieTime = 1f + deadPlayer.gameObject.GetComponent<CloneMovement>().dieTime;
+        yield return new WaitForSeconds(dieTime);
+        deadPlayer.SetActive(false);
     }
 }
