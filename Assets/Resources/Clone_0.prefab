@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d66d650ad03c5543a1849716e1b5d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 9204334778319491493}
   Anime: {fileID: 7810939372055313116}
   fx_getKey: {fileID: 8300000, guid: f2253425716ae0a4c989e157e8c6b28f, type: 3}
   fx_putKey: {fileID: 8300000, guid: 7f9f7135ff135ca4186a9cfd8ff95ead, type: 3}
@@ -415,3 +416,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 876cb26c7c6ab42e49a9cace28b90b8b, type: 3}
+--- !u!1 &9204334778319491493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 876cb26c7c6ab42e49a9cace28b90b8b, type: 3}
+  m_PrefabInstance: {fileID: 9204334778319394565}
+  m_PrefabAsset: {fileID: 0}

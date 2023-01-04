@@ -8,6 +8,8 @@ public class BossMovement : MonoBehaviourPunCallbacks
     GameManager _gm;
     PhotonView _pv;
     
+    public GameObject particle;
+
     public Animator Anime;
 
     private AudioSource audioSource;
@@ -91,6 +93,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
         if (_pv.IsMine && Input.GetKeyDown("space") && isGravityChange == false)
         {
             audioSource.PlayOneShot(fx_gravityJump);
+            particle.SetActive(true);
             GravityChange();
         }
 
@@ -101,6 +104,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
             {
                 isGravityChange = false;
                 GCtime = 0;
+                particle.SetActive(false);
             }
         }
 

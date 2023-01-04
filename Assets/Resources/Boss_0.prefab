@@ -61,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 876cb26c7c6ab42e49a9cace28b90b8b, type: 3}
+--- !u!1 &7531315501470877531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 876cb26c7c6ab42e49a9cace28b90b8b, type: 3}
+  m_PrefabInstance: {fileID: 7531315501470908923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8796347707390921897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -343,6 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948624a713400e14a8ca60a3f3476056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 7531315501470877531}
   Anime: {fileID: 303606916928914943}
   fx_gravityJump: {fileID: 8300000, guid: 7a83c66ff9cf36945922560688ab6171, type: 3}
   fx_kill: {fileID: 8300000, guid: 02853deb840c94e48a79afc652168245, type: 3}
