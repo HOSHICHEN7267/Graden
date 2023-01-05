@@ -7,6 +7,9 @@ public class CloneMovement : MonoBehaviourPunCallbacks
 {
     GameManager _gm;
     PhotonView _pv;
+
+    public GameObject particle;
+
     public Animator Anime;
 
     private AudioSource audioSource;
@@ -55,6 +58,7 @@ public class CloneMovement : MonoBehaviourPunCallbacks
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        particle.SetActive(false);
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         _gm = GameObject.FindObjectOfType<GameManager>();
@@ -93,6 +97,7 @@ public class CloneMovement : MonoBehaviourPunCallbacks
             {
                 isGravityChange = false;
                 GCtime = 0;
+                particle.SetActive(false);
             }
         }
 
@@ -181,6 +186,7 @@ public class CloneMovement : MonoBehaviourPunCallbacks
         if (_pv.IsMine && other.gameObject.tag == "Gravity" && !isGravityChange)
         {
             audioSource.PlayOneShot(fx_gravityPlate);
+            particle.SetActive(true);
             GravityChange();
         }
         if (other.gameObject.tag == "KeyCenter" && hasKey)
