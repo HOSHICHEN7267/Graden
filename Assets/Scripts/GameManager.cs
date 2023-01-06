@@ -759,6 +759,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject bossPlayer = GameObject.FindGameObjectWithTag("Boss");
         camera.GetComponent<CloneCam>().SetPlayer(bossPlayer);
         StartCoroutine(FadeOutDeadPanel());
+        _miniMap.SetActive(false);
+        _gravityUI[0].SetActive(false);
+        _gravityUI[1].SetActive(false);
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer){
