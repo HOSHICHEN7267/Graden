@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float speed = 5f;
-    public float mousedpi = 0.01f;
     public Vector3 initPos = new Vector3(0f, 2f, 0f);
     void Start()
     {
@@ -14,8 +13,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float h = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime * mousedpi;
-        float v = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime * mousedpi;
+        float h = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
+        float v = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
         float cos = Mathf.Cos( this.gameObject.transform.eulerAngles.y * Mathf.Deg2Rad );
         float sin = Mathf.Sin( this.gameObject.transform.eulerAngles.y * Mathf.Deg2Rad );
         float dx = h*cos + v*sin;
