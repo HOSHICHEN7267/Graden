@@ -20,6 +20,11 @@ public class MenuSceneManager : MonoBehaviourPunCallbacks
         print("[Click Play]");
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    public void OnClickQuitGame(){
+        print("[Click Quit Game]");
+        Application.Quit();
+    }
     
     public override void OnConnectedToMaster(){
         print("Connected! Joining Lobby...");
