@@ -140,6 +140,9 @@ public class BossMovement : MonoBehaviourPunCallbacks
         // slow
         if (inCenter)
         {
+            if(_pv.IsMine){
+                    _gm.SlowNotice();
+            }
             if (Stime < slowTime)
             {
                 Stime += Time.deltaTime;
