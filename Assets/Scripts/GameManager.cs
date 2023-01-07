@@ -475,55 +475,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadName);
     }
 
-    public void PlayerDie(Player deadPlayer, GameObject deadPlayerObj){
-        if(deadPlayer == PhotonNetwork.LocalPlayer && !isBoss(deadPlayer.NickName)){
-            StartCoroutine(FadeInDeadPanel());
-        }
-        if(isGameOver){
-            return;
-        }
-        int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadPlayer.NickName);
-        string deadName = myPlayerList[deadIndex].NickName;
-        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadName);
-    }
-
     [PunRPC]
     void RPC_SyncPlayer(string deadName){
         print("dead player name: " + deadName);
-        List<string> myPlayerUI = new List<string>();
-        if(isBoss(myPlayerList[myIndex].NickName)){
-            myPlayerUI.Add(bossName);
-        }
-        else{
-            myPlayerUI.Add(playerName[myIndex]);
-        }
-        for(int i = 0; i < maxPlayer; ++i){
-            if(i == myIndex){
-                continue;
-            }
-            if(i == bossIndex){
-                myPlayerUI.Add(bossName);
-            }
-            else{
-                myPlayerUI.Add(playerName[i]);
-            }
-        }
-        int deadIndex = myPlayerUI.FindIndex(x => x == deadName);
-        print(PhotonNetwork.LocalPlayer + ": deadIndex = " + deadIndex);
-        _alivePlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(false);
-        _deadPlayerUI.transform.GetChild(deadIndex).gameObject.SetActive(true);
-        if(isBoss(deadName)){
-            CloneWin();
-        }
-        else if(isAllDead()){
-            BossWin();
-        }
-    }
-
-    [PunRPC]
-    void RPC_SyncPlayer(string deadName, GameObject deadPlayerObj){
-        print("dead player name: " + deadName);
-        deadPlayerObj.SetActive(false);
         List<string> myPlayerUI = new List<string>();
         if(isBoss(myPlayerList[myIndex].NickName)){
             myPlayerUI.Add(bossName);
