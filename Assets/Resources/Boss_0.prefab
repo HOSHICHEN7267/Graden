@@ -352,7 +352,7 @@ MonoBehaviour:
   Anime: {fileID: 303606916928914943}
   fx_gravityJump: {fileID: 8300000, guid: 7a83c66ff9cf36945922560688ab6171, type: 3}
   fx_kill: {fileID: 8300000, guid: 02853deb840c94e48a79afc652168245, type: 3}
-  moveSpeed: 5
+  moveSpeed: 7
   groundDrag: 6
   orientation: {fileID: 5660070079292938634}
   gcTime: 2

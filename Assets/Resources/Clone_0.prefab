@@ -211,7 +211,7 @@ MonoBehaviour:
   fx_getKey: {fileID: 8300000, guid: f2253425716ae0a4c989e157e8c6b28f, type: 3}
   fx_putKey: {fileID: 8300000, guid: 7f9f7135ff135ca4186a9cfd8ff95ead, type: 3}
   fx_gravityPlate: {fileID: 8300000, guid: 2c225e3c3bd083e4eb8222593f87ecd2, type: 3}
-  moveSpeed: 4
+  moveSpeed: 6
   groundDrag: 6
   orientation: {fileID: 2800179759958255273}
   gcTime: 2

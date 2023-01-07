@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1154965237, guid: 2bcb417a0b65c22498fa5a6ce9d660de, type: 3}
+      propertyPath: moveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2178313882255335106, guid: 2bcb417a0b65c22498fa5a6ce9d660de, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -21,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5660070079440618456, guid: 2bcb417a0b65c22498fa5a6ce9d660de, type: 3}
       propertyPath: m_Name
-      value: Boss_4 Variant
+      value: Boss_4
       objectReference: {fileID: 0}
     - target: {fileID: 5660070079440618459, guid: 2bcb417a0b65c22498fa5a6ce9d660de, type: 3}
       propertyPath: m_RootOrder
