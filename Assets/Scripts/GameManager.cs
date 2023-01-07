@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                                         // 1:   changed
     
     // panels
+    public GameObject _debuffNotice;
     public GameObject _debuffPanel;
     public GameObject _deadPanel;
     public GameObject[] _gameOverPanel; // 0:   boss win
@@ -374,6 +375,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         totalKey = 0;
         _totalKeyText.text = totalKey.ToString() + "  /  " + MAX_KEY.ToString();
         _debuffPanel.SetActive(false);
+        _debuffNotice.SetActive(false);
         _deadPanel.SetActive(false);
     }
 
@@ -451,6 +453,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         for(int i = 1; i < MINIMAP_POSI_X.Length-1; ++i){
             _miniMap.transform.GetChild(i).gameObject.SetActive(false);
         }
+    }
+    
+    public void SlowNotice()
+    {
+        _debuffNotice.SetActive(true);
+    }
+
+    public void SlowNoticeOff()
+    {
+        _debuffNotice.SetActive(false);
     }
     
     public void SlowSpeed()
