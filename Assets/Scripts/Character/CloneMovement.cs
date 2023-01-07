@@ -115,9 +115,9 @@ public class CloneMovement : MonoBehaviourPunCallbacks
             {
                 print(PhotonNetwork.LocalPlayer + " died");
                 if(_pv.IsMine){
-                    _gm.PlayerDie(PhotonNetwork.LocalPlayer, this.gameObject);
+                    _gm.PlayerDie(PhotonNetwork.LocalPlayer);
                 }
-                // this.gameObject.SetActive(false);
+                this.gameObject.SetActive(false);
                 // PhotonNetwork.Destroy(this.gameObject);
             }
         }
