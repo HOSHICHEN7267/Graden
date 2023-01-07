@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                                         // 1:   changed
     
     // panels
-    public GameObject _debuffNotice;
     public GameObject _debuffPanel;
     public GameObject _deadPanel;
     public GameObject[] _gameOverPanel; // 0:   boss win
@@ -454,11 +453,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     
-    public void SlowNotice()
-    {
-        _debuffNotice.SetActive(true);
-    }
-    
     public void SlowSpeed()
     {
         _debuffPanel.SetActive(true);
@@ -467,7 +461,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void NormalSpeed()
     {
         _debuffPanel.SetActive(false);
-        _debuffNotice.SetActive(false);
     }
 
     public void PlayerDie(Player deadPlayer){
