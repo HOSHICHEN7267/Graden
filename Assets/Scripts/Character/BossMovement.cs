@@ -199,7 +199,7 @@ public class BossMovement : MonoBehaviourPunCallbacks
         {
             audioSource.PlayOneShot(fx_kill);
             isKilling = true;
-            StartCoroutine(CleanUpDeadBody(other.gameObject));
+            // StartCoroutine(CleanUpDeadBody(other.gameObject));
         }
     }
 
@@ -248,9 +248,9 @@ public class BossMovement : MonoBehaviourPunCallbacks
         this.gameObject.SetActive(false);
     }
 
-    IEnumerator CleanUpDeadBody(GameObject deadPlayer){
-        float dieTime = 1f + deadPlayer.gameObject.GetComponent<CloneMovement>().dieTime;
-        yield return new WaitForSeconds(dieTime);
-        deadPlayer.SetActive(false);
-    }
+    // IEnumerator CleanUpDeadBody(GameObject deadPlayer){
+    //     float dieTime = 1f + deadPlayer.gameObject.GetComponent<CloneMovement>().dieTime;
+    //     yield return new WaitForSeconds(dieTime);
+    //     deadPlayer.SetActive(false);
+    // }
 }

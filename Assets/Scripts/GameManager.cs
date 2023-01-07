@@ -475,6 +475,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadName);
     }
 
+    public void PlayerDie(Player deadPlayer, GameObject deadPlayerObj){
+        if(deadPlayer == PhotonNetwork.LocalPlayer && !isBoss(deadPlayer.NickName)){
+            StartCoroutine(FadeInDeadPanel());
+        }
+        if(isGameOver){
+            return;
+        }
+        deadPlayerObj.SetActive(false);
+        int deadIndex = myPlayerList.FindIndex(x => x.NickName == deadPlayer.NickName);
+        string deadName = myPlayerList[deadIndex].NickName;
+        _pv.RPC("RPC_SyncPlayer", RpcTarget.All, deadName);
+    }
+
     [PunRPC]
     void RPC_SyncPlayer(string deadName){
         print("dead player name: " + deadName);
